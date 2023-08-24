@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample Page with Library Import</title>
+  </head>
+  <body>
+    <h1>Welcome to My Page</h1>
+    <button id="sampleButton">Click Me!</button>
+
+    <!-- Simple Invisible Element, should be deleted -->
+    <div style="width: 0px; height: 0px; border: 0px solid black"></div>
+
+    <!-- Nested visible Element in a invisible element. Outer element should be removed while inner element should be perseved with attribute merged -->
+    <div
+      class="invisible1 holder2"
+      style="width: 0px; height: 0px; border: 0px solid black"
+    >
+      <div
+        class="visible1 holder1"
+        style="width: 100px; height: 100px; border: 5px solid black"
+      ></div>
+    </div>
+
+    <!-- Nested visible Element in a invisible element. Outer element should be removed while inner element should be perseved with attribute merged -->
+    <div class="visible3 holder3">
+      <div
+        class="visible4 holder5"
+        style="width: 100px; height: 100px; border: 5px solid black"
+      ></div>
+    </div>
+
+    <div>
+      <p>
+        hello
+        <a href="">this is a link</a>
+        world
+      </p>
+    </div>
+
+    <!-- completed nested structure -->
+    <div>
+      <div>
+        <div><div>text1</div></div>
+        <div><div>text1</div></div>
+      </div>
+    </div>
+    <!-- script portion, it should be deleted-->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- script portion, it should be deleted-->
+    <script>
+      // Sample script using the jQuery library
+      $("#sampleButton").click(function () {
+        alert("Button clicked using jQuery!");
+      });
+    </script>
+  </body>
+</html>

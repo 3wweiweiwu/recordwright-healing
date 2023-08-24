@@ -153,7 +153,6 @@ class HtmlSnapshotCompresed {
          */
         this.atomicNodeMatrix = this._parse(json)
         this._compress(this.atomicNodeMatrix)
-
     }
     /**
      * parse the json string to atomic node matrix
