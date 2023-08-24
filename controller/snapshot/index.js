@@ -151,14 +151,15 @@ class HtmlSnapshotCompresed {
          * AtomicNode Matrix by level. The first level is document
          * @type {AtomicNode[][]}
          */
-        this.atomicNodeMatrix = this._parse(json)
-        this._compress(this.atomicNodeMatrix)
+
+        this.atomicNodeMatrix = this.parse(json)
+        this._compress() //I think that the function doesnt receive parameters
     }
     /**
      * parse the json string to atomic node matrix
      * @param {string} json 
      */
-    _parse(json) {
+    parse(json) { //Change from private to public
         let atomicNodeMatrix = JSON.parse(json)
         atomicNodeMatrix = atomicNodeMatrix.map(row => {
             let newRow = row.map(node => {
@@ -180,15 +181,15 @@ class HtmlSnapshotCompresed {
                 this.deleteScripts(level)
 
                 //update text in current level
-                this._updateTextInCurrnetLevel(level)
+                this.updateTextInCurrnetLevel(level)
 
                 //delete all nodes that are not qualified for compression
-                unqualifiedNodeInLevel = this._getInvisibleNodeInLevel(this.atomicNodeMatrix[i])
+                unqualifiedNodeInLevel = this.getInvisibleNodeInLevel(this.atomicNodeMatrix[i])
                 unqualifiedNodeInLevel.forEach(node => {
                     this.deleteNodeAndUpdateParent(node.id, false)
                 })
 
-                unqualifiedNodeInLevel = this._getSingleChildNodeInLevel(this.atomicNodeMatrix[i])
+                unqualifiedNodeInLevel = this.getSingleChildNodeInLevel(this.atomicNodeMatrix[i])
                 unqualifiedNodeInLevel.forEach(node => {
                     this.deleteNodeAndUpdateParent(node.id, true)
                 })
@@ -198,18 +199,19 @@ class HtmlSnapshotCompresed {
 
         }
 
-        this._rebuildMatrix()
+        this.rebuildMatrix()
     }
     /**
      * Update text in the node. If the text contains \n, remove it and following shite space
      * @param {AtomicNode[]} level 
      */
-    _updateTextInCurrnetLevel(level) {
+    updateTextInCurrnetLevel(level) {  //Change from private to public
         level.forEach(node => {
             if (node.text != null) {
                 node.text = node.text.replace(/\n\s+/g, '')
             }
         })
+        return level //For UT
     }
     /**
      * get the node information by id, return node, level index and parent node
@@ -235,7 +237,7 @@ class HtmlSnapshotCompresed {
         })
         return result
     }
-    _rebuildMatrix() {
+    rebuildMatrix() {  //Change from private to public
         for (let i = 0; i < this.atomicNodeMatrix.length; i++) {
             let currentLevel = this.atomicNodeMatrix[i]
             let nextLevel = this.atomicNodeMatrix[i + 1]
@@ -251,7 +253,7 @@ class HtmlSnapshotCompresed {
      * @param {AtomicNode} node
      * @param {number} nextLevelIndex The children level of the node
      */
-    _moveNodeChildrenToRightLevel(node, nextLevelIndex) {
+    moveNodeChildrenToRightLevel(node, nextLevelIndex) {  //Change from private to public
 
         node.children.forEach(nodeId => {
             let nextNodeLevel = this.atomicNodeMatrix[nextLevelIndex]
@@ -270,6 +272,7 @@ class HtmlSnapshotCompresed {
                 }
             }
         })
+        return node //For UT
     }
     /**
      * Delete the node and move its children to its parent
@@ -325,7 +328,7 @@ class HtmlSnapshotCompresed {
      * @param {AtomicNode} targetNode 
      * @param {AtomicNode} sourceNode 
      */
-    _mergeAttribute(sourceNode, targetNode) {
+    mergeAttribute(sourceNode, targetNode) { //Change from private to public
         //update compressed node attribute to note down the range. push source node to target node's compressed node
         targetNode.compressedNodes.push(sourceNode.id)
         targetNode.compressedNodes.filter(nodeId => nodeId != targetNode.id)
@@ -340,13 +343,14 @@ class HtmlSnapshotCompresed {
                 targetNode.attributes[key] = value
             }
         }
+        return targetNode //For UT
     }
     /**
      * Go through current atomic node and return nodes that quality for removal
      * @param {AtomicNode[]} atomicNodeLevel 
      * @returns {AtomicNode[]}
      */
-    _getInvisibleNodeInLevel(atomicNodeLevel) {
+    getInvisibleNodeInLevel(atomicNodeLevel) { //Change from private to public
         /**@type {AtomicNode[]} */
         let pendingDelete = []
         atomicNodeLevel.forEach(node => {
@@ -363,7 +367,7 @@ class HtmlSnapshotCompresed {
      * @param {AtomicNode[]} atomicNodeLevel 
      * @returns {AtomicNode[]}
      */
-    _getSingleChildNodeInLevel(atomicNodeLevel) {
+    getSingleChildNodeInLevel(atomicNodeLevel) { //Change from private to public
         /**@type {AtomicNode[]} */
         let pendingDelete = []
         atomicNodeLevel.forEach(node => {
@@ -378,7 +382,7 @@ class HtmlSnapshotCompresed {
      * Delete all nodes that are contained by SCRIPT node
      * @param {AtomicNode[]} atomicNodeLevel
      * */
-    deleteScripts(atomicNodeLevel) {
+    deleteScripts(atomicNodeLevel) { //I don't know who to test this because of the inputs and outputs
         var scriptList = atomicNodeLevel.filter(node => {
             if (node.nodeName == 'SCRIPT') {
                 return node
@@ -477,7 +481,7 @@ class HtmlSnapshotCompresed {
     * @param {DOMRect} rect1
     * @param {DOMRect} rect2
     * */
-    _rectEqual(rect1, rect2) {
+    _rectEqual(rect1, rect2) {  
         if (rect1.bottom == rect2.bottom &&
             rect1.height == rect2.height &&
             rect1.left == rect2.left &&
