@@ -1,11 +1,11 @@
 //const { assert } = require('console')
-import assert from 'node:assert';
+const assert = require('assert');
 const { HtmlSnapshotCompresed } = require('../../../controller/snapshot')
 const fs = require('fs')
 const path = require('path')
 beforeEach('Read and return the Snapshot of the web page in HtmlSnapshotCompresed', async() => {
     let snapshotJson = await require('./files/snapshot-test-1.json')
-    let snapshotJsonNode = await require('./files/snapshot-test-1.json')
+    let snapshotJsonNode = await require('./files/singlenode.json')
     let compressionComplete = new HtmlSnapshotCompresed(JSON.stringify(snapshotJson))
     let baselineComplete = compressionComplete.parse(snapshotJson)
     let compressionNode = new HtmlSnapshotCompresed(JSON.stringify(snapshotJsonNode))

@@ -244,7 +244,7 @@ class HtmlSnapshotCompresed {
             for (let j = 0; j < currentLevel.length; j++) {
                 let currentNode = currentLevel[j]
                 //move node's children to node's level
-                this._moveNodeChildrenToRightLevel(currentNode, i + 1)
+                this.moveNodeChildrenToRightLevel(currentNode, i + 1)
             }
         }
     }
@@ -308,7 +308,7 @@ class HtmlSnapshotCompresed {
 
         //merge attributes to parent node
         if (isMergeAttribute) {
-            this._mergeAttribute(parentNode, nodeInfo.node)
+            this.mergeAttribute(parentNode, nodeInfo.node)
         }
 
 
