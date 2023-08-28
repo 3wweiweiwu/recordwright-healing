@@ -195,11 +195,9 @@ class HtmlSnapshotCompresed {
                 })
             }
             while (unqualifiedNodeInLevel.length > 0)
-
-
         }
-
         this.rebuildMatrix()
+        this.atomicNodeMatrix = this.deleteRowsNoNode(this.atomicNodeMatrix)
     }
     /**
      * Update text in the node. If the text contains \n, remove it and following shite space
@@ -237,6 +235,7 @@ class HtmlSnapshotCompresed {
         })
         return result
     }
+    //I don't know how to test this
     rebuildMatrix() {  //Change from private to public
         for (let i = 0; i < this.atomicNodeMatrix.length; i++) {
             let currentLevel = this.atomicNodeMatrix[i]
@@ -254,7 +253,6 @@ class HtmlSnapshotCompresed {
      * @param {number} nextLevelIndex The children level of the node
      */
     moveNodeChildrenToRightLevel(node, nextLevelIndex) {  //Change from private to public
-
         node.children.forEach(nodeId => {
             let nextNodeLevel = this.atomicNodeMatrix[nextLevelIndex]
             let isChildInNextLevel = nextNodeLevel.find(node => node.id == nodeId)
@@ -290,21 +288,22 @@ class HtmlSnapshotCompresed {
 
         //remove the node from its parent's children
         let parentNode = nodeInfo.parentNode
-        let index = parentNode.children.indexOf(id)
-
-
-
-        parentNode.children.splice(index, 1)
-
-
+        
+        if(parentNode){ //defect, if there is no parent it fails
+            let index = parentNode.children.indexOf(id) 
+            parentNode.children.splice(index, 1)
+        }
+        
 
         //remove the node from current level
         let level = this.atomicNodeMatrix[nodeInfo.levelIndex]
-        index = level.indexOf(nodeInfo.node)
+        let index = level.indexOf(nodeInfo.node)
         level.splice(index, 1)
 
-        //add the node's children to its parent's children
-        parentNode.children = [...parentNode.children, ...nodeInfo.node.children]
+        if(parentNode){ //defect, if there is no parent it fails
+            //add the node's children to its parent's children
+            parentNode.children = [...parentNode.children, ...nodeInfo.node.children]
+        }
 
         //merge attributes to parent node
         if (isMergeAttribute) {
@@ -392,6 +391,10 @@ class HtmlSnapshotCompresed {
 
         //keep deleting all nodes under script list till there is no more nodes
         while (scriptList.length > 0) {
+            /**
+             * I think that the bussines logic is wrong, because scriptList is the list of the nodes
+             * with all the information, but when we update the script list it only share the id
+             */
             let nextLevelScriptChildren = []
             scriptList.forEach(node => {
                 let scriptChildren = this.deleteNodeAndUpdateParent(node.id)
