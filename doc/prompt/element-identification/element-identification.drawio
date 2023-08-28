@@ -1,0 +1,142 @@
+<mxfile host="65bd71144e">
+    <diagram id="k_TZ9hBvOqJruFJ_RMBt" name="Page-1">
+        <mxGraphModel dx="688" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="7" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="2" target="6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="Analyze # of token for initial Prompt" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="110" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Yes" style="html=1;elbow=vertical;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="6" target="10">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="NO" style="edgeStyle=none;curved=1;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;elbow=vertical;" edge="1" parent="1" source="6" target="12">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Under GPT4 Limit?" style="rhombus;whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="100" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1" source="10" target="15">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="use GPT4" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="50" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" style="edgeStyle=none;curved=1;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;elbow=vertical;" edge="1" parent="1" source="12" target="15">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="use GPT4-32" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="180" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="Save money whenever we can" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="290" y="200" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-20" value="" style="edgeStyle=none;curved=1;html=1;elbow=vertical;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="15" target="Q_9i-tUXKlec64G5NTki-21">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="770" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="15" value="Assemble Initial Prompt (System prompt initial+user prompt) and send to GPT" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="710" y="120" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-23" value="yes" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1" source="Q_9i-tUXKlec64G5NTki-21" target="Q_9i-tUXKlec64G5NTki-34">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="770" y="470" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-26" value="no" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1" source="Q_9i-tUXKlec64G5NTki-21" target="Q_9i-tUXKlec64G5NTki-25">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-21" value="In table?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="730" y="300" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-28" value="" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1" source="Q_9i-tUXKlec64G5NTki-25" target="Q_9i-tUXKlec64G5NTki-27">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-25" value="return target element" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="550" y="310" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-27" value="END-SUCCESS" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="300" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-30" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1" source="Q_9i-tUXKlec64G5NTki-29" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-29" value="START" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="50" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-24" value="" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1" source="Q_9i-tUXKlec64G5NTki-34" target="jk0fihDDWszO7qKpo9XF-23">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-27" value="" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1" source="Q_9i-tUXKlec64G5NTki-34" target="jk0fihDDWszO7qKpo9XF-26">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-29" value="" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1" source="Q_9i-tUXKlec64G5NTki-34" target="jk0fihDDWszO7qKpo9XF-28">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-30" style="edgeStyle=none;curved=1;html=1;elbow=vertical;entryX=0.419;entryY=-0.031;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Q_9i-tUXKlec64G5NTki-34" target="jk0fihDDWszO7qKpo9XF-31">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1070" y="620" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Q_9i-tUXKlec64G5NTki-34" value="Type of table?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="705" y="445" width="130" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-18" value="" style="edgeStyle=none;curved=1;html=1;elbow=vertical;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="465" y="510" as="sourcePoint"/>
+                        <mxPoint x="465" y="510" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-23" value="In cell of table where both row and column header exists" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="480" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-26" value="In cell of table where either column or row header exists" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="590" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-28" value="in header of table where both row and column header&amp;nbsp;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="700" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk0fihDDWszO7qKpo9XF-31" value="In header of table where either row or column header exists" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="820" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="vprDWOqH51bdsMi_TCKU" name="system prompt-initial">
+        <mxGraphModel dx="1386" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="PkMDAZQRPFV9u1UmhHYi-1" value="&lt;span style=&quot;color: rgb(240, 240, 240); font-family: Calibri; font-size: 14.6667px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(42, 37, 47); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;you are a quality engineer try to identify web element in a web page based on test step, and output according to the spec. Following three section provide information for you. Web Page section contains a web page and layout in PUG template. Current div tags are placeholder, you need to evaluate the most suitable tag for each web element based on the textual and layout context. Test Step section provides test procedure. Understand test step context based on the web page. Output section provides rules you should follow to output result. Each section header is wrapped around square brackets []. Analyze the web page layout in the PUG template, taking into account the hierarchical structure of the elements and their context. Identify the main structure representing the data matrix and the elements that are outside of this structure. Consider the relevance of the test step to the layout of the web page. Look for patterns in the layout that indicate the representation of data in rows and columns, such as repeated classes or nested elements. Pay attention to the placement of headers and how they relate to the other elements in the grid. Your analysis should result in a clear understanding of the roles of the different elements in the layout and how they relate to the test step. Be careful not to make assumptions about the role of elements based on their position alone. Consider the overall structure and context of the page. Elements that are not part of the main data matrix may still have important roles on the page. Always consider the test step and the specific elements it refers to when analyzing the layout.&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="60" width="560" height="360" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="MQFzj-MhbqQrMMgbSMF4" name="User Prompt">
+        <mxGraphModel dx="1386" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="R81fKaNOtHV14zvlvnnW-2" value="[Test Step]&#10;Click on the first text element located in the cell where both the criticality and severity levels are categorized as 'Very High'.&#10;&#10;&#10;[Output]&#10;Output result in JSON format. targetElementId returns id of target element in tag#id format such as &quot;div#100&quot;. isTargetMatrixTableGrid returns if target element is in a table, or grid or matrix. From table, grid, matrix perspective, isTargetHeader returns if element is a row or column header.  TargetRow is an array of container ids. A container id looks like this div#100 in tag#id format. Each container id represents the containers of a data cell element in the same row as the data cell container of target element. ColumnsHeaders is an array that represents the text names of the columns. TargetColumnName is the text of the column name where the target cell is located. &#10;{&#10;&quot;TargetRow&quot;: [],&#10;&quot;TargetRowName&quot;:&quot;&quot;&#10;&quot;ColumnsHeaders&quot;:[],&#10;&quot;rowHeaders&quot;:[]&#10;&quot;TargetColumn&quot;:[]&#10;&quot;TargetColumnName&quot;: &quot;&quot;,&#10;&quot;isTargetHeader&quot;:boolean,&#10;targetElementId:&quot;&quot;,&#10;&quot;isTargetMatrixTableGrid&quot;:boolean&#10;}&#10;&#10;&#10;[Web Page]&#10;&#10;&#10;extends layout&#10;block content&#10;  div.row.class1#100&#10;    div.class2 Issues by Severity&#10;    div.class3&#10;      svg.class4.class5&#10;      div.class6#101 Failure&#10;    div.class3&#10;      svg.class4.class5&#10;      div.class6#102 Anoamaly&#10;    div.class3&#10;      svg.class4.class5&#10;      div.class6#103 Other&#10;  div.class7.class8&#10;    div.row&#10;      div.class9 Criticality&#10;      div.class8-grid&#10;        div &#10;&#10;&#10;          div.row&#10;            div.class10.class14.ng-star-inserted Very High&#10;            div#200.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#104 --&#10;              div.row.class13&#10;                svg&#10;                div#105 --&#10;              div.row.class13&#10;                svg&#10;                div#106 --&#10;            div#201.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#107 --&#10;              div.row.class13&#10;                svg&#10;                div#108 --&#10;              div.row.class13&#10;                svg&#10;                div#109 --&#10;            div#202.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#110 --&#10;              div.row.class13&#10;                svg&#10;                div#111 --&#10;              div.row.class13&#10;                svg&#10;                div#112 --&#10;            div#203.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#113 --&#10;              div.row.class13&#10;                svg&#10;                div#114 --&#10;              div.row.class13&#10;                svg&#10;                div#115 --&#10;          div.row&#10;            div.class10.class14.ng-star-inserted High&#10;            div#204.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#116 --&#10;              div.row.class13&#10;                svg&#10;                div#117 --&#10;              div.row.class13&#10;                svg&#10;                div#118 --&#10;            div#205.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#119 --&#10;              div.row.class13&#10;                svg&#10;                div#120 --&#10;              div.row.class13&#10;                svg&#10;                div#121 --&#10;            div#206.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#122 --&#10;              div.row.class13&#10;                svg&#10;                div#123 --&#10;              div.row.class13&#10;                svg&#10;                div#124 --&#10;            div#207.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#125 --&#10;              div.row.class13&#10;                svg&#10;                div#126 --&#10;              div.row.class13&#10;                svg&#10;                div#127 --&#10;          div.row&#10;            div.class10.class14.ng-star-inserted Medium&#10;            div#208.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#128 --&#10;              div.row.class13&#10;                svg&#10;                div#129 --&#10;              div.row.class13&#10;                svg&#10;                div#130 --&#10;            div#209.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#128 --&#10;              div.row.class13&#10;                svg&#10;                div#129 --&#10;              div.row.class13&#10;                svg&#10;                div#130 --&#10;            div#210.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#131 --&#10;              div.row.class13&#10;                svg&#10;                div#132 6&#10;              div.row.class13&#10;                svg&#10;                div#133 --&#10;            div#211.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#134 --&#10;              div.row.class13&#10;                svg&#10;                div#135 1&#10;              div.row.class13&#10;                svg&#10;                div#136 --&#10;          div.row&#10;            div.class10.class14.ng-star-inserted Low&#10;            div#212.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#137 --&#10;              div.row.class13&#10;                svg&#10;                div#138 --&#10;              div.row.class13&#10;                svg&#10;                div#139 --&#10;            div#213.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#140 --&#10;              div.row.class13&#10;                svg&#10;                div#141 --&#10;              div.row.class13&#10;                svg&#10;                div#142 --&#10;            div#214.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#143 --&#10;              div.row.class13&#10;                svg&#10;                div#144 --&#10;              div.row.class13&#10;                svg&#10;                div#145 --&#10;            div#215.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#146 --&#10;              div.row.class13&#10;                svg&#10;                div#147 --&#10;              div.row.class13&#10;                svg&#10;                div#148 --&#10;          div.row&#10;            div.class10.class14.ng-star-inserted Very Low&#10;            div#216.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#149 --&#10;              div.row.class13&#10;                svg&#10;                div#150 --&#10;              div.row.class13&#10;                svg&#10;                div#151 --&#10;            div#217.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#152 --&#10;              div.row.class13&#10;                svg&#10;                div#153 --&#10;              div.row.class13&#10;                svg&#10;                div#154 --&#10;            div#218.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#155 --&#10;              div.row.class13&#10;                svg&#10;                div#156 --&#10;              div.row.class13&#10;                svg&#10;                div#157 --&#10;            div#219.ng-star-inserted.class12&#10;              div.row.class13&#10;                svg&#10;                div#158 --&#10;              div.row.class13&#10;                svg&#10;                div#159 --&#10;              div.row.class13&#10;                svg&#10;                div#160 --            &#10;          div.row&#10;            div white space&#10;            div.class10.class8.class11.ng-star-inserted Low&#10;            div.class10.class8.class11.ng-star-inserted Medium&#10;            div.class10.class8.class11.ng-star-inserted High&#10;            div.class10.class8.class11.ng-star-inserted Very High    &#10;&#10;&#10;    div.class15 Severity&#10;  style&#10;    .row&#10;      display: flex&#10;      flex-direction: row&#10;    .column&#10;      display: flex&#10;      flex-direction: column&#10;    .grid &#10;      display: grid&#10;      grid-template-columns: repeat(5, 1fr)" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="30" width="560" height="4020" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="8rd5xgk2DLC0L6PCO5eT" name="Invalid column and row count">
+        <mxGraphModel dx="1386" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="DEl4WQej7PzILnTVAget-1" value="&lt;div aria-atomic=&quot;true&quot; style=&quot;margin-left: auto;&quot; class=&quot;ms-Stack user-563&quot;&gt;&lt;div class=&quot;ms-StackItem content-564&quot;&gt;&lt;div style=&quot;&quot;&gt;Update output json as number of container in target row and column does not match number of row and column headers&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="130" y="200" width="560" height="50" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
