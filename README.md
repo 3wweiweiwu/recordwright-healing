@@ -7,13 +7,10 @@
 # Daniel ideas
 - Improve README because I'don't have too much experience on it
 - Add Architecture diagrams in documentation folder
-- Add documentation like UCs or descriptions, that will be helpful in the future
-- Add next steps or ideas
-- Add UC diagrams
-- Integrate ChateGPT query in this repo
+- Integrate ChateGPT query in this repo ***not now***
 - Set Express framework (It use to include extra files and functionalities)
-- In the future will be good to automate the creation of the JSON file needed in the UT
-- Add lists, pictures dropdown menu, forms, dialogs into the HTML test file
+- In the future will be good to automate the creation of the JSON file needed in the UT ***Think more on this or deprecate the idea***
+- Add lists, pictures, dropdown menu, forms, dialogs into the HTML test file
 
 # Discussion
 Daniel:
