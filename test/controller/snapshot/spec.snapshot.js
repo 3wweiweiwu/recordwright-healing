@@ -78,6 +78,61 @@ describe('compressed snapshot', () => {
                 assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength-1, 'One children must be deleted')
             }).timeout(99999) 
         })
+        describe('Test getInvisibleNodeInLevel function', () => {
+            let invisibleRect = {"x": 0, "y": 0,
+                "width": 0, "height": 0,
+                "top": 0, "right": 0, "bottom": 0, "left": 0
+            }
+            let visibleRect = { "x": 1, "y": 1,
+                "width": 1, "height": 1,
+                "top": 1, "right": 1, "bottom": 1, "left": 1
+            }
+            it('Single element, single node', async () => {
+                baselineNode[0][0].rect = invisibleRect
+                let toDelete = compressionNode.getInvisibleNodeInLevel(baselineNode[0])
+                assert.equal(toDelete.length, 1, 'getInvisibleNodeInLevel function should return 1 element')
+                assert.equal(toDelete[0], baselineNode[0][0], 'getInvisibleNodeInLevel should return the node that is invisible')
+            })
+            it('Single element, multiple nodes', async () => {
+                const randomNode = Math.floor(Math.random() * compressionComplete.atomicNodeMatrix[1].length)
+                const nodeId = baselineNode[1][randomNode].id
+                baselineNode[1].forEach(node => {
+                    if(node.id === nodeId){
+                        node.rect = invisibleRect
+                    }
+                    else{
+                        node.rect = visibleRect
+                    }
+                })
+                let toDelete = compressionNode.getInvisibleNodeInLevel(baselineNode[1])
+                assert.equal(toDelete.length, 1, 'getInvisibleNodeInLevel function should return 1 element')
+                assert.equal(toDelete[0], baselineNode[1][randomNode], 'getInvisibleNodeInLevel should return the node that is invisible')
+            })
+            it('Multiple elements, multiple nodes', async () => {
+                const randomNode = Math.floor(Math.random() * compressionComplete.atomicNodeMatrix[1].length)
+                const nodeId = baselineNode[1][randomNode].id
+                baselineNode[1].forEach(node => {
+                    if(node.id === nodeId){
+                        node.rect = visibleRect
+                    }
+                    else{
+                        node.rect = invisibleRect
+                    }
+                })
+                let toDelete = compressionNode.getInvisibleNodeInLevel(baselineNode[1])
+                assert.equal(toDelete.length, 2, 'getInvisibleNodeInLevel function should return 2 elements')
+                let unexpected = toDelete.filter(node => node.id === nodeId)
+                assert.equal(unexpected.length, 0, 'Node visible shouldnt be in the results of getInvisibleNodeInLevel')
+                toDelete.forEach(node => {
+                    if(node.id === nodeId)
+                    {
+                        assert.fail('Node visible shouldnt be in the results of getInvisibleNodeInLevel')
+                    }
+                    let nodeBaseline = baselineNode[1].find(nodeBase => nodeBase.id === node.id)
+                    assert.equal(node, nodeBaseline, 'getInvisibleNodeInLevel should return the same node that is invisible')
+                })
+            })
+        })
     })
     it('should compress snapshot with happy path', async () => {
         
