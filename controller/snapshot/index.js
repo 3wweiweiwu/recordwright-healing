@@ -382,12 +382,14 @@ class HtmlSnapshotCompresed {
      * @param {AtomicNode[]} atomicNodeLevel
      * */
     deleteScripts(atomicNodeLevel) { //I don't know who to test this because of the inputs and outputs
-        var scriptList = atomicNodeLevel.filter(node => {
+        var scriptNodeList = atomicNodeLevel.filter(node => {
             if (node.nodeName == 'SCRIPT') {
                 return node
             }
         })
-
+        let scriptList = scriptNodeList.map(node =>{
+            return node.id
+        })
 
         //keep deleting all nodes under script list till there is no more nodes
         while (scriptList.length > 0) {
@@ -396,8 +398,8 @@ class HtmlSnapshotCompresed {
              * with all the information, but when we update the script list it only share the id
              */
             let nextLevelScriptChildren = []
-            scriptList.forEach(node => {
-                let scriptChildren = this.deleteNodeAndUpdateParent(node.id)
+            scriptList.forEach(nodeid => {
+                let scriptChildren = this.deleteNodeAndUpdateParent(nodeid)
                 nextLevelScriptChildren = [...nextLevelScriptChildren, ...scriptChildren]
             })
             scriptList = nextLevelScriptChildren
