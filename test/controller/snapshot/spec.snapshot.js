@@ -4,6 +4,11 @@ const { HtmlSnapshotCompresed } = require('../../../controller/snapshot')
 const fs = require('fs')
 const path = require('path')
 
+/**
+ * I solution that I'm considering to test the functions that has not output or input is overwrite the 
+ * matrix and then just run the function that I want to test
+ * 
+ */
 
 describe('compressed snapshot', () => {
 
@@ -42,18 +47,37 @@ describe('compressed snapshot', () => {
                 })
             }).timeout(99999)
         })
-        this.atomicNodeMatrix = this.parse(json)
-        this.atomicNodeMatrix = this.parse(json)
-        const randomRow = Math.floor(Math.random() * compressionNode.atomicNodeMatrix.lenght)
         describe('Test getNodeInformationById function', () =>{
             it('Single node', async () =>{
-
-            }).timeout(99999)
-            it('Multiple node', async () =>{
-
+                const randomRow = Math.floor(Math.random() * compressionComplete.atomicNodeMatrix.length)
+                const randomNode = Math.floor(Math.random() * compressionComplete.atomicNodeMatrix[randomRow].length)
+                let expectedResult = compressionComplete.atomicNodeMatrix[randomRow][randomNode]
+                let result = compressionComplete.getNodeInformationById(expectedResult.id)
+                assert.equal(result.node, expectedResult, 'The node information must be the same')
             }).timeout(99999)
         })
-        
+        describe('Test deleteScripts function', () => {
+            it('Single node, no children', async () => {
+                baselineNode[0][0].nodeName = 'SCRIPT'
+                baselineNode[0][0].children = []
+                let rowlenght = baselineNode[0].length
+                let rowChildrenLength = baselineNode[1].length
+                compressionNode.atomicNodeMatrix = baselineNode
+                compressionNode.deleteScripts(baselineNode[0])
+                assert.equal(compressionNode.atomicNodeMatrix[0], rowlenght-1, 'Node with node name should be deleted')
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength, 'Children row should not change')
+            }).timeout(99999)   
+            it('Single node, with children', async () => {
+                baselineNode[0][0].nodeName = 'SCRIPT'
+                baselineNode[0][0].children = [1]
+                let rowlenght = baselineNode[0].length
+                let rowChildrenLength = baselineNode[1].length
+                compressionNode.atomicNodeMatrix = baselineNode
+                compressionNode.deleteScripts(baselineNode[0])
+                assert.equal(compressionNode.atomicNodeMatrix[0], rowlenght-1, 'Node with node name should be deleted')
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength-1, 'One children must be deleted')
+            }).timeout(99999) 
+        })
     })
     it('should compress snapshot with happy path', async () => {
         
