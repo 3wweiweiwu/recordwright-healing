@@ -32,9 +32,7 @@ Output result in JSON format. targetElementId returns id of target element in ta
 "isTargetHeader":boolean,      
 "targetElementId":"",      
 "isTargetMatrixTableGrid":boolean,
-"OutMostContainer"string,
-"isRowHeaderUnique":boolean,
-"isColumnHeaderUnique":boolean
+"OutMostContainer"string
 }      
 &nbsp;      
 [Web Page]      
