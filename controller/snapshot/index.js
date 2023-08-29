@@ -306,7 +306,7 @@ class HtmlSnapshotCompresed {
         }
 
         //merge attributes to parent node
-        if (isMergeAttribute) {
+        if (isMergeAttribute && parentNode) { //fix merge when there is no parent
             this.mergeAttribute(parentNode, nodeInfo.node)
         }
 
