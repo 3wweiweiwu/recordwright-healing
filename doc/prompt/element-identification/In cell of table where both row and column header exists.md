@@ -21,21 +21,21 @@ you are a quality engineer try to identify web element in a web page based on te
 ## User Message
 ```
 [Test Step]  
-Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.      
-[Output]      
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
+[Output]   
 Output result in JSON format. targetElementId returns id of target element in tag#id format such as "div#100". isTargetMatrixTableGrid returns if target element is in a table, or grid or matrix. From table, grid, matrix perspective, isTargetHeader returns if element is a row or column header.  ColumnsHeaders is an array that represents the text names of the columns. TargetColumnName is the text of the column name where the target cell is located.  Perform following operation and output a JSON result only. OutMostContainer is the out-most table or grid container for the target element described in test step in tag#id foramt such as div#100.
-{      
-"TargetRowName":""      
-"ColumnsHeaders":[],      
-"rowHeaders":[]      
-"TargetColumnName": "",      
-"isTargetHeader":boolean,      
-"targetElementId":"",      
+{   
+"TargetRowName":""   
+"ColumnsHeaders":[],   
+"rowHeaders":[]   
+"TargetColumnName": "",   
+"isTargetHeader":boolean,   
+"targetElementId":"",   
 "isTargetMatrixTableGrid":boolean,
 "OutMostContainer"string
-}      
-&nbsp;      
-[Web Page]      
+}   
+&nbsp;   
+[Web Page]   
 //- ChatGPT, you are a quality engineer try to identify web element in a web page based on test step. Following two section provide information for you. Web Page section contains a web page and layout in PUG template. Current div tags are placeholder, you need to evaluate the most suitable tag for each web element based on the textual and layout context. Test Step section provides test procedure. Each section header is wrapped around square brackets []. 
 //- [Test Step]
 //- Click the cell where critiality and Severity are both very high.
@@ -46,285 +46,24 @@ Output result in JSON format. targetElementId returns id of target element in ta
 extends layout
 block content
 
-    div.row.heatmap-heading#100
-        div.heatmap-heading___title Issues by Severity
-        div.heatmap-heading___alert
-            svg.heatmap-heading-alert__icon.material-icons.maerial-icons-outlined
-            div.heatmap-heading-alert__caption#101 Failure
-        div.heatmap-heading___alert
-            svg.heatmap-heading-alert__icon.material-icons.maerial-icons-outlined
-            div.heatmap-heading-alert__caption#102 Anoamaly
-        div.heatmap-heading___alert
-            svg.heatmap-heading-alert__icon.material-icons.maerial-icons-outlined
-            div.heatmap-heading-alert__caption#103 Other
-    div#500.heatmap-content.heatmap-body
-        div.row
-            div.heatmap-body-heading Criticality
-            div.heatmap-body-grid
-                div 
-                    div.row
-                        div#505.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
-                        div#200.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#104 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#105 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#106 --
-                        div#201.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#107 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#108 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#109 --
-                        div#202.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#110 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#111 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#112 --
-                        div#203.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#113 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#114 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#115 --
-                    div.row
-                        div#501.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High
-                        div#204.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#116 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#117 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#118 --
-                        div#205.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#119 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#120 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#121 --
-                        div#206.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#122 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#123 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#124 --
-                        div#207.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#125 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#126 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#127 --
-                    div.row
-                        div#502.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Medium
-                        div#208.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#128 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#129 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#130 --
-                        div#209.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#128 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#129 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#130 --
-                        div#210.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#131 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#132 6
-                            div.row.heatmap-card-item
-                                svg
-                                div#133 --
-                        div#211.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#134 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#135 1
-                            div.row.heatmap-card-item
-                                svg
-                                div#136 --
-                    div.row
-                        div#503.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Low
-                        div#212.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#137 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#138 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#139 --
-                        div#213.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#140 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#141 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#142 --
-                        div#214.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#143 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#144 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#145 --
-                        div#215.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#146 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#147 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#148 --
-                    div.row
-                        div#504.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very Low
-                        div#216.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#149 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#150 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#151 --
-                        div#217.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#152 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#153 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#154 --
-                        div#218.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#155 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#156 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#157 --
-                        div#219.ng-star-inserted.heatmap-card-heatmap-card--p3
-                            div.row.heatmap-card-item
-                                svg
-                                div#158 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#159 --
-                            div.row.heatmap-card-item
-                                svg
-                                div#160 --                        
-                    div.row
-                        div#600 white space
-                        div#601.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
-                        div#602.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
-                        div#603.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
-                        div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High                
-
-        div.heatmap-footer Severity
-
-    style
-        .row
-            display: flex
-            flex-direction: row
-        .column
-            display: flex
-            flex-direction: column
-        .grid 
-            display: grid
-            grid-template-columns: repeat(5, 1fr)
-```
-
-# Data Grid Identification
-## System Prompt
-The same as prior one
-
-## User Message
-```
-[Test Step]  
-Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.    
-[Output]
-Output result in JSON format. Following is a template. Output JSON only. No reasoning.
-{
-OuterTableCell:string[][],
-UpdatedStep:string
-}
-
-"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container is in "tag#id" format 
-such as "div#100". The output do not include row and column header.
-"UpdatedStep" represents updated step for target element identification. Given known table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep other relevant information to identify target element. Do not identify element based on id or class information. 
-
-[Web Page]
+ div.row.heatmap-heading#100
+  div.heatmap-heading___title Issues by Severity
+  div.heatmap-heading___alert
+   svg.heatmap-heading-alert__icon.material-icons.maerial-icons-outlined
+   div.heatmap-heading-alert__caption#101 Failure
+  div.heatmap-heading___alert
+   svg.heatmap-heading-alert__icon.material-icons.maerial-icons-outlined
+   div.heatmap-heading-alert__caption#102 Anoamaly
+  div.heatmap-heading___alert
+   svg.heatmap-heading-alert__icon.material-icons.maerial-icons-outlined
+   div.heatmap-heading-alert__caption#103 Other
+ div#500.heatmap-content.heatmap-body
   div.row
    div.heatmap-body-heading Criticality
    div.heatmap-body-grid
     div 
      div.row
-      div white space
-      div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
-      div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
-      div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
-      div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High    
-     div.row
-      div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
+      div#505.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
       div#200.ng-star-inserted.heatmap-card-heatmap-card--p3
        div.row.heatmap-card-item
         svg
@@ -366,7 +105,7 @@ such as "div#100". The output do not include row and column header.
         svg
         div#115 --
      div.row
-      div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High
+      div#501.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High
       div#204.ng-star-inserted.heatmap-card-heatmap-card--p3
        div.row.heatmap-card-item
         svg
@@ -408,7 +147,7 @@ such as "div#100". The output do not include row and column header.
         svg
         div#127 --
      div.row
-      div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Medium
+      div#502.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Medium
       div#208.ng-star-inserted.heatmap-card-heatmap-card--p3
        div.row.heatmap-card-item
         svg
@@ -450,7 +189,7 @@ such as "div#100". The output do not include row and column header.
         svg
         div#136 --
      div.row
-      div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Low
+      div#503.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Low
       div#212.ng-star-inserted.heatmap-card-heatmap-card--p3
        div.row.heatmap-card-item
         svg
@@ -492,7 +231,7 @@ such as "div#100". The output do not include row and column header.
         svg
         div#148 --
      div.row
-      div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very Low
+      div#504.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very Low
       div#216.ng-star-inserted.heatmap-card-heatmap-card--p3
        div.row.heatmap-card-item
         svg
@@ -533,9 +272,279 @@ such as "div#100". The output do not include row and column header.
        div.row.heatmap-card-item
         svg
         div#160 --      
-
+     div.row
+      div#600 white space
+      div#601.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
+      div#602.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
+      div#603.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
+      div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High    
 
   div.heatmap-footer Severity
+
+ style
+  .row
+   display: flex
+   flex-direction: row
+  .column
+   display: flex
+   flex-direction: column
+  .grid 
+   display: grid
+   grid-template-columns: repeat(5, 1fr)
+```
+
+# Data Grid Identification
+## System Prompt
+The same as prior one
+
+## User Message
+```
+[Test Step]  
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'. 
+[Output]
+Output result in JSON format. Following is a template. Output JSON only. No reasoning.
+{
+OuterTableCell:string[][],
+UpdatedStep:string,
+rowHeaderCell:string,
+columnHeaderCell:string
+columnHeaderList:string[],
+rowHeaderList:string[]
+}
+
+"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container is in "tag#id" format 
+such as "div#100". The output do not include row and column header.
+"UpdatedStep" represents updated step for target element identification. Given known table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep other relevant information to identify target element. Do not identify element based on id or class information. 
+"rowHeaderCell" represents the column that uniquely identifies the row in the out-most table containing the target element. The cell container is in "tag#id" format
+"columnHeaderCell" represents the row that uniquely identifies the column in the out-most table containing the target element. The cell container is in "tag#id" format
+"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format
+"rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format
+
+[Web Page]
+ div#500.heatmap-content.heatmap-body
+  div.row
+   div.heatmap-body-heading Criticality
+   div.heatmap-body-grid
+    div 
+     div.row
+      div#505.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
+      div#200.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#104 --
+       div.row.heatmap-card-item
+        svg
+        div#105 --
+       div.row.heatmap-card-item
+        svg
+        div#106 --
+      div#201.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#107 --
+       div.row.heatmap-card-item
+        svg
+        div#108 --
+       div.row.heatmap-card-item
+        svg
+        div#109 --
+      div#202.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#110 --
+       div.row.heatmap-card-item
+        svg
+        div#111 --
+       div.row.heatmap-card-item
+        svg
+        div#112 --
+      div#203.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#113 --
+       div.row.heatmap-card-item
+        svg
+        div#114 --
+       div.row.heatmap-card-item
+        svg
+        div#115 --
+     div.row
+      div#501.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High
+      div#204.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#116 --
+       div.row.heatmap-card-item
+        svg
+        div#117 --
+       div.row.heatmap-card-item
+        svg
+        div#118 --
+      div#205.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#119 --
+       div.row.heatmap-card-item
+        svg
+        div#120 --
+       div.row.heatmap-card-item
+        svg
+        div#121 --
+      div#206.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#122 --
+       div.row.heatmap-card-item
+        svg
+        div#123 --
+       div.row.heatmap-card-item
+        svg
+        div#124 --
+      div#207.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#125 --
+       div.row.heatmap-card-item
+        svg
+        div#126 --
+       div.row.heatmap-card-item
+        svg
+        div#127 --
+     div.row
+      div#502.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Medium
+      div#208.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#128 --
+       div.row.heatmap-card-item
+        svg
+        div#129 --
+       div.row.heatmap-card-item
+        svg
+        div#130 --
+      div#209.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#128 --
+       div.row.heatmap-card-item
+        svg
+        div#129 --
+       div.row.heatmap-card-item
+        svg
+        div#130 --
+      div#210.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#131 --
+       div.row.heatmap-card-item
+        svg
+        div#132 6
+       div.row.heatmap-card-item
+        svg
+        div#133 --
+      div#211.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#134 --
+       div.row.heatmap-card-item
+        svg
+        div#135 1
+       div.row.heatmap-card-item
+        svg
+        div#136 --
+     div.row
+      div#503.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Low
+      div#212.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#137 --
+       div.row.heatmap-card-item
+        svg
+        div#138 --
+       div.row.heatmap-card-item
+        svg
+        div#139 --
+      div#213.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#140 --
+       div.row.heatmap-card-item
+        svg
+        div#141 --
+       div.row.heatmap-card-item
+        svg
+        div#142 --
+      div#214.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#143 --
+       div.row.heatmap-card-item
+        svg
+        div#144 --
+       div.row.heatmap-card-item
+        svg
+        div#145 --
+      div#215.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#146 --
+       div.row.heatmap-card-item
+        svg
+        div#147 --
+       div.row.heatmap-card-item
+        svg
+        div#148 --
+     div.row
+      div#504.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very Low
+      div#216.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#149 --
+       div.row.heatmap-card-item
+        svg
+        div#150 --
+       div.row.heatmap-card-item
+        svg
+        div#151 --
+      div#217.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#152 --
+       div.row.heatmap-card-item
+        svg
+        div#153 --
+       div.row.heatmap-card-item
+        svg
+        div#154 --
+      div#218.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#155 --
+       div.row.heatmap-card-item
+        svg
+        div#156 --
+       div.row.heatmap-card-item
+        svg
+        div#157 --
+      div#219.ng-star-inserted.heatmap-card-heatmap-card--p3
+       div.row.heatmap-card-item
+        svg
+        div#158 --
+       div.row.heatmap-card-item
+        svg
+        div#159 --
+       div.row.heatmap-card-item
+        svg
+        div#160 --      
+     div.row
+      div#600 white space
+      div#601.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
+      div#602.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
+      div#603.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
+      div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High    
+
+  div.heatmap-footer Severity
+
 ```
 ## Special Instruction of User Prompt
 * Web Page should be children of OutMostContainer
