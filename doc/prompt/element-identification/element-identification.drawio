@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="k_TZ9hBvOqJruFJ_RMBt" name="Page-1">
-        <mxGraphModel dx="688" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1155" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -91,7 +91,7 @@
                         <mxPoint x="465" y="510" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="jk0fihDDWszO7qKpo9XF-23" value="In cell of table where both row and column header exists" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="jk0fihDDWszO7qKpo9XF-23" value="In cell of table where both row and column header exists" style="whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="1">
                     <mxGeometry x="520" y="480" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="jk0fihDDWszO7qKpo9XF-26" value="In cell of table where either column or row header exists" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -101,7 +101,7 @@
                     <mxGeometry x="520" y="700" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="jk0fihDDWszO7qKpo9XF-31" value="In header of table where either row or column header exists" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="600" y="820" width="120" height="60" as="geometry"/>
+                    <mxGeometry x="640" y="820" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
