@@ -1,10 +1,3 @@
-//- ChatGPT, you are a quality engineer try to identify web element in a web page based on test step. Following two section provide information for you. Web Page section contains a web page and layout in PUG template. Current div tags are placeholder, you need to evaluate the most suitable tag for each web element based on the textual and layout context. Test Step section provides test procedure. Each section header is wrapped around square brackets []. 
-//- [Test Step]
-//- Click the cell where critiality and Severity are both very high.
-
-//- ChatGPT, describe following web page in PUG template. Is there table or matrix in there? If so, whatare column headers and row headers? What's the container element id of the cell where critiality and Severity are both very high?
-
-//- [Web Page]
 extends layout
 block content
 
@@ -25,13 +18,7 @@ block content
             div.heatmap-body-grid
                 div 
                     div.row
-                        div white space
-                        div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
-                        div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
-                        div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
-                        div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High                
-                    div.row
-                        div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
+                        div#505.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
                         div#200.ng-star-inserted.heatmap-card-heatmap-card--p3
                             div.row.heatmap-card-item
                                 svg
@@ -73,7 +60,7 @@ block content
                                 svg
                                 div#115 --
                     div.row
-                        div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High
+                        div#501.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High
                         div#204.ng-star-inserted.heatmap-card-heatmap-card--p3
                             div.row.heatmap-card-item
                                 svg
@@ -115,7 +102,7 @@ block content
                                 svg
                                 div#127 --
                     div.row
-                        div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Medium
+                        div#502.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Medium
                         div#208.ng-star-inserted.heatmap-card-heatmap-card--p3
                             div.row.heatmap-card-item
                                 svg
@@ -157,7 +144,7 @@ block content
                                 svg
                                 div#136 --
                     div.row
-                        div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Low
+                        div#503.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Low
                         div#212.ng-star-inserted.heatmap-card-heatmap-card--p3
                             div.row.heatmap-card-item
                                 svg
@@ -199,7 +186,7 @@ block content
                                 svg
                                 div#148 --
                     div.row
-                        div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very Low
+                        div#504.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very Low
                         div#216.ng-star-inserted.heatmap-card-heatmap-card--p3
                             div.row.heatmap-card-item
                                 svg
@@ -240,10 +227,15 @@ block content
                             div.row.heatmap-card-item
                                 svg
                                 div#160 --                        
-
+                    div.row
+                        div#600 white space
+                        div#601.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
+                        div#602.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
+                        div#603.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
+                        div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High                
 
         div.heatmap-footer Severity
-    
+
     style
         .row
             display: flex
