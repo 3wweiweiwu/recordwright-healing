@@ -189,6 +189,7 @@ class HtmlSnapshotCompresed {
                     this.deleteNodeAndUpdateParent(node.id, false)
                 })
 
+                //I don't undestand why we are deleting the nodes with a single child
                 unqualifiedNodeInLevel = this.getSingleChildNodeInLevel(this.atomicNodeMatrix[i])
                 unqualifiedNodeInLevel.forEach(node => {
                     this.deleteNodeAndUpdateParent(node.id, true)
@@ -306,6 +307,11 @@ class HtmlSnapshotCompresed {
         }
 
         //merge attributes to parent node
+        /**
+         * I don't understand the bussines logic here, we delete the node and then we inherit the
+         * imformation from the parent, 
+         * why? it must merge children information
+         */
         if (isMergeAttribute && parentNode) { //fix merge when there is no parent
             this.mergeAttribute(parentNode, nodeInfo.node)
         }
