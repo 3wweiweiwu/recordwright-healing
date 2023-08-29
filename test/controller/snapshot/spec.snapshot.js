@@ -134,6 +134,31 @@ describe('compressed snapshot', () => {
             })
         })
         //Add here merge attributes
+        describe('Test mergeAttribute function', () => {
+            let att1 = {class : 'test1'}
+            let att2 = {style : 'test2'}
+            let att3 = {class : 'test3'}
+            let att12 = {style : 'test2',class : 'test1'}
+            let att13 = {class : 'test3 test1'}
+            it('No attributes to merge', () => {
+                baselineNode[0][0].attributes = {}
+                baselineNode[1][0].attributes = {}
+                let result = compressionNode.mergeAttribute(baselineNode[0][0], baselineNode[1][0])
+                assert.equal(JSON.stringify(result.attributes), JSON.stringify({}), 'mergeAttribute must return node without attributes')
+            })
+            it('Different typs of attributes', () => {
+                baselineNode[0][0].attributes = att1
+                baselineNode[1][0].attributes = att2
+                let result = compressionNode.mergeAttribute(baselineNode[0][0], baselineNode[1][0])
+                assert.equal(JSON.stringify(result.attributes), JSON.stringify(att12), 'mergeAttribute must return node without attributes')
+            })
+            it('Same key attributes', () => {
+                baselineNode[0][0].attributes = att1
+                baselineNode[1][0].attributes = att3
+                let result = compressionNode.mergeAttribute(baselineNode[0][0], baselineNode[1][0])
+                assert.equal(JSON.stringify(result.attributes), JSON.stringify(att13), 'mergeAttribute must return node without attributes')
+            })
+        })
         describe('Test deleteNodeAndUpdateParent function', () => {
             it('Single node, single row, no parent, merge false', async () => {
                 let rowlenght = baselineNode[0].length
