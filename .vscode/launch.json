@@ -25,6 +25,32 @@
                 "./test/**/spec.*.js", 
                 "--exit"
             ],
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debuge Mocha Snapshot",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "./test/**/snapshot/spec.*.js", 
+                "--exit"
+            ],
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debuge Mocha PugGenerator",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "./test/**/pugGenerator/spec.*.js", 
+                "--exit"
+            ],
         }
     ]
 }
