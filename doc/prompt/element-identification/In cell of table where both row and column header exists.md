@@ -11,7 +11,8 @@
 4. Get data cell table view and updated step
 5. **Data Grid Identification**: Based on cell table from step 2, target column, target row, column header and row header, identify data cell where target element is located
 6. update remove reference in "specified wrapper table cell" in the test step
-7. Repeat step 1 till isTargetHeader=false and isTargetMatrixTableGrid==false
+7. **Data Grid Identification Iteration**: Iterate process till it gives right answer
+8. Repeat step 1 till isTargetHeader=false and isTargetMatrixTableGrid==false or targetElementId=Identified Element from Outer Cell
 
 # Target Element Scan
 ## System Prompt
@@ -310,16 +311,18 @@ OuterTableCell:string[][],
 rowHeaderCell:string,
 columnHeaderCell:string
 columnHeaderList:string[],
-rowHeaderList:string[]
+rowHeaderList:string[],
+targetElementId:string
 }
 
- "UpdatedStep" represents updated step for target element identification. Given known the table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep other relevant information to identify target element. If you reference table cell container in the updated step, reference that as "specified wrapper table cell" only.
+ "UpdatedStep" represents updated step for target element identification. Given known the table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep relevant information to identify target element. Minimize the change to the test step and try to minimize the information from original step. If you reference table cell container in the updated step, reference that as "specified wrapper table cell" only.
 
 "OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container is in "tag#id" format such as "div#100". The output do not include row and column header.
 "rowHeaderCell" represents the column that uniquely identifies the row in the out-most table containing the target element. The cell container is in "tag#id" format
 "columnHeaderCell" represents the row that uniquely identifies the column in the out-most table containing the target element. The cell container is in "tag#id" format
 "columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format
 "rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format
+"targetElementId" represents id of target element in tag#id format such as "div#100".
 
 [Web Page]
  div#500.heatmap-content.heatmap-body
@@ -549,4 +552,37 @@ rowHeaderList:string[]
 ```
 ## Special Instruction of User Prompt
 * Web Page should be children of OutMostContainer
-* 
+
+## Data Grid Identification Iteration
+### Sample
+```
+{
+  "UpdatedStep": "Click the name of the wife in the specified wrapper table cell",
+  "OuterTableCell": [
+    ["div#11", "div#12", "div#13", "div#14"],
+    ["div#23", "div#24", "div#25", "div#26"],
+    ["div#35", "div#36", "div#37", "div#38"],
+    ["div#47", "div#48", "div#49", "div#50"],
+    ["div#59", "div#60", "div#61", "div#62"],
+    ["div#71", "div#72", "div#73", "div#74"],
+    ["div#83", "div#84", "div#85", "div#86"]
+  ],
+  "rowHeaderCell": "div#11",
+  "columnHeaderCell": "div#8",
+  "columnHeaderList": ["div#5", "div#6", "div#7", "div#8"],
+  "rowHeaderList": ["div#11", "div#23", "div#35", "div#47", "div#59", "div#71", "div#83"]
+}
+```
+### Identification Point
+* #row in outer table cell against length of row list
+* #column in outer table cell against length of column list
+* rowHeaderCell within columnHeader List
+* columnHeaderCell within columnHeaderList
+* The column or row size is equal or less than 2 because it's difficult to categorize as table
+* Do it anyway....
+
+### Prompt
+
+Check again if this table have row and column header that can uniquely identify the elements row and column header.  If there is column or row header, ensure the length of columnHeaderList or rowHeaderList match OuterTableCell. If there is no row Header or column Header, we should add row header by ourselves with unique number such as 1,2,3. Respective rowHeaderCell and columnHeaderCell should be a number. 
+
+Based on that, update JSON output. 
