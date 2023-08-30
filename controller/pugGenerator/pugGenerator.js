@@ -1,3 +1,5 @@
+const { AtomicNode } = require('../snapshot')
+
 class PugGenerator 
 
 /**
@@ -120,4 +122,4 @@ class PugGenerator
     }
 }
 
-module.exports = PugGenerator
+module.exports = { PugGenerator }
