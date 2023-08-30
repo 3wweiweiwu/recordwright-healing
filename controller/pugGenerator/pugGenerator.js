@@ -97,7 +97,7 @@ class PugGenerator
         {
             if(add)
             {
-                attributes += ', '
+                attributes += ','
             }
             attributes += `${key}="${value}"`
             add = true
