@@ -189,7 +189,7 @@ class HtmlSnapshotCompresed {
                     this.deleteNodeAndUpdateParent(node.id, false)
                 })
 
-                //I don't undestand why we are deleting the nodes with a single child
+                //Questions: I don't undestand why we are deleting the nodes with a single child
                 unqualifiedNodeInLevel = this.getSingleChildNodeInLevel(this.atomicNodeMatrix[i])
                 unqualifiedNodeInLevel.forEach(node => {
                     this.deleteNodeAndUpdateParent(node.id, true)
@@ -268,10 +268,13 @@ class HtmlSnapshotCompresed {
 
                     //add node to next level
                     nextNodeLevel.push(nodeResult.node)
+                } else { //defect, id child doesn't exist delete it from the paren list
+                    let index = node.children.indexOf(nodeId) 
+                    node.children.splice(index, 1)
                 }
             }
         })
-        return node //For UT
+        return node //For UT, not needed
     }
     /**
      * Delete the node and move its children to its parent
@@ -308,6 +311,7 @@ class HtmlSnapshotCompresed {
 
         //merge attributes to parent node
         /**
+         * Qurstions
          * I don't understand the bussines logic here, we delete the node and then we inherit the
          * imformation from the parent, 
          * why? it must merge children information
@@ -387,7 +391,7 @@ class HtmlSnapshotCompresed {
      * Delete all nodes that are contained by SCRIPT node
      * @param {AtomicNode[]} atomicNodeLevel
      * */
-    deleteScripts(atomicNodeLevel) { //I don't know who to test this because of the inputs and outputs
+    deleteScripts(atomicNodeLevel) { 
         var scriptNodeList = atomicNodeLevel.filter(node => {
             if (node.nodeName == 'SCRIPT') {
                 return node
@@ -400,6 +404,7 @@ class HtmlSnapshotCompresed {
         //keep deleting all nodes under script list till there is no more nodes
         while (scriptList.length > 0) {
             /**
+             * Question
              * I think that the bussines logic is wrong, because scriptList is the list of the nodes
              * with all the information, but when we update the script list it only share the id
              */
