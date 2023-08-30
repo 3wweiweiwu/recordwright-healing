@@ -1,21 +1,35 @@
 //const { assert } = require('console')
 const assert = require('assert');
 const { HtmlSnapshotCompresed } = require('../../../controller/snapshot')
-const fs = require('fs')
-const path = require('path')
+const { PugGenerator } = require('../../../controller/pugGenerator/pugGenerator.js')
 
 describe('Pug Generator', () => {
     describe('Test function by function', () => {
-        beforeEach('Prepare information for the Unit Tests', () =>{
+        let snapshotJsonNode = require('./files/singlerowsinglenode.json')
+        let pugGenerator = null;
 
+
+        beforeEach('Prepare information for the Unit Tests', () =>{
+            pugGenerator = new PugGenerator(JSON.stringify(snapshotJsonNode))
         })
         describe('Test tabs function', () =>{
-            it('No space')
-            it('One space')
-            it('Multiple spaces')
+            it('No space', async() =>{
+                assert.equal(pugGenerator.tabs(0), '', 'Tab 0 should be a ""')
+            })
+            it('One space', async() =>{
+                assert.equal(pugGenerator.tabs(1), ' ', 'Tab 0 should be a " "')
+            })
+            it('Multiple spaces', async() =>{
+                assert.equal(pugGenerator.tabs(2), '  ', 'Tab 0 should be a "  "')
+            })
         })
         describe('Test getAttributes function', () =>{
-            it('No attributtes')
+            it('No attributtes', async()=>{
+                pugGenerator.matrix[0][0].attributes = {}
+                let result = pugGenerator.getAttributes(0, 0)
+                assert.equal(result, '', 
+                    'The atribbutes in pug should be "" for node with no attributes')
+            })
             it('Single attribute')
             it('Multiple attributes')
         })
