@@ -1,17 +1,38 @@
-const fs = require('fs').promises;
-
 class PugGenerator 
+
+/**
+ * There was a feature to put the information of the #text nodes into the parent level
+ * Im not sure if we want to implemente that
+ * I was thinking that maybe we can implemented that in the compresor
+ * 
+ * My questionis that  in case that we have a text - hyperlink - text, it will case problems
+ * maybe is not a good aproach
+ */
+
 {
-    pugfile = ''
-    constructor()
+    pugfile = []
+
+    /**
+     * PuG Generator
+     * @param {string} json
+     * */
+    constructor(json)
     {
+        this.matrix = this.parse(json)
     }
 
-    async getMatrix()
-    {
-        const matrixFile = await fs.readFile('./original.json');
-        //this.matrix = JSON.parse(matrixFile).atomicMatrix;
-        this.matrix = JSON.parse(matrixFile);
+    parse(json) {
+        let atomicNodeMatrix = JSON.parse(json)
+        atomicNodeMatrix = atomicNodeMatrix.map(row => {
+            let newRow = row.map(node => {
+                let newNode = new AtomicNode(node.element, node.id)
+                let updatedNode = { ...newNode, ...node }
+                return updatedNode
+            })
+            return newRow
+        })
+
+        return atomicNodeMatrix
     }
 
     tabs(number)
@@ -26,6 +47,7 @@ class PugGenerator
 
     printInformation(row, node = null, id = null)
     {
+        let pugRow = ''
         if(id)
         {
             // in case that have child but there is no other row, it shouldnt happen but just in case
@@ -47,7 +69,26 @@ class PugGenerator
         {
             return
         }
-        this.pugfile += this.tabs(row) + this.matrix[row][node].nodeName.replace('#','')
+        pugRow += this.tabs(row) + this.matrix[row][node].nodeName.replace('#','')
+        pugRow += this.attributes(node, row)
+        if(this.matrix[row][node].text)
+        {
+            pugRow += ` ${this.matrix[row][node].text}`
+        }
+        this.pugfile.p
+        this.matrix[row][node].writted = true
+        for(let child of this.matrix[row][node].children)
+        {
+            //for some reason some thimes cleanup the row and enter here, that is way I use this
+            if(node !== null) 
+            {
+                this.printInformation(row+1, null, id = child)
+            }
+        }
+    }
+
+    getAttributes(node, row)
+    {
         let attributes = ''
         let add = false
         for(const [key, value] of Object.entries(this.matrix[row][node].attributes))
@@ -61,45 +102,21 @@ class PugGenerator
         }
         if(attributes !== '')
         {
-            this.pugfile += `(${attributes})`
+            attributes = `(${attributes})`
         }
-        if(this.matrix[row][node].text)
-        {
-            //this.pugfile += ` ${this.matrix[row][node].text.replaceAll('\n','')}`
-            this.pugfile += ` ${this.matrix[row][node].text.replaceAll('\n','').replaceAll('\t','')}`
-            //I used the "" to show th \t in the html, but it deoesn't works, maybe we clould delete the "" and the \t
-        }
-        this.pugfile += '\n'
-        this.matrix[row][node].writted = true
-        for(let child of this.matrix[row][node].children)
-        {
-            //for some reason some thimes cleanup the row and enter here, that is way I use this
-            if(node !== null) 
-            {
-                this.printInformation(row+1, null, id = child)
-            }
-        }
+        return attributes
     }
 
-    async createPugFile()
+    createPugFile()
     {
-        await this.getMatrix()
-        console.log(this.matrix)
-        this.pugfile = ''
+        this.pugfile = []
         for(let row = 0; row < this.matrix.length; row++)
         {
             for(let node = 0; node < this.matrix[row].length; node++)
             {
                 this.printInformation(row, node)
             }
-            
         }
-        fs.writeFile('./testOriginal.pug', this.pugfile, err => {
-            if (err) {
-              console.error(err);
-            }
-            // file written successfully
-        });
     }
 }
 
