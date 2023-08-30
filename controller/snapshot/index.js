@@ -596,4 +596,4 @@ class HtmlSnapshotCompresed {
     }
 }
 
-module.exports = { HtmlSnapshotCompresed }
+module.exports = { HtmlSnapshotCompresed,  AtomicNode}
