@@ -1,8 +1,6 @@
 //const { assert } = require('console')
 const assert = require('assert');
 const { HtmlSnapshotCompresed } = require('../../../controller/snapshot')
-const fs = require('fs')
-const path = require('path')
 
 /**
  * I solution that I'm considering to test the functions that has not output or input is overwrite the 
@@ -20,7 +18,7 @@ describe('compressed snapshot', () => {
     let baselineNode = null;
     let newNode = null;
 
-    beforeEach('Read and return the Snapshot of the web page in HtmlSnapshotCompresed', async() => {
+    beforeEach('Read and return the Snapshot of the web page in HtmlSnapshotCompresed', () => {
         compressionComplete = new HtmlSnapshotCompresed(JSON.stringify(snapshotJson))
         //baselineComplete = compressionComplete.parse(JSON.stringify(snapshotJson))
         compressionNode = new HtmlSnapshotCompresed(JSON.stringify(snapshotJsonNode))
