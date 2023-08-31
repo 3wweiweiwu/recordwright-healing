@@ -304,7 +304,7 @@ The same as prior one
 [Test Step]  
 Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'. 
 [Output]
-Output result in JSON format. Following is a template. Output JSON only. No reasoning.
+Output result in JSON format. 
 {
 UpdatedStep:string,
 OuterTableCell:string[][],
