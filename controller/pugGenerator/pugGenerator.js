@@ -72,12 +72,12 @@ class PugGenerator
             return
         }
         pugRow += this.tabs(row) + this.matrix[row][node].nodeName.replace('#','')
-        pugRow += this.attributes(node, row)
+        pugRow += this.getAttributes(node, row)
         if(this.matrix[row][node].text)
         {
             pugRow += ` ${this.matrix[row][node].text}`
         }
-        this.pugfile.p
+        this.pugfile.push(pugRow)
         this.matrix[row][node].writted = true
         for(let child of this.matrix[row][node].children)
         {
