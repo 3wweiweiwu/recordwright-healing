@@ -311,7 +311,7 @@ class HtmlSnapshotCompresed {
 
         //merge attributes to parent node
         /**
-         * Qurstions
+         * Questions
          * I don't understand the bussines logic here, we delete the node and then we inherit the
          * imformation from the parent, 
          * why? it must merge children information
