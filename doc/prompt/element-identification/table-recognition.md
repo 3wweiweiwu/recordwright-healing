@@ -4,9 +4,9 @@
   - [System Prompt](#system-prompt)
   - [Element Container Classification](#element-container-classification)
     - [Intent for Element Container Classification](#intent-for-element-container-classification)
-  - [User Message for Element Container Classification](#user-message-for-element-container-classification)
+    - [User Message for Element Container Classification](#user-message-for-element-container-classification)
     - [Next Step](#next-step)
-  - [Identification of Row Header and Column Header](#identification-of-row-header-and-column-header)
+  - [Identification of Cell Index](#identification-of-cell-index)
     - [Intent for Identification of Row Header and Column Header](#intent-for-identification-of-row-header-and-column-header)
     - [User Message for Initial Screening](#user-message-for-initial-screening)
     - [User Message for Cell Confirmation](#user-message-for-cell-confirmation)
@@ -14,6 +14,7 @@
   - [Cell Identification](#cell-identification)
     - [Intent for Cell Identification](#intent-for-cell-identification)
     - [User Message for Cell Identification](#user-message-for-cell-identification)
+  - [Identification of Row/Column Header](#identification-of-rowcolumn-header)
 
 ## System Prompt
 
@@ -30,7 +31,7 @@ you are a quality engineer try to identify web element in a web page based on te
   - Simple Form
 - If result is in simple form, return target element, otherwise, conduct further prosessing
 
-## User Message for Element Container Classification
+### User Message for Element Container Classification
 
 ```text
 [Test Step]  
@@ -54,7 +55,7 @@ targetElementId returns id of target element in tag#id format such as "div#100".
 - Table Grid Recognition
   - isTargetMatrixTableGrid = true
 
-## Identification of Row Header and Column Header
+## Identification of Cell Index
 
 ### Intent for Identification of Row Header and Column Header
 
@@ -126,3 +127,5 @@ OuterTableCell:string[][],
 
 [Web Page] 
 ```
+
+## Identification of Row/Column Header
