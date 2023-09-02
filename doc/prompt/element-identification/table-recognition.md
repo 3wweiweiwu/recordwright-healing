@@ -14,7 +14,6 @@
   - [Cell Identification](#cell-identification)
     - [Intent for Cell Identification](#intent-for-cell-identification)
     - [User Message for Cell Identification](#user-message-for-cell-identification)
-  - [Identification of Row/Column Header](#identification-of-rowcolumn-header)
 
 ## System Prompt
 
@@ -38,9 +37,10 @@ you are a quality engineer try to identify web element in a web page based on te
 Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
 [Output]   
 Output result in JSON format. 
-targetElementId returns id of target element in tag#id format such as "div#100". isTargetMatrixTableGrid returns if target element is in a table, or grid or matrix. From table, grid, matrix perspective, isTargetHeader returns if element is a row or column header. OutMostContainer is the out-most table or grid container for the target element described in test step in tag#id foramt such as div#100. Output a JSON result only.
+targetElementId returns id of target element in tag#id format such as "div#100". isTargetMatrixTableGrid returns if target element is in a table, or grid or matrix. From table, grid, matrix perspective, isTargetRowHeader returns if element is a row header . isTargetColumnHeader returns if target element is a column header. OutMostContainer is the out-most table or grid container for the target element described in test step in tag#id foramt such as div#100. Output a JSON result only.
 {   
-"isTargetHeader":boolean,   
+"isTargetColumnHeader":boolean,   
+"isTargetRowHeader":boolean,     
 "targetElementId":"",   
 "isTargetMatrixTableGrid":boolean,
 "OutMostContainer"string
@@ -105,6 +105,7 @@ Based on that, output updated JSON
 - If column index and row index match for twice, confirm row/column index
 - If target element is not in the column and row header, go to [Cell Identification](#cell-identification), and get next level table cell
 - If table cell match target element, return target element. Otherwise, go to [Identification of Row Header and Column Header](#element-container-classification) and iterate on cell
+- If target element is in row or column header, just use the cell as-is
 
 ## Cell Identification
 
@@ -127,5 +128,3 @@ OuterTableCell:string[][],
 
 [Web Page] 
 ```
-
-## Identification of Row/Column Header
