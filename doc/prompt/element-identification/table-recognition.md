@@ -7,7 +7,7 @@
   - [User Message for Element Container Classification](#user-message-for-element-container-classification)
     - [Next Step](#next-step)
   - [Identification of Row Header and Column Header](#identification-of-row-header-and-column-header)
-    - [Intent](#intent)
+    - [Intent for Identification of Row Header and Column Header](#intent-for-identification-of-row-header-and-column-header)
     - [User Message for Initial Screening](#user-message-for-initial-screening)
     - [User Message for Cell Confirmation](#user-message-for-cell-confirmation)
     - [Next Step after Identification of Row Header and Column Header](#next-step-after-identification-of-row-header-and-column-header)
@@ -56,7 +56,7 @@ targetElementId returns id of target element in tag#id format such as "div#100".
 
 ## Identification of Row Header and Column Header
 
-### Intent
+### Intent for Identification of Row Header and Column Header
 
 - Narrow down the target element to the table cell
 - Identify row and column header of target element
