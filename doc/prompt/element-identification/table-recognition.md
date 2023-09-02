@@ -37,10 +37,8 @@ you are a quality engineer try to identify web element in a web page based on te
 Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
 [Output]   
 Output result in JSON format. 
-targetElementId returns id of target element in tag#id format such as "div#100". isTargetMatrixTableGrid returns if target element is in a table, or grid or matrix. From table, grid, matrix perspective, isTargetRowHeader returns if element is a row header . isTargetColumnHeader returns if target element is a column header. OutMostContainer is the out-most table or grid container for the target element described in test step in tag#id foramt such as div#100. Output a JSON result only.
+targetElementId returns id of target element in tag#id format such as "div#100". isTargetMatrixTableGrid returns if target element is in a table, or grid or matrix. OutMostContainer is the out-most table or grid container for the target element described in test step in tag#id foramt such as div#100. Output a JSON result only.
 {   
-"isTargetColumnHeader":boolean,   
-"isTargetRowHeader":boolean,     
 "targetElementId":"",   
 "isTargetMatrixTableGrid":boolean,
 "OutMostContainer"string
@@ -71,23 +69,26 @@ targetElementId returns id of target element in tag#id format such as "div#100".
 ```text
 [Test Step]
 Click "Very High" was under the "Severity" heading.
-[Output]
-Output result in JSON format. Following is a template.
-{
-UpdatedStep:string,
-rowHeaderCell:string,
-columnHeaderCell:string
-columnHeaderList:string[],
-rowHeaderList:string[],
-targetElementId:string
-}
-
- "UpdatedStep" represents updated step for target element identification. Given known the table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep relevant information to identify target element. Minimize the change to the test step and try to minimize the information from original step. If you reference table cell container in the updated step, reference that as "specified wrapper table cell" only.
-"rowHeaderCell" represents the column that uniquely identifies the row in the out-most table containing the target element. The cell container is in "tag#id" format
-"columnHeaderCell" represents the row that uniquely identifies the column in the out-most table containing the target element. The cell container is in "tag#id" format
-"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format
-"rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format
-"targetElementId" represents id of target element in tag#id format such as "div#100".
+[Output]  
+Output result in JSON format. Following is a template.  
+{  
+UpdatedStep:string,  
+rowHeaderCell:string,  
+columnHeaderCell:string  
+columnHeaderList:string[],  
+rowHeaderList:string[],  
+targetElementId:string,  
+"isTargetColumnHeader":boolean,     
+"isTargetRowHeader":boolean  
+}  
+ "UpdatedStep" represents updated step for target element identification. Given known the table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep relevant information to identify target element. Minimize the change to the test step and try to minimize the information from original step. If you reference table cell container in the updated step, reference that as "specified wrapper table cell" only.  
+"rowHeaderCell" represents the column that uniquely identifies the row in the out-most table containing the target element. The cell container is in "tag#id" format  
+"columnHeaderCell" represents the row that uniquely identifies the column in the out-most table containing the target element. The cell container is in "tag#id" format  
+"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format  
+"rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format  
+"targetElementId" represents id of target element in tag#id format such as "div#100".  
+" isTargetRowHeader" returns if target element is a within a row header container.  
+" isTargetColumnHeader" returns if target element is within a column header container  
 
 [Web Page]
 ```
