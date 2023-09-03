@@ -18,6 +18,7 @@ class GptMeseager {
   }
   static SYSTEM_ROLE = {
     QA_ENGINEER: "QA_ENGINEER",
+    QA_ENGINEER_FUNCTION: "QA_ENGINEER_FUNCTION",
   };
 
   /**
@@ -39,9 +40,11 @@ class GptMeseager {
     switch (role) {
       case GptMeseager.SYSTEM_ROLE.QA_ENGINEER:
         systemPrompt =
-          "You are an AI assistant that helps people findyou are a quality engineer try to identify web element in a web page based on test step, and output according to the spec. Following three section provide information for you. Web Page section contains a web page and layout in PUG template. Current div tags are placeholder, you need to evaluate the most suitable tag for each web element based on the textual and layout context. Test Step section provides test procedure. Understand test step context based on the web page. Output section provides rules you should follow to output result. Each section header is wrapped around square brackets []";
+          "You are a quality engineer try to identify web element in a web page based on test step, and output according to the spec. Following three section provide information for you. Web Page section contains a web page and layout in PUG template. Current div tags are placeholder, you need to evaluate the most suitable tag for each web element based on the textual and layout context. Test Step section provides test procedure. Understand test step context based on the web page. Output section provides rules you should follow to output result. Each section header is wrapped around square brackets []";
         break;
-
+      case GptMeseager.SYSTEM_ROLE.QA_ENGINEER_FUNCTION:
+        "You are a quality engineer try to identify web element in a web page based on test step. Following two section provide information for you. Web Page section contains a web page and layout in PUG template. Current div tags are placeholder, you need to evaluate the most suitable tag for each web element based on the textual and layout context. Test Step section provides test procedure. Understand test step context based on the web page. Each section header is wrapped around square brackets []";
+        break;
       default:
         break;
     }
@@ -51,7 +54,6 @@ class GptMeseager {
       content: systemPrompt,
     });
   }
-  _createPrompt(atomicTree) {}
   /**
    * Based on the word count in userMessage, return the model to use.
    * If word count is less than 8100, use GPT,
@@ -72,9 +74,16 @@ class GptMeseager {
    * Send prompt to GPT and return the response
    * @param {string} userMessage
    * @param {function} jsonExtractor - function to extract JSON from the response
+   * @param {object[]} functions - list of functions to be used in the GPT
+   * @param {object} functionCall - function call to be used in the GPT
    * @returns {string} response from GPT
    **/
-  async sendPrompt(userMessage, jsonExtractor = this.extractJson) {
+  async sendPrompt(
+    userMessage,
+    jsonExtractor = this._extractJson,
+    functions = undefined,
+    functionCall = undefined
+  ) {
     const deploymentName = this._getDeploymentName(userMessage);
 
     //add user message to chat message
@@ -92,11 +101,17 @@ class GptMeseager {
         topP: 0.95,
         frequencyPenalty: 0,
         presencePenalty: 0,
+        functionCall: functionCall,
+        functions: functions,
       }
     );
 
     //add response to chat message
     let responseMessage = response.choices[0].message.content;
+
+    if (response.choices[0].message.functionCall) {
+      responseMessage = response.choices[0].message.functionCall.arguments;
+    }
     this.chatMessage.push({
       role: "assistant",
       content: responseMessage,
@@ -114,7 +129,7 @@ class GptMeseager {
    * @returns {object} JSON object
    * @throws {Error} if no valid JSON found in the given text
    **/
-  extractJson(text) {
+  _extractJson(text) {
     const jsonPattern = /{[\s\S]*?}/; // This regex captures everything between opening and closing curly braces
     const match = text.match(jsonPattern);
     if (match) {
@@ -122,6 +137,13 @@ class GptMeseager {
     } else {
       throw new Error("No valid JSON found in the given text: " + text);
     }
+  }
+  /**
+   * Get the last raw GPT response
+   * @returns {string} last raw GPT response
+   */
+  getLastRawGptResponse() {
+    return this.chatMessage[this.chatMessage.length - 1].content;
   }
 }
 module.exports = GptMeseager;
