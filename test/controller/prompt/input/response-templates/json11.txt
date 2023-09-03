@@ -1,0 +1,31 @@
+Based on the provided information, we need to identify the first text element located in a table cell where the criticality level is categorized as "High" and the severity level is categorized as "Very High".
+
+From the given PUG template of the web page:
+
+The criticality level is categorized by the vertical subheadings such as "Very High", "High", "Medium", etc. This is observed in div.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted.
+
+The severity level is categorized by the horizontal subheadings found at the bottom, like "Low", "Medium", "High", and "Very High". This is observed in div.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted.
+
+Given this structure, the table cell where the criticality is "High" and the severity is "Very High" would be at the intersection of the div#501.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High (for criticality) and div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High (for severity). This intersection point corresponds to the element inside div#204.ng-star-inserted.heatmap-card-heatmap-card--p3 which is div#116.
+
+Therefore, the first text element in that cell would be the div#116.
+
+Here's the output in the specified JSON format:
+
+json
+Copy code
+{
+    "isTargetHeader": false,
+    "targetElementId": "div#116",
+    "isTargetMatrixTableGrid": true,
+    "OutMostContainer": "div#500"
+}
+Explanation:
+
+isTargetHeader: It's false because the target is not a row or column header but an item in the cell.
+targetElementId: This is the ID of the first text element in the specified cell.
+isTargetMatrixTableGrid: True because the target element is inside a structured layout that resembles a table or matrix.
+OutMostContainer: The outermost container for this matrix or table grid is div#500.
+
+
+

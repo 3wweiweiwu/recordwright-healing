@@ -1,0 +1,19 @@
+Based on the provided sections:
+
+The "Very High" label in the severity axis from the Test Step is the div with ID #505.
+The target element is part of a matrix/table structure as its parent class contains rows and the matrix structure is evident from the provided PUG template layout.
+The "Very High" label serves as a header for its row, specifically a row header.
+The out-most container for the target element is div#500 which is the heatmap content/body.
+Thus, the output JSON would look like:
+
+json
+Copy code
+{
+   "isTargetHeader":true,
+   "targetElementId":"div#505",
+   "isTargetMatrixTableGrid":true,
+   "OutMostContainer":"div#500"
+}
+
+
+
