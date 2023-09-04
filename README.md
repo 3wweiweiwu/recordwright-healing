@@ -1,8 +1,10 @@
 # Action Item (ETA: Aug 30)
 1.	[] Convert html to json with htmlSnapshot: https://github.com/recordwright/recordwright/blob/locator-definer/test/controller/browser-control/files/script-1.html
-2.	[] Migrate code into the new healing repo: https://github.com/3wweiweiwu/recordwright-healing.git
-3.	[] Create unit test for htmlsnapshot compressor to ensure it is working as expected
+2.	[x] Migrate code into the new healing repo: https://github.com/3wweiweiwu/recordwright-healing.git
+3.	[x] Create unit test for htmlsnapshot compressor to ensure it is working as expected
 4.	[] Create unit test for PUG converter
+5.  [] Add Id in the PUG converter
+6.  [x] Add PUG converter into this repository 
 
 # Daniel ideas
 - Improve README because I'don't have too much experience on it
