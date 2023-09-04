@@ -2,13 +2,13 @@ class Prompt {
   /**
    *
    * @param {string} testStep
-   * @param {string} webPage
+   * @param {string} pugText
    */
-  constructor(testStep, webPage) {
+  constructor(testStep, pugText) {
     this.testStep = testStep;
     /**@type {string} */
-    this.output = output;
-    this.webPage = webPage;
+    this.testStep = testStep;
+    this.pugText = pugText;
   }
   toString() {
     //cosntruct test step
@@ -16,9 +16,10 @@ class Prompt {
     prompt.push(this.testStep);
 
     prompt.push("[Web Page]");
-    prompt.push(putText);
+    prompt.push(this.pugText);
 
     let promptText = prompt.join("\n");
+    return promptText;
   }
 }
 module.exports = Prompt;

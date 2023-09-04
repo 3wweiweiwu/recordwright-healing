@@ -3,7 +3,7 @@ class ElementContainer extends ElementResolverTemplate {
   /**
    *
    * @param {string} targetElementId
-   * @param {string} isTargetMatrixTableGrid
+   * @param {boolean} isTargetMatrixTableGrid
    * @param {string} OutMostContainer
    */
   constructor(targetElementId, isTargetMatrixTableGrid, OutMostContainer) {
@@ -18,7 +18,7 @@ class ElementContainer extends ElementResolverTemplate {
    * @returns {boolean}
    */
   getIsEnd() {
-    if (this.isTargetMatrixTableGrid == false) {
+    if (this.isTargetMatrixTableGrid != true) {
       return true;
     }
     return false;

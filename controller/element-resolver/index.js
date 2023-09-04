@@ -103,13 +103,18 @@ class ElementResolver {
     //cosntruct test step
     let prompt = new Prompt(testStep, pugText);
     /**@type {ElementContainer} */
-    let elementContainerResult = await this._sendGptPrompt(
+    let gptRawResult = await this._sendGptPrompt(
       prompt.toString(),
       undefined,
       ElementContainer.gptFunctions,
       ElementContainer.functionCall,
       testStep,
       pugText
+    );
+    let elementContainerResult = new ElementContainer(
+      gptRawResult.targetElementId,
+      gptRawResult.isTargetMatrixTableGrid,
+      gptRawResult.OutMostContainer
     );
     return elementContainerResult;
   }
