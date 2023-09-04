@@ -4,23 +4,30 @@ const config = require("../../config");
 class GptMeseager {
   /**
    *
-   * @param {string} systemPrompt - system prompt to be used in the chat sample value: GptMessager.SYSTEM_PROMPT.QA_ENGINEER
+   * @param {string} role - role to be used in the chat sample value: GptMessager.SYSTEM_PROMPT.QA_ENGINEER
    */
-  constructor(systemPrompt = GptMeseager.SYSTEM_ROLE.QA_ENGINEER) {
+  constructor(role = GptMeseager.SYSTEM_ROLE.QA_ENGINEER) {
     this.client = new OpenAIClient(
       "https://recordwright.openai.azure.com/",
       new AzureKeyCredential(config.gpt_model.apiKey)
     );
     /**@type {string[]} chat message */
     this.chatMessage = [];
+    this._role = role;
 
-    this._setSystemPromptToChatMessage(systemPrompt);
+    this._setSystemPromptToChatMessage(role);
   }
   static SYSTEM_ROLE = {
     QA_ENGINEER: "QA_ENGINEER",
     QA_ENGINEER_FUNCTION: "QA_ENGINEER_FUNCTION",
   };
-
+  /**
+   * Clear chat history
+   **/
+  clearHistory() {
+    this.chatMessage = [];
+    this._setSystemPromptToChatMessage(this._role);
+  }
   /**
    * Set the system prompt to the chat message
    * @param {string} role

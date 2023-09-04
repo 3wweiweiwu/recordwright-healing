@@ -99,6 +99,15 @@ describe("GptMessager class", () => {
       );
       //it should extract json correctly
       assert.ok(response);
-    }).timeout(99999);
+    }).timeout(5000);
+  });
+  describe("clearHistory", () => {
+    it("shall delete chat history", async () => {
+      let negotiator = new GptMessager();
+      negotiator.chatMessage.push("hello world");
+      assert.equal(negotiator.chatMessage.length, 2);
+      negotiator.clearHistory();
+      assert.equal(negotiator.chatMessage.length, 1);
+    });
   });
 });
