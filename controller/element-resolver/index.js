@@ -1,5 +1,7 @@
 const Gpt = require("../gpt");
 const { HtmlSnapshotCompresed } = require("../snapshot");
+const ElementContainer = require("./class/ElementContainer");
+const Prompt = require("./class/Prompt");
 
 class ResolverLogEntry {
   /**
@@ -14,7 +16,6 @@ class ResolverLogEntry {
     this.content = userMessage;
     this.step = step;
     this.pugText = pugText;
-    this.response = response;
     this.responseObj = responseObj;
     this.responseText = responseText;
   }
@@ -51,44 +52,67 @@ class ResolverLogLog {
 
 class ElementResolver {
   constructor() {
-    this.gpt = new Gpt();
+    this.gpt = new Gpt(Gpt.SYSTEM_ROLE.QA_ENGINEER_FUNCTION);
     this.log = new ResolverLogLog();
   }
   /**
    * Send request to GPT to resolve. And log the request and response
-   * @param {string} testStep test step
+   * @param {string} promptText test step
+   * @param {function} jsonExtractor - function to extract JSON from the response
+   * @param {object[]} functions - list of functions to be used in the GPT
+   * @param {object} functionCall - function call to be used in the GPT
+   * @param {string} testStep
+   * @param {string} pugText
    * @returns {object} JSON object
    */
-  _sendGptPrompt(promptText) {
-    let responseJson = this.gpt.sendPrompt(promptText);
+  async _sendGptPrompt(
+    promptText,
+    jsonExtractor,
+    functions,
+    functionCall,
+    testStep,
+    pugText
+  ) {
+    let responseJson = await this.gpt.sendPrompt(
+      promptText,
+      jsonExtractor,
+      functions,
+      functionCall
+    );
     let responseText = this.gpt.getLastRawGptResponse();
     //add log entry
     this.log.addLogEntry(
       promptText,
       testStep,
-      putText,
+      pugText,
       responseText,
       responseJson
     );
     return responseJson;
   }
-  _getElementContainer(testStep, putText) {
+  /**
+   * Get element container based on test step and pug text
+   * @param {string} testStep
+   * @param {string} pugText
+   * @returns {ElementContainer}
+   * @returns
+   */
+  async _getElementContainer(testStep, pugText) {
+    //clear history
+    this.gpt.clearHistory();
     //cosntruct test step
-    let prompt = ["[Test Step]"];
-    prompt.push(testStep);
-
-    prompt.push("[Output]");
-    prompt.push(
-      'Output result in JSON format.Following is a template:\n{UpdatedStep:string,OuterTableCell:string[][],rowHeaderCell:string,columnHeaderCell:stringcolumnHeaderList:string[],rowHeaderList:string[]targetElementId:string}\n"UpdatedStep" represents updated step for target element identification. Given known the table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep relevant information to identify target element. Minimize the change to the test step and try to minimize the information from original step. If you reference table cell container in the updated step, reference that as "specified wrapper table cell" only.\n"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container is in "tag#id" format such as "div#100". The output do not include row and column header.\n"rowHeaderCell" represents the column that uniquely identifies the row in the out-most table containing the target element. The cell container is in "tag#id" format\n"columnHeaderCell" represents the row that uniquely identifies the column in the out-most table containing the target element. The cell container is in "tag#id" format\n"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format\n"rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format\n"targetElementId" represents id of target element in tag#id format such as "div#100"'
+    let prompt = new Prompt(testStep, pugText);
+    /**@type {ElementContainer} */
+    let elementContainerResult = await this._sendGptPrompt(
+      prompt.toString(),
+      undefined,
+      ElementContainer.gptFunctions,
+      ElementContainer.functionCall,
+      testStep,
+      pugText
     );
-    prompt.push("[Web Page]");
-    prompt.push(putText);
-
-    let promptText = prompt.join("\n");
-
-    let result = this._sendGptPrompt(promptText);
+    return elementContainerResult;
   }
-  _get
 }
 
 module.exports = ElementResolver;
