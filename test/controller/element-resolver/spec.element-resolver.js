@@ -105,5 +105,118 @@ describe("ElementResolver class", () => {
         "isComplete should it's simple table form"
       );
     }).timeout(5000);
+    it("should get element container correctly in table with column header only - Step 1 Identify table range", async () => {
+      let elementResolver = new ElementResolver();
+      let filePath = path.join(
+        __dirname,
+        "./input/complex-grid-row-header-column-header-step1.txt"
+      );
+      let fileContent = fs.readFileSync(filePath, "utf8");
+      let { testStep, webPage } = extractContent(fileContent);
+
+      let elementContainer = await elementResolver._getElementContainer(
+        testStep,
+        webPage
+      );
+      assert.ok(elementContainer.targetElementId);
+      assert.equal(
+        elementContainer.isTargetMatrixTableGrid,
+        true,
+        "isTargetMatrixTableGrid should be true because it is in the matrix"
+      );
+      assert.equal(
+        elementContainer.isComplete,
+        false,
+        "isComplete should be false because it is in the matrix"
+      );
+      assert.equal(elementContainer.OutMostContainer, "div#500");
+    }).timeout(5000);
+    it("should get element container correctly in nested table with column header and target element in nested cell - Step 1 Identify Table Range", async () => {
+      let elementResolver = new ElementResolver();
+      let filePath = path.join(
+        __dirname,
+        "./input/table-target-cell-column-header-step1.txt"
+      );
+      let fileContent = fs.readFileSync(filePath, "utf8");
+      let { testStep, webPage } = extractContent(fileContent);
+
+      let elementContainer = await elementResolver._getElementContainer(
+        testStep,
+        webPage
+      );
+      assert.equal(elementContainer.targetElementId, "col#45");
+      assert.ok(
+        elementContainer.isTargetMatrixTableGrid == true,
+        "isTargetMatrixTableGrid should be true because it is in the table"
+      );
+      assert.equal(
+        elementContainer.isComplete,
+        false,
+        "haven't get to the target element yet"
+      );
+      assert.equal(
+        elementContainer.OutMostContainer,
+        "table#2",
+        "It could be app-sample-table#1 or table#2"
+      );
+    }).timeout(5000);
+    it("should get element container correctly in nested table with column header and target element in nested cell - Step 1 Identify Table Range", async () => {
+      let elementResolver = new ElementResolver();
+      let filePath = path.join(
+        __dirname,
+        "./input/table-target-cell-column-header-step1.txt"
+      );
+      let fileContent = fs.readFileSync(filePath, "utf8");
+      let { testStep, webPage } = extractContent(fileContent);
+
+      let elementContainer = await elementResolver._getElementContainer(
+        testStep,
+        webPage
+      );
+      assert.equal(elementContainer.targetElementId, "col#45");
+      assert.ok(
+        elementContainer.isTargetMatrixTableGrid == true,
+        "isTargetMatrixTableGrid should be true because it is in the table"
+      );
+      assert.equal(
+        elementContainer.isComplete,
+        false,
+        "haven't get to the target element yet"
+      );
+      assert.equal(
+        elementContainer.OutMostContainer,
+        "table#2",
+        "It could be app-sample-table#1 or table#2"
+      );
+    }).timeout(5000);
+    it("should get element container correctly in nested table with column header and target element in nested cell - Step 1 Identify Table Range", async () => {
+      let elementResolver = new ElementResolver();
+      let filePath = path.join(
+        __dirname,
+        "./input/table-target-cell-column-header-step2.txt"
+      );
+      let fileContent = fs.readFileSync(filePath, "utf8");
+      let { testStep, webPage } = extractContent(fileContent);
+
+      let elementContainer = await elementResolver._getElementContainer(
+        testStep,
+        webPage
+      );
+      assert.equal(elementContainer.targetElementId, "col#45");
+      assert.ok(
+        elementContainer.isTargetMatrixTableGrid == true,
+        "Though sounds strange but it can be classify as table...."
+      );
+      assert.equal(
+        elementContainer.isComplete,
+        false,
+        "since it's in the table, it's not completed"
+      );
+      assert.equal(
+        elementContainer.OutMostContainer,
+        "sub-table#39",
+        "it's still in the table"
+      );
+    }).timeout(5000);
   });
 });
