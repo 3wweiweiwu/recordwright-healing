@@ -72,6 +72,7 @@ class PugGenerator
             return
         }
         pugRow += this.tabs(row) + this.matrix[row][node].nodeName.replace('#','')
+        pugRow += ('#') + this.matrix[row][node].id
         pugRow += this.getAttributes(node, row)
         if(this.matrix[row][node].text)
         {
@@ -99,7 +100,12 @@ class PugGenerator
             {
                 attributes += ','
             }
-            attributes += `${key}="${value}"`
+            if(key === 'id')
+            {
+                attributes += `automationid="${value}"`
+            } else {
+                attributes += `${key}="${value}"`
+            }
             add = true
         }
         if(attributes !== '')
