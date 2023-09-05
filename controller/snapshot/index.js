@@ -159,7 +159,7 @@ class HtmlSnapshotCompresed {
      * parse the json string to atomic node matrix
      * @param {string} json 
      */
-    parse(json) { //Change from private to public
+    parse(json) {
         let atomicNodeMatrix = JSON.parse(json)
         atomicNodeMatrix = atomicNodeMatrix.map(row => {
             let newRow = row.map(node => {
@@ -189,7 +189,6 @@ class HtmlSnapshotCompresed {
                     this.deleteNodeAndUpdateParent(node.id, false)
                 })
 
-                //Questions: I don't undestand why we are deleting the nodes with a single child
                 unqualifiedNodeInLevel = this.getSingleChildNodeInLevel(this.atomicNodeMatrix[i])
                 unqualifiedNodeInLevel.forEach(node => {
                     this.deleteNodeAndUpdateParent(node.id, true)
@@ -204,13 +203,13 @@ class HtmlSnapshotCompresed {
      * Update text in the node. If the text contains \n, remove it and following shite space
      * @param {AtomicNode[]} level 
      */
-    updateTextInCurrnetLevel(level) {  //Change from private to public
+    updateTextInCurrnetLevel(level) { 
         level.forEach(node => {
             if (node.text != null) {
                 node.text = node.text.replace(/\n\s+/g, '')
             }
         })
-        return level //For UT
+        return level 
     }
     /**
      * get the node information by id, return node, level index and parent node
@@ -236,8 +235,8 @@ class HtmlSnapshotCompresed {
         })
         return result
     }
-    //I don't know how to test this
-    rebuildMatrix() {  //Change from private to public
+
+    rebuildMatrix() {
         for (let i = 0; i < this.atomicNodeMatrix.length; i++) {
             let currentLevel = this.atomicNodeMatrix[i]
             let nextLevel = this.atomicNodeMatrix[i + 1]
@@ -253,7 +252,7 @@ class HtmlSnapshotCompresed {
      * @param {AtomicNode} node
      * @param {number} nextLevelIndex The children level of the node
      */
-    moveNodeChildrenToRightLevel(node, nextLevelIndex) {  //Change from private to public
+    moveNodeChildrenToRightLevel(node, nextLevelIndex) {
         node.children.forEach(nodeId => {
             let nextNodeLevel = this.atomicNodeMatrix[nextLevelIndex]
             let isChildInNextLevel = nextNodeLevel.find(node => node.id == nodeId)
@@ -268,13 +267,13 @@ class HtmlSnapshotCompresed {
 
                     //add node to next level
                     nextNodeLevel.push(nodeResult.node)
-                } else { //defect, id child doesn't exist delete it from the paren list
+                } else { 
                     let index = node.children.indexOf(nodeId) 
                     node.children.splice(index, 1)
                 }
             }
         })
-        return node //For UT, not needed
+        return node
     }
     /**
      * Delete the node and move its children to its parent
@@ -293,30 +292,22 @@ class HtmlSnapshotCompresed {
         //remove the node from its parent's children
         let parentNode = nodeInfo.parentNode
         
-        if(parentNode){ //defect, if there is no parent it fails
+        if(parentNode){
             let index = parentNode.children.indexOf(id) 
             parentNode.children.splice(index, 1)
         }
-        
 
         //remove the node from current level
         let level = this.atomicNodeMatrix[nodeInfo.levelIndex]
         let index = level.indexOf(nodeInfo.node)
         level.splice(index, 1)
 
-        if(parentNode){ //defect, if there is no parent it fails
-            //add the node's children to its parent's children
+        if(parentNode){ 
             parentNode.children = [...parentNode.children, ...nodeInfo.node.children]
         }
 
         //merge attributes to parent node
-        /**
-         * Questions
-         * I don't understand the bussines logic here, we delete the node and then we inherit the
-         * imformation from the parent, 
-         * why? it must merge children information
-         */
-        if (isMergeAttribute && parentNode) { //fix merge when there is no parent
+        if (isMergeAttribute && parentNode) {
             this.mergeAttribute(parentNode, nodeInfo.node)
         }
 
@@ -337,7 +328,7 @@ class HtmlSnapshotCompresed {
      * @param {AtomicNode} targetNode 
      * @param {AtomicNode} sourceNode 
      */
-    mergeAttribute(sourceNode, targetNode) { //Change from private to public
+    mergeAttribute(sourceNode, targetNode) {
         //update compressed node attribute to note down the range. push source node to target node's compressed node
         targetNode.compressedNodes.push(sourceNode.id)
         targetNode.compressedNodes.filter(nodeId => nodeId != targetNode.id)
@@ -352,14 +343,14 @@ class HtmlSnapshotCompresed {
                 targetNode.attributes[key] = value
             }
         }
-        return targetNode //For UT
+        return targetNode
     }
     /**
      * Go through current atomic node and return nodes that quality for removal
      * @param {AtomicNode[]} atomicNodeLevel 
      * @returns {AtomicNode[]}
      */
-    getInvisibleNodeInLevel(atomicNodeLevel) { //Change from private to public
+    getInvisibleNodeInLevel(atomicNodeLevel) {
         /**@type {AtomicNode[]} */
         let pendingDelete = []
         atomicNodeLevel.forEach(node => {
@@ -376,7 +367,7 @@ class HtmlSnapshotCompresed {
      * @param {AtomicNode[]} atomicNodeLevel 
      * @returns {AtomicNode[]}
      */
-    getSingleChildNodeInLevel(atomicNodeLevel) { //Change from private to public
+    getSingleChildNodeInLevel(atomicNodeLevel) {
         /**@type {AtomicNode[]} */
         let pendingDelete = []
         atomicNodeLevel.forEach(node => {
@@ -403,11 +394,6 @@ class HtmlSnapshotCompresed {
 
         //keep deleting all nodes under script list till there is no more nodes
         while (scriptList.length > 0) {
-            /**
-             * Question
-             * I think that the bussines logic is wrong, because scriptList is the list of the nodes
-             * with all the information, but when we update the script list it only share the id
-             */
             let nextLevelScriptChildren = []
             scriptList.forEach(nodeid => {
                 let scriptChildren = this.deleteNodeAndUpdateParent(nodeid)
@@ -432,15 +418,13 @@ class HtmlSnapshotCompresed {
         return true
     }
 
-
-
     /**
      * Test compresor AtomicNodeMaatrix
      * @param {AtomicNode[][]} atomicNodeMatrix
      * @param {number} id
      * @returns {AtomicNode}
      * */
-    getNodeFromMatrix(atomicNodeMatrix, id) //I could share the current row to scan just the row where should be the child, and spend less time in the compression
+    getNodeFromMatrix(atomicNodeMatrix, id) 
     {
         let result = atomicNodeMatrix.find(row => {
             var newNode = row.find(node => node.id == id)
