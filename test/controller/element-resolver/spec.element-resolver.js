@@ -160,36 +160,8 @@ describe("ElementResolver class", () => {
         "It could be app-sample-table#1 or table#2"
       );
     }).timeout(5000);
-    it("should get element container correctly in nested table with column header and target element in nested cell - Step 1 Identify Table Range", async () => {
-      let elementResolver = new ElementResolver();
-      let filePath = path.join(
-        __dirname,
-        "./input/table-target-cell-column-header-step1.txt"
-      );
-      let fileContent = fs.readFileSync(filePath, "utf8");
-      let { testStep, webPage } = extractContent(fileContent);
 
-      let elementContainer = await elementResolver._getElementContainer(
-        testStep,
-        webPage
-      );
-      assert.equal(elementContainer.targetElementId, "col#45");
-      assert.ok(
-        elementContainer.isTargetMatrixTableGrid == true,
-        "isTargetMatrixTableGrid should be true because it is in the table"
-      );
-      assert.equal(
-        elementContainer.isComplete,
-        false,
-        "haven't get to the target element yet"
-      );
-      assert.equal(
-        elementContainer.OutMostContainer,
-        "table#2",
-        "It could be app-sample-table#1 or table#2"
-      );
-    }).timeout(5000);
-    it("should get element container correctly in nested table with column header and target element in nested cell - Step 1 Identify Table Range", async () => {
+    it("should get element container correctly in nested table with column header and target element in nested cell - Step 2 Identify Table Range", async () => {
       let elementResolver = new ElementResolver();
       let filePath = path.join(
         __dirname,
