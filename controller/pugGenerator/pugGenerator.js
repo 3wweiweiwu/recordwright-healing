@@ -1,16 +1,6 @@
 const { AtomicNode } = require('../snapshot')
 
 class PugGenerator 
-
-/**
- * There was a feature to put the information of the #text nodes into the parent level
- * Im not sure if we want to implemente that
- * I was thinking that maybe we can implemented that in the compresor
- * 
- * My questionis that  in case that we have a text - hyperlink - text, it will case problems
- * maybe is not a good aproach
- */
-
 {
     pugfile = []
 
@@ -33,7 +23,6 @@ class PugGenerator
             })
             return newRow
         })
-
         return atomicNodeMatrix
     }
 
@@ -52,14 +41,12 @@ class PugGenerator
         let pugRow = ''
         if(id)
         {
-            // in case that have child but there is no other row, it shouldnt happen but just in case
             if(!this.matrix[row]) 
             {
                 return
             }
             for(let nodeSearch = 0; nodeSearch<this.matrix[row].length; nodeSearch++)
             {
-                
                 if(this.matrix[row][nodeSearch].id === id)
                 {
                     node = nodeSearch
@@ -82,7 +69,6 @@ class PugGenerator
         this.matrix[row][node].writted = true
         for(let child of this.matrix[row][node].children)
         {
-            //for some reason some thimes cleanup the row and enter here, that is way I use this
             if(node !== null) 
             {
                 this.printInformation(row+1, null, id = child)
