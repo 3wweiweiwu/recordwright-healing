@@ -118,6 +118,24 @@ class ElementResolver {
     );
     return elementContainerResult;
   }
+
+  async _getCellLocationInTable(testStep, pugText) {
+    //clear history
+    this.gpt.clearHistory();
+    //cosntruct test step
+    let prompt = new Prompt(testStep, pugText);
+    /**@type {ElementContainer} */
+    let gptRawResult = await this._sendGptPrompt(
+      prompt.toString(),
+      undefined,
+      ElementContainer.gptFunctions,
+      ElementContainer.functionCall,
+      testStep,
+      pugText
+    );
+    let cellLocation = gptRawResult.cellLocation;
+    return cellLocation;
+  }
 }
 
 module.exports = ElementResolver;
