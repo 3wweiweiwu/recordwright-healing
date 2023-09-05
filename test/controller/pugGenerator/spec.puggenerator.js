@@ -349,5 +349,43 @@ describe('Pug Generator', () => {
                     'The seventh line only must contain the node name')
             })
         })
+        describe('Test createPugFile function', () => {
+            it('multiple nodes, text, attributes, two children on cascade', () =>{
+                let newMatrix = [[snapshotJsonNode[0][0],snapshotJsonNode[0][0]],[snapshotJsonNode[0][0],snapshotJsonNode[0][0]],[snapshotJsonNode[0][0],snapshotJsonNode[0][0]]]
+                pugGenerator = new PugGenerator(JSON.stringify(newMatrix))
+                
+                pugGenerator.matrix[0][0].children = [2]
+                pugGenerator.matrix[0][0].attributes = {class : 'test class'}
+                let expectedResult1 = pugGenerator.matrix[0][0].nodeName + '#' + pugGenerator.matrix[0][0].id + pugGenerator.getAttributes(0,0)
+                pugGenerator.matrix[1][0].id = 2
+                pugGenerator.matrix[1][0].children = [4]
+                pugGenerator.matrix[1][0].nodeName = 'p'
+                pugGenerator.matrix[1][0].attributes = {style : 'test style'}
+                let expectedResult2 = ' ' + pugGenerator.matrix[1][0].nodeName + '#' + pugGenerator.matrix[1][0].id + pugGenerator.getAttributes(0,1)
+                pugGenerator.matrix[2][0].id = 4
+                pugGenerator.matrix[2][0].nodeName = '#text'
+                pugGenerator.matrix[2][0].text = 'test text1'
+                let expectedResult3 = '  text' + '#' + pugGenerator.matrix[2][0].id + ' test text1'
+
+                pugGenerator.matrix[0][1].id = 1
+                pugGenerator.matrix[0][1].children = [3]
+                pugGenerator.matrix[0][1].attributes = {class : 'test class2'}
+                let expectedResult4 = pugGenerator.matrix[0][1].nodeName + '#' + pugGenerator.matrix[0][1].id + pugGenerator.getAttributes(1,0)
+                pugGenerator.matrix[1][1].id = 3
+                pugGenerator.matrix[1][1].children = [5]
+                pugGenerator.matrix[1][1].nodeName = 'p'
+                pugGenerator.matrix[1][1].attributes = {style : 'test style2'}
+                let expectedResult5 = ' ' + pugGenerator.matrix[1][1].nodeName + '#' + pugGenerator.matrix[1][1].id + pugGenerator.getAttributes(1,1)
+                pugGenerator.matrix[2][1].id = 5
+                pugGenerator.matrix[2][1].nodeName = '#text'
+                pugGenerator.matrix[2][1].text = 'test text2'
+                let expectedResult6 = '  text' + '#' + pugGenerator.matrix[2][1].id + ' test text2'
+
+                pugGenerator.createPugFile()
+                let finalResult = expectedResult1 + '\n' +expectedResult2 + '\n' +expectedResult3 + '\n' +expectedResult4 + '\n' + expectedResult5 + '\n' + expectedResult6 + '\n'
+                assert.equal(pugGenerator.pugStr, finalResult, 
+                    'The final string must be the sum of all the nodes')
+            })
+        })
     }) 
 })
