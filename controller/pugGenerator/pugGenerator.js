@@ -3,6 +3,7 @@ const { AtomicNode } = require('../snapshot')
 class PugGenerator 
 {
     pugfile = []
+    pugStr = ''
 
     /**
      * PuG Generator
@@ -111,6 +112,10 @@ class PugGenerator
                 this.printInformation(row, node)
             }
         }
+        this.pugStr = ''
+        this.pugfile.forEach(line => {
+            this.pugStr += line + '\n'
+        })
     }
 }
 
