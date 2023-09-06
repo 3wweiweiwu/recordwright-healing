@@ -248,7 +248,7 @@ class HtmlSnapshotCompresed {
         }
     }
     /**
-     * Move node's children to the right level
+     * Remove the node from current level and put children into the level where node used to be in
      * @param {AtomicNode} node
      * @param {number} nextLevelIndex The children level of the node
      */
