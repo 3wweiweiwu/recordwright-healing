@@ -49,8 +49,8 @@ describe('compressed snapshot', () => {
         })
         describe('Test getNodeInformationById function', () =>{
             it('Single node', async () =>{
-                const randomRow = Math.floor(Math.random() * compressionComplete.atomicNodeMatrix.length)
-                const randomNode = Math.floor(Math.random() * compressionComplete.atomicNodeMatrix[randomRow].length)
+                const randomRow = Math.floor(Math.random() *  (compressionComplete.atomicNodeMatrix[1].length -1 ))
+                const randomNode = Math.floor(Math.random() * (compressionComplete.atomicNodeMatrix[randomRow].length - 1))
                 let expectedResult = compressionComplete.atomicNodeMatrix[randomRow][randomNode]
                 let result = compressionComplete.getNodeInformationById(expectedResult.id)
                 assert.equal(result.node, expectedResult, 'The node information must be the same')
@@ -94,7 +94,7 @@ describe('compressed snapshot', () => {
                 assert.equal(toDelete[0], baselineNode[0][0], 'getInvisibleNodeInLevel should return the node that is invisible')
             })
             it('Single element, multiple nodes', async () => {
-                const randomNode = Math.floor(Math.random() * compressionComplete.atomicNodeMatrix[1].length)
+                const randomNode = Math.floor(Math.random() * (compressionComplete.atomicNodeMatrix[1].length -1 ))
                 const nodeId = baselineNode[1][randomNode].id
                 baselineNode[1].forEach(node => {
                     if(node.id === nodeId){
@@ -109,7 +109,7 @@ describe('compressed snapshot', () => {
                 assert.equal(toDelete[0], baselineNode[1][randomNode], 'getInvisibleNodeInLevel should return the node that is invisible')
             })
             it('Multiple elements, multiple nodes', async () => {
-                const randomNode = Math.floor(Math.random() * compressionComplete.atomicNodeMatrix[1].length)
+                const randomNode = Math.floor(Math.random() * (compressionComplete.atomicNodeMatrix[1].length -1 ))
                 const nodeId = baselineNode[1][randomNode].id
                 baselineNode[1].forEach(node => {
                     if(node.id === nodeId){
