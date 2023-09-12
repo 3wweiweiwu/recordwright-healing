@@ -51,6 +51,19 @@
                 "./test/**/pugGenerator/spec.*.js", 
                 "--exit"
             ],
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debuge Mocha Integration",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "./test/**/integration/spec.*.js", 
+                "--exit"
+            ],
         }
     ]
 }

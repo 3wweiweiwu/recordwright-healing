@@ -173,7 +173,7 @@ class HtmlSnapshotCompresed {
         return atomicNodeMatrix
     }
     _compress() {
-        for (let i = this.atomicNodeMatrix.length - 2; i > 0; i--) {
+        for (let i = this.atomicNodeMatrix.length - 2; i >= 0; i--) {
             let level = this.atomicNodeMatrix[i]
             let unqualifiedNodeInLevel = []
             do {
