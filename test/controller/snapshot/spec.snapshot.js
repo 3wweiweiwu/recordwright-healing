@@ -14,7 +14,8 @@ describe('compressed snapshot', () => {
     let snapshotJsonNode = require('./files/singlenode.json')
     let compressionComplete = null;
     //let baselineComplete = null;
-    let compressionNode = null; 
+    /**@type {HtmlSnapshotCompresed} */
+    let compressionNode = null;
     let baselineNode = null;
     let newNode = null;
 
@@ -25,17 +26,17 @@ describe('compressed snapshot', () => {
         baselineNode = compressionNode.parse(JSON.stringify(snapshotJsonNode))
         newNode = compressionNode.parse(JSON.stringify(snapshotJsonNode))[0][0]
     })
-    describe('Test function by function', () =>{
-        describe('Test updateTextInCurrnetLevel function', () =>{
+    describe('Test function by function', () => {
+        describe('Test updateTextInCurrnetLevel function', () => {
             let text2Test = '\n\t\"Test update text\"\n\t'
             let result = '\"Test update text\"'
-            it('Single node', async () =>{
+            it('Single node', async () => {
                 baselineNode[0][0].text = text2Test
                 let newRow = compressionNode.updateTextInCurrnetLevel(baselineNode[0])
                 assert.doesNotMatch(newRow[0].text, /\n\s+/g, `text musnt match with /\\n\\s+/g`)
                 assert.equal(newRow[0].text, result, `Text must keep information for that doesnt match  /\\n\\s+/g`)
             }).timeout(999)
-            it('Multiple nodes', async () =>{
+            it('Multiple nodes', async () => {
                 baselineNode[1] = baselineNode[1].map(node => {
                     node.text = text2Test
                     return node
@@ -64,9 +65,9 @@ describe('compressed snapshot', () => {
                 let rowChildrenLength = baselineNode[1].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.deleteScripts(baselineNode[0])
-                assert.equal(compressionNode.atomicNodeMatrix[0], rowlenght-1, 'Node with node name should be deleted')
+                assert.equal(compressionNode.atomicNodeMatrix[0], rowlenght - 1, 'Node with node name should be deleted')
                 assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength, 'Children row should not change')
-            }).timeout(99999)   
+            }).timeout(99999)
             it('Single node, with children', async () => {
                 baselineNode[0][0].nodeName = 'SCRIPT'
                 baselineNode[0][0].children = [1]
@@ -74,16 +75,18 @@ describe('compressed snapshot', () => {
                 let rowChildrenLength = baselineNode[1].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.deleteScripts(baselineNode[0])
-                assert.equal(compressionNode.atomicNodeMatrix[0], rowlenght-1, 'Node with node name should be deleted')
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength-1, 'One children must be deleted')
-            }).timeout(99999) 
+                assert.equal(compressionNode.atomicNodeMatrix[0], rowlenght - 1, 'Node with node name should be deleted')
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength - 1, 'One children must be deleted')
+            }).timeout(99999)
         })
         describe('Test getInvisibleNodeInLevel function', () => {
-            let invisibleRect = {"x": 0, "y": 0,
+            let invisibleRect = {
+                "x": 0, "y": 0,
                 "width": 0, "height": 0,
                 "top": 0, "right": 0, "bottom": 0, "left": 0
             }
-            let visibleRect = { "x": 1, "y": 1,
+            let visibleRect = {
+                "x": 1, "y": 1,
                 "width": 1, "height": 1,
                 "top": 1, "right": 1, "bottom": 1, "left": 1
             }
@@ -97,10 +100,10 @@ describe('compressed snapshot', () => {
                 const randomNode = Math.floor(Math.random() * (compressionComplete.atomicNodeMatrix[1].length -1 ))
                 const nodeId = baselineNode[1][randomNode].id
                 baselineNode[1].forEach(node => {
-                    if(node.id === nodeId){
+                    if (node.id === nodeId) {
                         node.rect = invisibleRect
                     }
-                    else{
+                    else {
                         node.rect = visibleRect
                     }
                 })
@@ -112,10 +115,10 @@ describe('compressed snapshot', () => {
                 const randomNode = Math.floor(Math.random() * (compressionComplete.atomicNodeMatrix[1].length -1 ))
                 const nodeId = baselineNode[1][randomNode].id
                 baselineNode[1].forEach(node => {
-                    if(node.id === nodeId){
+                    if (node.id === nodeId) {
                         node.rect = visibleRect
                     }
-                    else{
+                    else {
                         node.rect = invisibleRect
                     }
                 })
@@ -124,8 +127,7 @@ describe('compressed snapshot', () => {
                 let unexpected = toDelete.filter(node => node.id === nodeId)
                 assert.equal(unexpected.length, 0, 'Node visible shouldnt be in the results of getInvisibleNodeInLevel')
                 toDelete.forEach(node => {
-                    if(node.id === nodeId)
-                    {
+                    if (node.id === nodeId) {
                         assert.fail('Node visible shouldnt be in the results of getInvisibleNodeInLevel')
                     }
                     let nodeBaseline = baselineNode[1].find(nodeBase => nodeBase.id === node.id)
@@ -134,11 +136,11 @@ describe('compressed snapshot', () => {
             })
         })
         describe('Test mergeAttribute function', () => {
-            let att1 = {class : 'test1'}
-            let att2 = {style : 'test2'}
-            let att3 = {class : 'test3'}
-            let att12 = {style : 'test2',class : 'test1'}
-            let att13 = {class : 'test3 test1'}
+            let att1 = { class: 'test1' }
+            let att2 = { style: 'test2' }
+            let att3 = { class: 'test3' }
+            let att12 = { style: 'test2', class: 'test1' }
+            let att13 = { class: 'test3 test1' }
             it('No attributes to merge', () => {
                 baselineNode[0][0].attributes = {}
                 baselineNode[1][0].attributes = {}
@@ -163,44 +165,44 @@ describe('compressed snapshot', () => {
                 let rowlenght = baselineNode[0].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.deleteNodeAndUpdateParent(baselineNode[0][0].id, false)
-                assert.equal(compressionNode.atomicNodeMatrix[0], rowlenght-1, 'Choosed node name should be deleted')
+                assert.equal(compressionNode.atomicNodeMatrix[0], rowlenght - 1, 'Choosed node name should be deleted')
             })
             it('Single node, single row, no parent, merge true', async () => {
                 let rowlenght = baselineNode[0].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.deleteNodeAndUpdateParent(baselineNode[0][0].id, true)
-                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowlenght-1, 'Choosed node name should be deleted')
+                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowlenght - 1, 'Choosed node name should be deleted')
             })
-            it('Single node, single row, no parent, merge false', async () => {
+            it('Single node, single row, have parent, merge false', async () => {
                 let rowlenght = baselineNode[1].length
-                baselineNode[0][0].children = [1,2,3]
+                baselineNode[0][0].children = [1, 2, 3]
                 baselineAttributes = baselineNode[0][0].attributes
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.deleteNodeAndUpdateParent(baselineNode[1][0].id, false)
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowlenght-1, 'Choosed node name should be deleted')
-                assert.equal(JSON.stringify(compressionNode.atomicNodeMatrix[0][0].children), JSON.stringify([2,3]), 'Parent children must be updated')
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowlenght - 1, 'Choosed node name should be deleted')
+                assert.equal(JSON.stringify(compressionNode.atomicNodeMatrix[0][0].children), JSON.stringify([2, 3]), 'Parent children must be updated')
                 assert.equal(compressionNode.atomicNodeMatrix[0][0].attributes, baselineAttributes, 'Parent attributes mustnt be updated')
             })
-            it('Single node, single row, no parent, merge true', async () => {
+            it('Single node, single row, have parent, merge true', async () => {
                 let rowlenght = baselineNode[1].length
-                baselineNode[0][0].children = [1,2,3]
+                baselineNode[0][0].children = [1, 2, 3]
                 baselineAttributes = baselineNode[0][0].attributes
-                baselineNode[1][0].attributes = {'class' : 'test'}
+                baselineNode[1][0].attributes = { 'class': 'test' }
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.deleteNodeAndUpdateParent(baselineNode[1][0].id, true)
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowlenght-1, 'Choosed node name should be deleted')
-                assert.equal(JSON.stringify(compressionNode.atomicNodeMatrix[0][0].children), JSON.stringify([2,3]), 'Parent children must be updated')
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowlenght - 1, 'Choosed node name should be deleted')
+                assert.equal(JSON.stringify(compressionNode.atomicNodeMatrix[0][0].children), JSON.stringify([2, 3]), 'Parent children must be updated')
                 //This validation is failing, I need to test the merge first
-                //assert.notEqual(compressionNode.atomicNodeMatrix[0][0].attributes, baselineAttributes, 'Parent attributes mustnt be updated')
+                assert.equal(compressionNode.atomicNodeMatrix[0][0].attributes, baselineAttributes, 'Parent attributes mustnt be updated')
             })
         })
         describe('test moveNodeChildrenToRightLevel function', async () => {
-            it('No chenges needed', async() => {
+            it('No chenges needed', async () => {
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.moveNodeChildrenToRightLevel(compressionNode.atomicNodeMatrix[0][0], 1)
                 assert.equal(compressionNode.atomicNodeMatrix, baselineNode, 'There shouldnt be any change on the children')
             })
-            it('Move single child to the next level', async() => {
+            it('Move single child to the next level', async () => {
                 let newNode = compressionNode.parse(JSON.stringify(snapshotJsonNode))[0]
                 newNode[0].id = 10
                 baselineNode[0].push(newNode[0])
@@ -209,14 +211,14 @@ describe('compressed snapshot', () => {
                 let rowChildrenLength = baselineNode[1].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.moveNodeChildrenToRightLevel(compressionNode.atomicNodeMatrix[0][0], 1)
-                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength-1, 
+                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength - 1,
                     'The child must be moved from the row 0')
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength+1, 
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength + 1,
                     'The child must be added into the row 1')
                 let childrenNode = compressionNode.atomicNodeMatrix[1].find(node => node.id === 10)
                 assert.equal(childrenNode, newNode[0], 'Node moved must contain the same information')
             })
-            it('Move one child of multiple children to the next level', async() => {
+            it('Move one child of multiple children to the next level', async () => {
                 let newNode = compressionNode.parse(JSON.stringify(snapshotJsonNode))[0]
                 newNode[0].id = 10
                 baselineNode[0].push(newNode[0])
@@ -225,17 +227,17 @@ describe('compressed snapshot', () => {
                 let rowChildrenLength = baselineNode[1].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.moveNodeChildrenToRightLevel(compressionNode.atomicNodeMatrix[0][0], 1)
-                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength-1, 
+                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength - 1,
                     'The child must be moved from the row 0')
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength+1, 
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength + 1,
                     'The child must be added into the row 1')
                 let childrenNode = compressionNode.atomicNodeMatrix[1].find(node => node.id === 10)
                 assert.equal(childrenNode, newNode[0], 'Node moved must contain the same information')
                 let childrenNode1 = compressionNode.atomicNodeMatrix[1].find(node => node.id === 1)
-                assert.equal(childrenNode1, baselineNode[1][0], 
+                assert.equal(childrenNode1, baselineNode[1][0],
                     'Node not moved must contain the same information')
             })
-            it('Move multiple children to the next level', async() =>{
+            it('Move multiple children to the next level', async () => {
                 let newNode1 = compressionNode.parse(JSON.stringify(snapshotJsonNode))[0]
                 let newNode2 = compressionNode.parse(JSON.stringify(snapshotJsonNode))[0]
                 newNode1[0].id = 10
@@ -247,31 +249,31 @@ describe('compressed snapshot', () => {
                 let rowChildrenLength = baselineNode[1].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.moveNodeChildrenToRightLevel(compressionNode.atomicNodeMatrix[0][0], 1)
-                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength-2, 
+                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength - 2,
                     'The child must be moved from the row 0')
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength+2, 
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength + 2,
                     'The child must be added into the row 1')
                 let childrenNode = compressionNode.atomicNodeMatrix[1].find(node => node.id === 10)
                 assert.equal(childrenNode, newNode1[0], 'Node moved must contain the same information')
                 childrenNode = compressionNode.atomicNodeMatrix[1].find(node => node.id === 11)
                 assert.equal(childrenNode, newNode2[0], 'Node moved must contain the same information')
                 childrenNode = compressionNode.atomicNodeMatrix[1].find(node => node.id === 1)
-                assert.equal(childrenNode, baselineNode[1][0], 
+                assert.equal(childrenNode, baselineNode[1][0],
                     'Node not moved must contain the same information')
             })
-            it('Child doesnt exist', async()=>{
+            it('Child doesnt exist', async () => {
                 baselineNode[0][0].children = [10]
                 let rowParentLength = baselineNode[0].length
                 let rowChildrenLength = baselineNode[1].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.moveNodeChildrenToRightLevel(compressionNode.atomicNodeMatrix[0][0], 1)
-                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength, 
+                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength,
                     'Shouldnt be changes in parents row')
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength, 
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength,
                     'Shouldnt be changes in childrens row')
                 assert.equal(JSON.stringify(compressionNode.atomicNodeMatrix[0][0].children), JSON.stringify([]), 'Children must be deleted from the paren list')
             })
-            it('Child is in a different level', async() =>{
+            it('Child is in a different level', async () => {
                 let newRow = compressionNode.parse(JSON.stringify(snapshotJsonNode))[0]
                 newRow[0].id = 10
                 let newNode = newRow[0]
@@ -282,18 +284,18 @@ describe('compressed snapshot', () => {
                 let rowActualChildrenLength = baselineNode[2].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.moveNodeChildrenToRightLevel(compressionNode.atomicNodeMatrix[0][0], 1)
-                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength, 
+                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength,
                     'The parent row musnt show any change')
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength+1, 
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength + 1,
                     'The child must be added into the row 1')
-                assert.equal(compressionNode.atomicNodeMatrix[2].length, rowActualChildrenLength-1, 
-                        'Children where the children is must decrese in 1 element')
+                assert.equal(compressionNode.atomicNodeMatrix[2].length, rowActualChildrenLength - 1,
+                    'Children where the children is must decrese in 1 element')
                 let childrenNode = compressionNode.atomicNodeMatrix[1].find(node => node.id === 10)
                 assert.equal(childrenNode, newNode, 'Node moved must contain the same information')
             })
         })
         describe('test rebuildMatrix function', async () => {
-            it('Move multiple nodes from differen levels', async() =>{
+            it('Move multiple nodes from differen levels', async () => {
                 let newNode1 = compressionNode.parse(JSON.stringify(snapshotJsonNode))[0]
                 let newRow2 = compressionNode.parse(JSON.stringify(snapshotJsonNode))[0]
                 newNode1[0].id = 10
@@ -310,18 +312,18 @@ describe('compressed snapshot', () => {
                 let rowNewLength = baselineNode[2].length
                 compressionNode.atomicNodeMatrix = baselineNode
                 compressionNode.rebuildMatrix()
-                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength-1, 
+                assert.equal(compressionNode.atomicNodeMatrix[0].length, rowParentLength - 1,
                     'The child must be moved from the row 0')
-                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength+1, 
+                assert.equal(compressionNode.atomicNodeMatrix[1].length, rowChildrenLength + 1,
                     'The child must be added into the row 1')
-                assert.equal(compressionNode.atomicNodeMatrix[2].length, rowNewLength, 
+                assert.equal(compressionNode.atomicNodeMatrix[2].length, rowNewLength,
                     'The row 2 must keep the same length because we add and delete 1 element')
 
                 let childrenNode = compressionNode.atomicNodeMatrix[1].find(node => node.id === 11)
                 assert.equal(childrenNode, newNode, 'Node moved must contain the same information')
-                assert.equal(compressionNode.atomicNodeMatrix[2][0], newNode1[0], 
+                assert.equal(compressionNode.atomicNodeMatrix[2][0], newNode1[0],
                     'Node moved must contain the same information')
-                assert.equal(JSON.stringify(compressionNode.atomicNodeMatrix[1][0].children), 
+                assert.equal(JSON.stringify(compressionNode.atomicNodeMatrix[1][0].children),
                     JSON.stringify([10]), 'Children taht doent exists must be deleted from the parent list')
             })
         })
