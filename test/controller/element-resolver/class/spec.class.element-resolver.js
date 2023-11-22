@@ -415,6 +415,7 @@ describe("ElementResolver Supporting class", () => {
         assert.equal(result, false);
       });
       it("should throw error data does not match", async () => {
+        //cell data
         let cellLocation = new CellLocation(
           "UpdatedStep",
           "row2",
@@ -430,12 +431,33 @@ describe("ElementResolver Supporting class", () => {
             ["div#7", "div#8", "div#9"],
           ]
         );
+        //ensure error is thrown
         assert.equal(
           cellLocation._getIsElementInColHeader(),
           null,
           "null represnts for error"
         );
       });
+    
+
     });
+    it("should throw error if data does not match",async()=>{
+      let cellLocation = new CellLocation(
+        "UpdatedStep",
+        "row2",
+        "col1",
+        ["col#1", "col#2", "col#3"],
+        ["row#1", "row#2", "row#3"],
+        "div#6",
+        true,
+        false,
+        [
+          ["div#1", "div#2", "div#3"],
+          ["div#4", "div#5", "div#6"],
+          ["div#7", "div#8", "div#9"],
+        ]
+      );
+      assert.equal(cellLocation.isComplete,null,"null represents for error")
+    })
   });
 });

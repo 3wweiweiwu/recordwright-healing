@@ -1,4 +1,6 @@
 const ElementResolverTemplate = require("./ElementResolverTemplate");
+const path = require("path");
+const fs = require("fs");
 class CellLocationResult extends ElementResolverTemplate {
   /**
    *
@@ -126,7 +128,7 @@ class CellLocationResult extends ElementResolverTemplate {
     }
     return false;
   }
-  static gptFunctions = [
+  static gptFunctions_1 = [
     {
       name: "get_element_location",
       description:
@@ -140,24 +142,30 @@ class CellLocationResult extends ElementResolverTemplate {
               "updated step for target element identification. Given known the table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep relevant information to identify target element. Minimize the change to the test step and try to minimize the information from original step. If you reference table cell container in the updated step, reference that as 'specified wrapper table cell' only.",
           },
           rowHeaderCell: {
-            type: "string,",
+            type: "string",
             description:
               "the column that uniquely identifies the row in the out-most table containing the target element. The cell container is in 'tag#id' format(i.e div#100)",
           },
           columnHeaderCell: {
-            type: "string,",
+            type: "string",
             description:
               "the row that uniquely identifies the column in the out-most table containing the target element. The cell container is in 'tag#id' format(i.e div#100)",
           },
           columnHeaderList: {
-            type: "string[]",
+            type: "array",
             description:
               "array of column header container for the out-most table. The container is in 'tag#id' format(i.e. ['div#100',div#101'])",
+            items: {
+              type: "string",
+            },
           },
           rowHeaderList: {
-            type: "string[]",
+            type: "array",
             description:
               "array of row header container for the out-most table. The container is in 'tag#id' format(i.e. ['div#100',div#101'])",
+            items: {
+              type: "string",
+            },
           },
           targetElementId: {
             type: "string",
@@ -188,6 +196,10 @@ class CellLocationResult extends ElementResolverTemplate {
       },
     },
   ];
-  static functionCall = { name: CellLocationResult.gptFunctions[0].name };
+  static functionCall_1 = { name: CellLocationResult.gptFunctions_1[0].name };
+  static rough_cell_location_output = fs.readFileSync(
+    path.join(__dirname, "./CellLocationOutput.txt"),
+    "utf8"
+  );
 }
 module.exports = CellLocationResult;

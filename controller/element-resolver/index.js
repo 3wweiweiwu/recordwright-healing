@@ -1,6 +1,7 @@
 const Gpt = require("../gpt");
 const { HtmlSnapshotCompresed } = require("../snapshot");
 const ElementContainer = require("./class/ElementContainer");
+const CellLocation = require("./class/CellLocation");
 const Prompt = require("./class/Prompt");
 
 class ResolverLogEntry {
@@ -119,22 +120,36 @@ class ElementResolver {
     return elementContainerResult;
   }
 
-  async _getCellLocationInTable(testStep, pugText) {
+  async _getRoughCellLocationInTable(testStep, pugText) {
     //clear history
     this.gpt.clearHistory();
     //cosntruct test step
-    let prompt = new Prompt(testStep, pugText);
-    /**@type {ElementContainer} */
+    let prompt = new Prompt(
+      testStep,
+      pugText,
+      CellLocation.rough_cell_location_output
+    );
+    /**@type {CellLocation} */
     let gptRawResult = await this._sendGptPrompt(
       prompt.toString(),
       undefined,
-      ElementContainer.gptFunctions,
-      ElementContainer.functionCall,
+      undefined,
+      undefined,
       testStep,
       pugText
     );
-    let cellLocation = gptRawResult.cellLocation;
-    return cellLocation;
+    let elementContainerResult = new CellLocation(
+      gptRawResult.UpdatedStep,
+      gptRawResult.rowHeaderCell,
+      gptRawResult.columnHeaderCell,
+      gptRawResult.columnHeaderList,
+      gptRawResult.rowHeaderList,
+      gptRawResult.targetElementId,
+      gptRawResult.isTargetColumnHeader,
+      gptRawResult.isTargetRowHeader,
+      gptRawResult.tableCell
+    );
+    return elementContainerResult;
   }
 }
 

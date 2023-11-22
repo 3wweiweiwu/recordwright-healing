@@ -109,5 +109,6 @@ describe("GptMessager class", () => {
       negotiator.clearHistory();
       assert.equal(negotiator.chatMessage.length, 1);
     });
+
   });
 });

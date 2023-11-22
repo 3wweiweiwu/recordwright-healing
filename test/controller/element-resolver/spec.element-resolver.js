@@ -54,7 +54,7 @@ describe("ElementResolver class", () => {
       assert.ok(logs[0].responseText);
     }).timeout(5000);
   });
-  describe("_getElementContainer function", () => {
+  describe("_getRoughCellLocationInTable function", () => {
     it("should get element container correctly in complex grid with both column and row header - Step 1 Identify table range", async () => {
       let elementResolver = new ElementResolver();
       let filePath = path.join(
@@ -190,5 +190,33 @@ describe("ElementResolver class", () => {
         "it's still in the table"
       );
     }).timeout(5000);
+  });
+  describe("_getRoughCellLocationInTable function", () => {
+    it("should get rough cell location correctly in complex grid with both column and row header - Step 1 Identify table range", async () => {
+      let elementResolver = new ElementResolver();
+      let filePath = path.join(
+        __dirname,
+        "./input/complex-grid-row-header-column-header-rough-cell-location.txt"
+      );
+      let fileContent = fs.readFileSync(filePath, "utf8");
+      let { testStep, webPage } = extractContent(fileContent);
+
+      let elementContainer = await elementResolver._getRoughCellLocationInTable(
+        testStep,
+        webPage
+      );
+      assert.ok(elementContainer.targetElementId);
+      assert.equal(
+        elementContainer.isTargetMatrixTableGrid,
+        true,
+        "isTargetMatrixTableGrid should be true because it is in the matrix"
+      );
+      assert.equal(
+        elementContainer.isComplete,
+        false,
+        "isComplete should be false because it is in the matrix"
+      );
+      assert.equal(elementContainer.OutMostContainer, "div#500");
+    }).timeout(50000);
   });
 });

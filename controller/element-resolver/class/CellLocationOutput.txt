@@ -1,0 +1,15 @@
+Output result in JSON format. Following is a template.
+{  
+UpdatedStep:string,
+OuterTableCell:string[][],
+rowHeaderCell:string,
+columnHeaderCell:string,
+columnHeaderList:string[],  
+rowHeaderList:string[]  
+}  
+"UpdatedStep" represents updated step for target element identification. Given known the table cell container, update the test step to remove relevant information that is used to identify data cell container. Keep relevant information to identify target element. Minimize the change to the test step and try to minimize the information from original step. If you reference table cell container in the updated step, reference that as "specified wrapper table cell" only.  
+"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container is in "tag#id" format such as "div#100". The output do not include row and column header.  
+"rowHeaderCell" represents the column that uniquely identifies the row in the out-most table containing the target element. The cell container is in "tag#id" format  
+"columnHeaderCell" represents the row that uniquely identifies the column in the out-most table containing the target element. The cell container is in "tag#id" format  
+"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format  
+"rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format  
