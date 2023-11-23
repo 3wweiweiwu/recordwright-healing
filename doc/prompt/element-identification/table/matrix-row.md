@@ -1,37 +1,37 @@
 [Test Step]
-Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.
 
 [Method]
+* The web page section provides the outermost scope of a matrix.
+* Based on the outermost matrix, identify if it has an appropriate vertical axis and categories associated with it.
+* If there are no unique categories (headers) associated with the vertical axis, add categories to the original matrix with unique numbers such as 1, 2, 3.
+* Output the vertical categories of the outermost table to "rowHeaderList".
+* Based on the test step and web page, identify the target element. Return the result to targetElement.
+* Iterate through vertical categories identified by vertical headers until the target element is found. If the target element is found within a category, output the vertical category to rowHeaderCell.
+* Test if the target element is a vertical category after matrix category update, return the result to isTargetRowHeader.
 
-* The web page section provide outermost scope of a matrix
-* Based on the outermost matrix, identify it has approriate horizontal axis and categories associated with that
-* If there is no unique category(headers) associated with horizontal axis, add category to original matrix with unique number such as 1,2,3.
-* Output the horizontal categories of outermost table to "columnHeaderList"
-* Based on the test step and web page, identify the target element. Return result to targetElement.
-* Iterate horizontal category that are identified by horizontal categories until it find target element. If target element are found within the category, output the horizontal category to columnHeaderCell
-* Test if the target element is a horizontal category after matrix category update, return result to isTargetColumnHeader.
+[Output]
+Output the result in JSON format.
+Here is a template:
+{
+isUniqueRowHeaders: boolean,
+rowHeaderList: string[],
+rowHeaderCell: string,
+isTargetRowHeader: boolean,
+targetElement: string
+}
 
-[Output]  
-Output result in JSON format.  
-Following is a template.  
-{  
-isUniqueColumnHeaders: boolean,  
-columnHeaderList:string[],  
-columnHeaderCell:string,
-isTargetColumnHeader:boolean,
-targetElement:string
-}  
-"isUniqueColumnHeaders" represents if the table has unique column header,
-"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format. In case there is no unique column header, the container is in the format of number such as 1,2,3  
-"columnHeaderCell" is coming from prior value of column header list. It represents the column headers that uniquely identifies the column in the out-most table containing the target element. It is within columnHeaderList. The cell container is in "tag#id" format . In case there is no unique column header, the container is in the format of number such as 1,2,3. Note that the columnHeaderCell should be the only column that contains the target element, not the target element itself.  
-"isTargetColumnHeader" returns if target element is within a column header container
-targetElement returns id of target element in tag#id format such as "div#100".
+"isUniqueRowHeaders" indicates if the table has unique row headers.
+"rowHeaderList" represents an array of row header containers for the outermost table. The container is in "tag#id" format. In cases where there are no unique row headers, the container is in the format of numbers such as 1, 2, 3.
+"rowHeaderCell" is derived from the prior value of the row header list. It represents the row headers that uniquely identify the row in the outermost table containing the target element. It is within rowHeaderList. The cell container is in "tag#id" format. In cases where there are no unique row headers, the container is in the format of numbers such as 1, 2, 3. Note that the rowHeaderCell should be the only row that contains the target element, not the target element itself.
+"isTargetRowHeader" returns if the target element is within a row header container.
+"targetElement" returns the id of the target element in tag#id format such as "div#100".
 
 [Web Page]
        div.row
             div.heatmap-body-heading Criticality
             div.heatmap-body-grid
-                div 
+                div
                     div.row
                         div#505.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
                         div#200.ng-star-inserted.heatmap-card-heatmap-card--p3
@@ -241,12 +241,12 @@ targetElement returns id of target element in tag#id format such as "div#100".
                                 div#159 --
                             div.row.heatmap-card-item
                                 svg
-                                div#160 --                        
+                                div#160 --
                     div.row
                         div#600 white space
                         div#601.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
                         div#602.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
                         div#603.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
-                        div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High                
+                        div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High
 
         div.heatmap-footer Severity

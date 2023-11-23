@@ -1,15 +1,15 @@
 [Test Step]
-Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.  
 
 [Method]
 
-* The web page section provide outermost scope of a matrix
-* Based on the outermost matrix, identify it has approriate horizontal axis and categories associated with that
-* If there is no unique category(headers) associated with horizontal axis, add category to original matrix with unique number such as 1,2,3.
-* Output the horizontal categories of outermost table to "columnHeaderList"
+* The table within web page section provide outermost scope of a table
+* Based on the outermost table, identify it has approriate column headers that summarize its context. Output identification result to "isUniquecolumnHeaders"
+* If there is no unique column header, add column header to original table with unique number such as 1,2,3.
+* Output the column headers of outermost table to "columnHeaderList"
 * Based on the test step and web page, identify the target element. Return result to targetElement.
-* Iterate horizontal category that are identified by horizontal categories until it find target element. If target element are found within the category, output the horizontal category to columnHeaderCell
-* Test if the target element is a horizontal category after matrix category update, return result to isTargetColumnHeader.
+* Iterate column header that are identified by column headers until it find target element. If target element are found within the column, The output the column header will become the output of columnHeaderCell
+* Test if the target element is a column header after table header update, return result to isTargetColumnHeader.
 
 [Output]  
 Output result in JSON format.  
