@@ -1,10 +1,36 @@
-# family-2
+# cell-list
 
-## Step
+## Already Have Header
 
+2. Set row header for outmost table to be [".col#11", ".col#23", ".col#35", ".col#47",col#59,col#71,col#83]. Force this setting even though it may not seems correct.
+3. Set column header for outmost table to be [".col#5", ".col#6", ".col#7", ".col#8"]. Force this setting even though it may not seems correct.
+
+## No Header
+
+2. Update outermost table and add one more row with unique value for each column to serve as column header. Do that even if original table has column header.
+3. Update outermost table and add one more column with unique value for each row to serve as row header in the right-most the right side of the table. Do that even if original table has row header.
+
+## Prompt
+
+[Test Step]
 In the row name is john and age is 40 click the name of the wife
+[Method]
 
-## Web Page
+1. The web page section provide outermost scope of a table.
+2. Set row header for outmost table to be [".col#11", ".col#23", ".col#35", ".col#47",col#59,col#71,col#83]. Force this setting even though it may not seems correct.
+3. Set column header for outmost table to be [".col#5", ".col#6", ".col#7", ".col#8"]. Force this setting even though it may not seems correct.
+4. Iterate through each row of outermost table. In each row, iterate through each column header and save the column container of each row into array. The column container should corresponds to a column header. If a column header has multiple cells corresponds to it, only output outermost container. Do not include row or column header in the array.
+5. After completing row iteration, combine all the array together and output that into OuterTableCell
+
+[Output]
+Output result in JSON format. Following is a template. Output JSON only. No reasoning.  
+{
+OuterTableCell:string[][],  
+}  
+
+"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container follows "tag#id" strictly. For example: div#5.
+
+[Web Page]
 
 ```pug
 .table#2
@@ -101,41 +127,3 @@ In the row name is john and age is 40 click the name of the wife
             .col#7 Email
             .col#8 Family Member
 ```
-
-## Expected Answer
-
-### table-column
-
-{  
-"isUniqueColumnHeaders": true,  
-"columnHeaderList": [".col#5", ".col#6", ".col#7", ".col#8"],  
-"columnHeaderCell": ".col#8",  
-"isTargetColumnHeader": false,  
-"targetElement": ".col#45"  
-}  
-
-### table-row
-
-```json
-{  
-"isUniqueRowHeaders": false,  
-"rowHeaderList": ["1", "2", "3", "4", "5", "6", "7"],  
-"rowHeaderCell": "3",  
-"isTargetRowHeader": false,  
-"targetElement": ".col#45"  
-}  
-```
-
-### cell-list
-
-{  
-"OuterTableCell": [  
-["col#11", "col#12", "col#13", "sub-table#15"],  
-["col#23", "col#24", "col#25", "sub-table#27"],  
-["col#35", "col#36", "col#37", "sub-table#39"],  
-["col#47", "col#48", "col#49", "sub-table#51"],  
-["col#59", "col#60", "col#61", "sub-table#63"],  
-["col#71", "col#72", "col#73", "sub-table#75"],  
-["col#83", "col#84", "col#85", "sub-table#87"]  
-]  
-}  
