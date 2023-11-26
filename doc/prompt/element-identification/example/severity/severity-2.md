@@ -1,7 +1,10 @@
-# Step
+# severity -2
 
-Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
-# Web Page
+## Step
+
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.
+
+## Web Page
 
 ```PUG
 div.row
@@ -227,3 +230,35 @@ div.row
 
 div.heatmap-footer Severity
 ```
+
+## Matrix Row Headers
+
+{  
+"isUniqueRowHeaders": true,  
+"rowHeaderList": ["div#505", "div#501", "div#502", "div#503", "div#504"],  
+"rowHeaderCell": "div#501",  
+"isTargetRowHeader": false,  
+"targetElement": "div#116"  
+}  
+
+## Matrix Column Headers
+
+{  
+"isUniqueColumnHeaders": true,  
+"columnHeaderList": ["div#601", "div#602", "div#603", "div#604"],  
+"columnHeaderCell": "div#604",  
+"isTargetColumnHeader": false,  
+"targetElement": "div#116"  
+}  
+
+## Table Cell
+
+{  
+"OuterTableCell": [  
+    ["div#200", "div#201", "div#202", "div#203"],  
+    ["div#204", "div#205", "div#206", "div#207"],  
+    ["div#208", "div#209", "div#210", "div#211"],  
+    ["div#212", "div#213", "div#214", "div#215"],  
+    ["div#216", "div#217", "div#218", "div#219"]  
+]  
+}  
