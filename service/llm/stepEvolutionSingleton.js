@@ -2,17 +2,17 @@ const model = require('./openaiSingleton')
 const JsonParser = require('./util/jsonParser')
 const fs = require('fs')
 const path = require('path')
-const GeneralClassificationResult = require('../../model/generalClassificationResult')
+const StepEvolutionResult = require('../../model/stepEvolutionResult')
 
 
 
 const ChatPromptTemplate = require("langchain/prompts").ChatPromptTemplate
 
 
-class GeneralClassification {
+class StepEvolution {
     constructor(llmModel) {
         this._model = llmModel
-        this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/generalClassificationPrompt.md'), 'utf8')
+        this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/stepEvolutionPrompt.md'), 'utf8')
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
     }
     /**
@@ -32,10 +32,10 @@ class GeneralClassification {
             "testStep": testStep,
             "webPage": webPage
         });
-        let classificationResult = GeneralClassificationResult.parseFromJSON(result)
+        let classificationResult = StepEvolutionResult.parseFromJson(result)
         return classificationResult
     }
 
 }
-const GeneralClassificationSingleton = new GeneralClassification(model)
+const GeneralClassificationSingleton = new StepEvolution(model)
 module.exports = GeneralClassificationSingleton

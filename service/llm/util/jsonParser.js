@@ -1,6 +1,7 @@
 const { BaseOutputParser } = require("langchain/schema/output_parser");
 class JsonParser extends BaseOutputParser {
     async parse(text) {
+        console.log(text)
         const regex = /{[\s\S]*?}/;; // Regular expression to match a JSON object
 
         const match = text.match(regex);
