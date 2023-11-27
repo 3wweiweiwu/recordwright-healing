@@ -10,9 +10,10 @@
     - [Intent for Identify Next-Level Test Step](#intent-for-identify-next-level-test-step)
     - [Prompt template for Identify Next-Level Test Step](#prompt-template-for-identify-next-level-test-step)
     - [Note](#note)
-  - [Identification of Cell Index](#identification-of-cell-index)
+  - [Identification of Cell in Table](#identification-of-cell-in-table)
     - [Intent for Identification of Row Header and Column Header](#intent-for-identification-of-row-header-and-column-header)
-    - [User Message for Initial Screening](#user-message-for-initial-screening)
+    - [User Prompt for Column Header Identification](#user-prompt-for-column-header-identification)
+    - [User Prompt for Row Header Identification](#user-prompt-for-row-header-identification)
     - [User Message for Cell Confirmation](#user-message-for-cell-confirmation)
       - [Intent](#intent)
       - [Prompt](#prompt)
@@ -86,42 +87,57 @@ UpdatedStep:string
 
 - div#500: this inforamtion is coming from prior element container classification
 
-## Identification of Cell Index
+## Identification of Cell in Table
 
 ### Intent for Identification of Row Header and Column Header
 
 - Narrow down the target element to the table cell
 - Identify row and column header of target element
-- Do this because target element may be incorrect because chatgpt cannot handle complex table structure
+  - Do this because target element may be incorrect because chatgpt cannot handle complex table structure
 - Intent for Small Operation
 - Initial Screening: Find out row and column header at high level
 - Cell Confirmation: Iterate through target element in scenario where there is only 1 row header or column header
 
-### User Message for Initial Screening
+### User Prompt for Column Header Identification
 
 ```text
-[Test Step]
-Click "Very High" was under the "Severity" heading.
-[Output]  
-Output result in JSON format. Following is a template.  
-{  
-rowHeaderCell:string,  
-columnHeaderCell:string  
-columnHeaderList:string[],  
-rowHeaderList:string[],  
-targetElementId:string,  
-"isTargetColumnHeader":boolean,     
-"isTargetRowHeader":boolean  
-}  
-"rowHeaderCell" represents the column that uniquely identifies the row in the out-most table containing the target element. The cell container is in "tag#id" format  
-"columnHeaderCell" represents the row that uniquely identifies the column in the out-most table containing the target element. The cell container is in "tag#id" format  
-"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format  
-"rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format  
-"targetElementId" represents id of target element in tag#id format such as "div#100".  
-" isTargetRowHeader" returns if target element is a within a row header container.  
-" isTargetColumnHeader" returns if target element is within a column header container  
+[Test Step]  
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
 
-[Web Page]
+[Output]
+Output result in JSON format.
+Following is a template.
+{
+isUniqueColumnHeaders: boolean,
+columnHeaderList:string[],
+columnHeaderCell:string,
+}
+"isUniqueColumnHeaders" represents if the table has unique column header, If there is no unique column header, we should add row header by ourself with unique number such as 1,2,3.
+"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format . In case there is no unique column header, the container is in the format of number such as 1,2,3
+"columnHeaderCell" is coming from prior value of column header list. It represents the column headers that uniquely identifies the column in the out-most table containing the target element. It is within columnHeaderList. The cell container is in "tag#id" format . In case there is no unique column header, the container is in the format of number such as 1,2,3. Note that the columnHeaderCell should be the only column that contains the target element, not the target element itself.
+
+[Web Page]   
+```
+
+### User Prompt for Row Header Identification
+
+```text
+[Test Step]  
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
+
+[Output]
+Output result in JSON format.
+Following is a template.
+{
+isUniqueRowHeaders: boolean,
+rowHeaderList:string[],
+rowHeaderCell:string,
+}
+"isUniqueRowHeaders" represents if the table has unique row header, If there is no unique row header, we should add row header by ourself with unique number such as 1,2,3.
+"rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format . In case there is no unique row header, the container is in the format of number such as 1,2,3
+"rowHeaderCell" is coming from prior value of row header list. It represents the row headers that uniquely identifies the row in the out-most table containing the target element. It is within rowHeaderList. The cell container is in "tag#id" format . In case there is no unique row header, the container is in the format of number such as 1,2,3. Note that the rowHeaderCell should be the only row that contains the target element, not the target element itself.
+
+[Web Page]   
 ```
 
 ### User Message for Cell Confirmation
@@ -160,11 +176,15 @@ Based on that, output updated JSON
 Click "Very High" was under the "Severity" heading.
 [Output]
 Output result in JSON format. Following is a template. Output JSON only. No reasoning.  
-{  
+{
+isUniqueRowHeaders: boolean,
+isUniqueColumnHeaders: boolean,
 OuterTableCell:string[][],  
 }  
 
-"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container is in "tag#id" format such as 
+"isUniqueRowHeaders" represents if the table has row header that summarize the context of the row, If there is no appropriate row header, we should add row header by ourself with unique number such as 1,2,3.
+"isUniqueColumnHeaders" represents if the table has appropriate column header that summarize the context of the column, If there is no appropriate column header, we should add row header by ourself with unique number such as 1,2,3.
+"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container is in "tag#id" format such as div#5
 
 [Web Page] 
 ```

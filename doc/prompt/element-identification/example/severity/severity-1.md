@@ -1,19 +1,10 @@
-[Test Step]  
-Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.   
+# Step
 
-[Output]
-Output result in JSON format.
-Following is a template.
-{
-isUniqueColumnHeaders: boolean,
-columnHeaderList:string[],
-columnHeaderCell:string,
-}
-"isUniqueColumnHeaders" represents if the table has unique column header, If there is no unique column header, we should add row header by ourself with unique number such as 1,2,3.
-"columnHeaderList" represents array of column header container for the out-most table. The container is in "tag#id" format . In case there is no unique column header, the container is in the format of number such as 1,2,3
-"columnHeaderCell" is coming from prior value of column header list. It represents the column headers that uniquely identifies the column in the out-most table containing the target element. It is within columnHeaderList. The cell container is in "tag#id" format . In case there is no unique column header, the container is in the format of number such as 1,2,3. Note that the columnHeaderCell should be the only column that contains the target element, not the target element itself.
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.
 
-[Web Page]   
+# Web Page
+
+```PUG
 extends layout
 block content
 
@@ -262,3 +253,4 @@ block content
         .grid 
             display: grid
             grid-template-columns: repeat(5, 1fr)
+```

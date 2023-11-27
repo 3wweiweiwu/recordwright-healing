@@ -1,0 +1,48 @@
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: "Web Element Identifier Service"
+  description: "API for Quality Engineers to identify web elements based on test steps and web pages."
+host: 'api.example.com'
+basePath: '/'
+schemes:
+  - http
+paths:
+  /target-element:
+    post:
+      summary: "Identify Target Element"
+      description: "Allows quality engineers to identify a web element on a webpage based on a test step and the webpage's PUG format."
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: "Test step and web page information"
+          required: true
+          schema:
+            type: object
+            required:
+              - testStep
+              - webPage
+            properties:
+              testStep:
+                type: string
+                description: "The test step to use for identifying the element."
+              webPage:
+                type: string
+                description: "The current web page in PUG format."
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: object
+            properties:
+              targetElementId:
+                type: string
+                description: "The ID of the target element in tag#id format."
+        400:
+          description: "Invalid input"
+        500:
+          description: "Internal server error"
