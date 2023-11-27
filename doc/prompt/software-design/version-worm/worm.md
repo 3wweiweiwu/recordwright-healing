@@ -1,6 +1,21 @@
-You are a product ownwer try to design a rest api service. The "Web Element Identifier Service" is a REST API designed for Quality Engineers. It enables the identification of specific web elements within a web page, facilitating automated testing and quality assurance processes. The service operates via a single endpoint that accepts POST requests.
+# Web Element Identifier Service
 
-Following are algorithm it used to identify the target element. Based on that, create user story:
+## Introduction
+
+The "Web Element Identifier Service" is a REST API designed for Quality Engineers. It enables the identification of specific web elements within a web page, facilitating automated testing and quality assurance processes. The service operates via a single endpoint that accepts POST requests.
+
+## API
+
+### Endpoint: `/target-element`
+
+- **Method**: POST
+- **Function**: To identify a web element based on a given test step and the PUG format of the current web page.
+- **Request Payload**:
+  - `testStep` (string): Describes the test step used to identify the element.
+  - `webPage` (string): The current web page in PUG format.
+- **Response**:
+  - `targetElementId` (string): Returns the ID of the target web element in the format `tag#id`, such as `div#100`.
+- **Error Handling**: Includes responses for invalid input (400) and internal server errors (500).
 
 ## Web Element Identification Algorithm
 
