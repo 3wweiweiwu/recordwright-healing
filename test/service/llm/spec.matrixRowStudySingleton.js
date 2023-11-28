@@ -4,7 +4,7 @@ const MatrixRowStudyResult = require('../../../model/matrixRowStudyResult');
 const fs = require('fs')
 const path = require('path')
 
-describe('Table Row Header Algorithm', () => {
+describe('Matrix Row Header Algorithm', () => {
     it('should handle family-1 case', async () => {
         const testStep = fs.readFileSync(path.join(__dirname, './files/severity-2-step.md'), 'utf8')
         const webPage = fs.readFileSync(path.join(__dirname, './files/severity-2-webpage.md'), 'utf8')

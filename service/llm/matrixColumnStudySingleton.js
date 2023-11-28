@@ -12,7 +12,7 @@ const ChatPromptTemplate = require("langchain/prompts").ChatPromptTemplate
 class MatrixColumnAnalysis {
     constructor(llmModel) {
         this._model = llmModel
-        this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/matrixRowStudyPrompt.md'), 'utf8')
+        this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/matrixColumnStudyPrompt.md'), 'utf8')
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
     }
     /**

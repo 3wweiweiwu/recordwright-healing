@@ -4,7 +4,7 @@ const MatrixColumnStudyResult = require('../../../model/matrixColumnStudyResult'
 const fs = require('fs')
 const path = require('path')
 
-describe('Table Row Header Algorithm', () => {
+describe('Matrix Column Header Algorithm', () => {
     it('should handle family-1 case', async () => {
         const testStep = fs.readFileSync(path.join(__dirname, './files/severity-2-step.md'), 'utf8')
         const webPage = fs.readFileSync(path.join(__dirname, './files/severity-2-webpage.md'), 'utf8')
@@ -14,10 +14,10 @@ describe('Table Row Header Algorithm', () => {
 
         const result = await matrixColumnStudySingleton.identifyElement(testStep, webPage);
         result.targetElement = result.targetElement.replace("\.", "")
-        assert.deepStrictEqual(result.isTargetRowHeader, false);
-        assert.deepStrictEqual(result.isUniqueRowHeaders, true);
+        assert.deepStrictEqual(result.isTargetColumnHeader, false);
+        assert.deepStrictEqual(result.isUniqueColumnHeaders, true);
         //verify index because the intent of this step is to get the index of the target element
-        assert.deepStrictEqual(result.rowHeaderList.indexOf(result.rowHeaderCell), 1);
+        assert.deepStrictEqual(result.columnHeaderList.indexOf(result.columnHeaderCell), 2);
 
 
 
