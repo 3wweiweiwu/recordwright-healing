@@ -1,5 +1,5 @@
 const { ChatOpenAI } = require('langchain/chat_models/openai');
-
+console.log(process.env)
 const model = new ChatOpenAI({
     temperature: 0,
     maxTokens: 800,
