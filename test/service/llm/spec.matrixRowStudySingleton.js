@@ -1,23 +1,23 @@
 const assert = require('assert');
-const tableRowSTudySingleton = require('../../../service/llm/talbeRowStudySingleton');
-const TableRowStudyResult = require('../../../model/tableRowStudyResult');
+const matrixRowStudySingleton = require('../../../service/llm/matrixRowStudySingleton');
+const MatrixRowStudyResult = require('../../../model/matrixRowStudyResult');
 const fs = require('fs')
 const path = require('path')
 
 describe('Table Row Header Algorithm', () => {
     it('should handle family-1 case', async () => {
-        const testStep = fs.readFileSync(path.join(__dirname, './files/family-2-step.md'), 'utf8')
-        const webPage = fs.readFileSync(path.join(__dirname, './files/family-2-webpage.md'), 'utf8')
+        const testStep = fs.readFileSync(path.join(__dirname, './files/severity-2-step.md'), 'utf8')
+        const webPage = fs.readFileSync(path.join(__dirname, './files/severity-2-webpage.md'), 'utf8')
 
         // Mock the necessary dependencies and setup any required test data
 
 
-        const result = await tableRowSTudySingleton.identifyElement(testStep, webPage, "app-sample-table#1");
+        const result = await matrixRowStudySingleton.identifyElement(testStep, webPage, "app-sample-table#1");
         result.targetElement = result.targetElement.replace("\.", "")
         assert.deepStrictEqual(result.isTargetRowHeader, false);
-        assert.deepStrictEqual(result.isUniqueRowHeaders, false);
+        assert.deepStrictEqual(result.isUniqueRowHeaders, true);
         //verify index because the intent of this step is to get the index of the target element
-        assert.deepStrictEqual(result.rowHeaderList.indexOf(result.rowHeaderCell), 2);
+        assert.deepStrictEqual(result.rowHeaderList.indexOf(result.rowHeaderCell), 1);
 
 
 
