@@ -19,9 +19,10 @@ class StepEvolution {
      * 
      * @param {string} testStep 
      * @param {string} webPage 
-     * @returns {GeneralClassificationResult}
+     * @param {string} container The container of the target element in div#id format
+     * @returns {StepEvolutionResult}
      */
-    async identifyElement(testStep, webPage) {
+    async identifyElement(testStep, webPage, container) {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
             ["human", this._promptTemplate],
@@ -30,9 +31,10 @@ class StepEvolution {
         const chain = chatPrompt.pipe(this._model).pipe(parser);
         const result = await chain.invoke({
             "testStep": testStep,
-            "webPage": webPage
+            "webPage": webPage,
+            "container": container
         });
-        let classificationResult = StepEvolutionResult.parseFromJson(result)
+        let classificationResult = StepEvolutionResult.parseFromJSON(result)
         return classificationResult
     }
 

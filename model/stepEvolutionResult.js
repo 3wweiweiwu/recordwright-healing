@@ -12,13 +12,11 @@ class StepEvolutionResult {
 
     /**
      * Parses the JSON text and creates a new instance of StepEvolutionResult.
-     * @param {string} jsonText - The JSON text to parse.
+     * @param {object} jsonData - The JSON text to parse.
      * @returns {StepEvolutionResult} - The parsed StepEvolutionResult instance.
      */
-    static parseFromJson(jsonText) {
-        const jsonData = JSON.parse(jsonText);
-        const updatedStep = jsonData.UpdatedStep;
-        return new StepEvolutionResult(updatedStep);
+    static parseFromJSON(jsonData) {
+        return new StepEvolutionResult(jsonData.UpdatedStep);
     }
 }
 module.exports = StepEvolutionResult
