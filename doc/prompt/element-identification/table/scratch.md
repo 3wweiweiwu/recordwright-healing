@@ -1,8 +1,279 @@
-Based on the provided method and the code, here's a structured summary of the `HtmlSnapshotCompresed` class:
+You are javascript developer. Expand existing javascript class to achieve the algorithm requirement with existing function.
 
----
+Code section contains a javascript code.Algorithm section includes algorithm you need to develop with javascript.
+
+Class section provides existing class and key functions.
+
+Each section header is wrapped around square brackets[].
+
+[Code]
+class ElementIdentificationManager {
+    constructor() { }
+    /**
+     *@param {string} testStep
+     * @param {HtmlSnapshot} htmlSnap
+     * @returns {string} the id of target element
+     **/
+    async identifyElement(testStep, htmlSnap) {
+
+    }
+}
+[Algorithm]
+# Web Element Identification Algorithm
+
+## Process Workflow
+
+### 1. General Evaluation
+- **Objective**: Determine if the target element is within a matrix or table.
+- **Inputs**:
+  - `testStep`: Description of the test step.
+  - `webPage`: The current web page in PUG format.
+- **Decision**:
+  - If **not** within matrix/table: Return target element ID.
+  - If within matrix/table:
+    - Update step with **Step Evolution**.
+    - Retrieve table context from the outermost container.
+    - Further process with **Table or Matrix Evaluation**.
+
+### 2. Step Evolution
+- **Objective**: Refine the test step based on the web page and outermost container.
+- **Inputs**:
+  - `testStep`: Test step description.
+  - `webPage`: Web page in PUG format.
+  - `OutMostContainer`: Container of the target element.
+- **Output**:
+  - `UpdatedStep`: Refined test step.
+
+### 3. Table or Matrix Evaluation
+- **Objective**: Identify the target element's location within a table or matrix.
+- **Inputs**:
+  - `testStep`, `webPage`, `OutermostContainerType`.
+- **Process**:
+  - Run algorithm based on container type (table or matrix).
+  - For **table**:
+    - Perform "table evaluation" for column/row headers.
+  - For **matrix**:
+    - Perform "matrix evaluation" for column/row headers.
+  - Run "cell list" algorithm.
+  - Determine final container of the target element.
+- **Further Actions**:
+  - If final container differs from target element:
+    - Update step with **Step Evolution**.
+    - Retrieve children of updated container.
+    - Re-run **General Evaluation** with updated parameters.
+
+#### Table Evaluation
+- **Processes**:
+  - Get Column Header.
+  - Get Row Header.
+- **Output**: Column and row header information.
+
+#### Matrix Evaluation
+- **Processes**:
+  - Similar to Table Evaluation but tailored for matrices.
+
+#### Cell List
+- **Objective**: List all data cells in the table/matrix.
+- **Inputs**:
+  - `testStep`, `webPage`, `columnHeaderList`, `rowHeaderList`.
+- **Output**: `OuterTableCell`: Array of data cell containers.
+
+
+[Class]
+
+- **Class Definition - `CellListStudy`**:
+  - Path: service\llm\cellListStudySingleton.js
+  - **Method - `identifyElement`**:
+    - **Purpose**: Identifies all datagrids from a given table.
+    - **Parameters**: `testStep` (string), `webPage` (string), `rowHeaderListStr` (string or null), `columnHeaderListStr` (string or null).
+    - **Functionality**:
+      - Creates a chat prompt sequence.
+      - Parses the response using `JsonParser`.
+      - Determines the state of row and column headers.
+      - Invokes the chain and parses the result into a `CellListStudyResult`.
+    - **Returns**: A `CellListStudyResult` instance with the classification result.
+  - **Export**: Exports an instance of `CellListStudy` initialized with `model`.
+
+- **Class Definition - `GeneralClassification`**:
+  - Path: service\llm\generalClassificationSingleton.js
+  - **Constructor**:
+    - **Parameters**: `llmModel` (used for initializing `_model`).
+    - **Functionality**: Initializes `_promptTemplate` and `_systemMessageTemplate` by reading markdown files.
+  - **Method - `identifyElement`**:
+    - **Purpose**: Identifies elements based on a given test step and webpage.
+    - **Parameters**: `testStep` (string), `webPage` (string).
+    - **Functionality**:
+      - Constructs a chat prompt sequence.
+      - Pipes the prompt through the model and parser.
+      - Invokes the chain with provided arguments and parses the result.
+    - **Returns**: An instance of `GeneralClassificationResult`.
+  - **Export**: Exports an instance of `GeneralClassification` as `GeneralClassificationSingleton`.
+
+- **Class Definition:** -`MatrixColumnAnalysis`
+- Path: service\llm\matrixColumnStudySingleton.js
+- **Public Method:**
+  - **Purpose:** Identify elements based on test steps and web page content.
+  - **Parameters:** `testStep` (string), `webPage` (string)
+  - **Functionality:** Utilizes chat prompts, a large language model, and JSON parsing to analyze data.
+  - **Returns:** Instance of `MatrixRowStudyResult`.
+- **Export:**
+  - An instance of `MatrixColumnAnalysis` with the `model` passed in its constructor.
+
+- **Class Definition - `MatrixRowAnalysis`**:
+  - Path: service\llm\matrixRowStudySingleton.js
+  - **Method - `identifyElement`**:
+    - **Purpose**: Identifies elements on a web page for a Matrix Row Study.
+    - **Parameters**: `testStep`(string), `webPage`(string).
+    - **Functionality**:
+      - Constructs a chat prompt sequence using system and human templates.
+      - Parses the response using `JsonParser`.
+      - Invokes the chat prompt sequence with provided parameters.
+      - Converts the response into a `MatrixRowStudyResult`.
+    - **Returns**: An instance of `MatrixRowStudyResult` with the classification result.
+  - **Export**: Exports an instance of `MatrixRowAnalysis` initialized with `model`.
+
+- **Class Definition - `StepEvolution`**:
+  - Path: service\llm\stepEvolutionSingleton.js
+  - This class is responsible for identifying elements within a webpage. It is initialized with a language model (`llmModel`).
+  - **Method - `identifyElement`**:
+    - **Purpose**: Identifies elements on a webpage based on specified parameters.
+    - **Parameters**: `testStep` (string), `webPage` (string), `container` (string - represents the container of the target element in div#id format).
+    - **Functionality**:
+      - Creates a chat prompt sequence using `ChatPromptTemplate`.
+      - Uses `JsonParser` to parse responses.
+      - Invokes a processing chain with the provided parameters and obtains results.
+      - Parses the result into a `StepEvolutionResult`.
+    - **Returns**: An instance of `StepEvolutionResult` with the classification result.
+  - **Export**:
+    - **Type**: Singleton Export.
+    - **Description**: Exports an instance of `StepEvolution` initialized with `model`, named `GeneralClassificationSingleton`.
+
+- **Class Definition - `TableColumnAnalysis`**:
+  - Path: service\llm\tableColumnStudySingleton.js
+  - **Method - `identifyElement`**:
+    - **Purpose**: This method is designed to identify elements in a given web page based on a test step.
+    - **Parameters**:
+      - `testStep` (string): Represents the specific test step to be analyzed.
+      - `webPage` (string): The web page to be analyzed.
+      - `container`: This parameter is not clearly defined in the method signature, but presumably, it's used in the analysis process.
+    - **Functionality**:
+      - Initializes a chat prompt sequence using system and human templates.
+      - Utilizes `JsonParser` to parse the responses.
+      - Creates a processing chain that includes the model and parser.
+      - Invokes the processing chain with the test step and web page data.
+      - Parses the result into a `TableColumnStudyResult` object.
+    - **Returns**: Returns an instance of `TableColumnStudyResult` with the classification result.
+  - **Export**: Exports an instance of `TableColumnAnalysis` initialized with `model` as `tableColumnAnalysisSingleton`.
+
+- **Class Definition - `TableRowAnalysis`**:
+  - Path: service\llm\talbeRowStudySingleton.js
+  - This class is designed for analyzing table rows within a web page context.
+  - **Constructor**:
+    - Initializes the class with a language model (`llmModel`), and reads system and human prompt templates from specified file paths.
+  - **Public Method - `identifyElement`**:
+    - **Purpose**: To identify specific elements within a web page based on a test step.
+    - **Parameters**:
+      - `testStep` (string): Represents the test step to be analyzed.
+      - `webPage` (string): The web page content to be analyzed.
+    - **Functionality**:
+      - The method generates a chat prompt using system and human templates.
+      - Utilizes `JsonParser` for parsing chat prompt results.
+      - Forms a processing chain combining the model and parser to process the given test step and web page.
+      - Invokes this chain and captures the result.
+    - **Returns**: Returns a `TableRowStudyResult` instance, which is derived from parsing the result of the processing chain.
+  - **Export**:
+    - Exports an instance of `TableRowAnalysis` as `tableColumnAnalysisSingleton`, initialized with `model`.
+
+- **Class Definition - `CellListStudyResult`**:
+  - Path: model\cellListStudyResult.js
+  - **Constructor**:
+    - **Purpose**: To create a new instance of `CellListStudyResult`.
+    - **Parameters**:
+      - `outerTableCell` (string[][]): This parameter represents an array of rows, where each row is an array of data cell containers in "tag#id" format.
+    - **Functionality**: The constructor initializes the instance with the provided `outerTableCell` data, storing the array of rows.
+  - **Export**:
+    - The class `CellListStudyResult` is exported.
+
+- **Class Definition - `GeneralClassificationModel`**:
+  - Path: model\generalClassificationResult.js
+  - **Constructor**:
+    - **Purpose**: Creates an instance of `GeneralClassificationModel`.
+    - **Parameters**:
+      - `targetElementId` (string): The ID of the target element in "tag#id" format.
+      - `outMostContainer` (string|null): The outermost container of the target element in "tag#id" format, or null if it does not exist.
+      - `outermostContainerType` ("matrix"|"table"|null): The type of the outermost container, can be "matrix", "table", or null.
+    - **Functionality**: Initializes the instance with the target element ID, its outermost container, and the type of the outermost container.
+  - **Export**:
+    - The class `GeneralClassificationModel` is exported.
+
+- **Class Definition - `matrixColumnStudyResult`**:
+  - Path: model\matrixColumnStudyResult.js
+  - **Constructor**:
+    - **Purpose**: To create a new instance of `matrixColumnStudyResult`.
+    - **Parameters**:
+      - `isUniqueColumnHeaders` (boolean): Indicates if the table has unique column headers.
+      - `columnHeaderList` (string[]): Array of column header containers for the outermost table.
+      - `columnHeaderCell` (string): The column header that uniquely identifies the column containing the target element.
+      - `isTargetColumnHeader` (boolean): Indicates if the target element is within a column header container.
+      - `targetElement` (string): The ID of the target element in "tag#id" format.
+    - **Functionality**: The constructor initializes the instance with properties related to column headers, their uniqueness, target element, and whether the target element is a column header.
+  - **Export**:
+    - The class `matrixColumnStudyResult` is exported as a module.
+
+- **Class Definition - `MatrixRowStudyResult`**:
+  - Path: model\matrixRowStudyResult.js
+  - **Constructor**:
+    - **Purpose**: To create a new instance of `MatrixRowStudyResult`.
+    - **Parameters**:
+      - `isUniqueRowHeaders` (boolean): Indicates if the table has unique row headers.
+      - `rowHeaderList` (string[]): Array of row header containers for the outermost table.
+      - `rowHeaderCell` (string): The row header that uniquely identifies the row containing the target element.
+      - `isTargetRowHeader` (boolean): Indicates if the target element is within a row header container.
+      - `targetElement` (string): The ID of the target element in "tag#id" format.
+    - **Functionality**: Initializes the instance with data about row headers, their uniqueness, and the target element within the headers.
+  - **Export**:
+    - The class `MatrixRowStudyResult` is exported using `module.exports`.
+
+- **Class Definition - `StepEvolutionResult`**:
+  - Path: model\stepEvolutionResult.js
+  - **Constructor**:
+    - **Purpose**: To create a new instance of `StepEvolutionResult`.
+    - **Parameters**:
+      - `updatedStep` (string): This parameter represents the updated step for target element identification.
+    - **Functionality**: The constructor initializes the instance with the `updatedStep` parameter, setting up the updated step for identification.
+  - **Export**:
+    - The class `StepEvolutionResult` is exported using `module.exports`.
+
+- **Class Definition - `TableColumnStudy`**:
+  - Path: model\tableColumnStudyResult.js
+  - **Constructor**:
+    - **Purpose**: To create a new instance of `TableColumnStudy`.
+    - **Parameters**:
+      - `isUniqueColumnHeaders` (boolean): Indicates if the table has unique column headers.
+      - `columnHeaderList` (string[]): Array of column header containers for the outermost table.
+      - `columnHeaderCell` (string): The column header that uniquely identifies the column containing the target element.
+      - `isTargetColumnHeader` (boolean): Indicates if the target element is within a column header container.
+      - `targetElement` (string): The ID of the target element in "tag#id" format.
+    - **Functionality**: Initializes the instance with details about column headers, their uniqueness, target element, and whether the target element is a column header.
+  - **Export**:
+    - The class `TableColumnStudy` is exported using `module.exports`.
+
+- **Class Definition - `TableRowStudyResult`**:
+  - Path: model\tableRowStudyResult.js
+  - **Constructor**:
+    - **Purpose**: To create a new instance of `TableRowStudyResult`.
+    - **Parameters**:
+      - `isUniqueRowHeaders` (boolean): Indicates if the table has unique row headers.
+      - `rowHeaderList` (string[]): Array of row header containers for the outermost table.
+      - `rowHeaderCell` (string): The row header that uniquely identifies the row containing the target element.
+      - `isTargetRowHeader` (boolean): Indicates if the target element is within a row header container.
+      - `targetElement` (string): The ID of the target element in "tag#id" format.
+    - **Functionality**: Initializes the instance with details about row headers, their uniqueness, target element, and whether the target element is a row header.
+  - **Export**:
+    - The class `TableRowStudyResult` is exported using `module.exports`.
 
 - **Class Definition - `HtmlSnapshotCompresed`**:
+  - Path: service\snapshot\index.js
   - **Constructor**:
     - **Purpose**: To create a new instance of `HtmlSnapshotCompresed`.
     - **Parameters**:
@@ -10,20 +281,6 @@ Based on the provided method and the code, here's a structured summary of the `H
     - **Functionality**: Parses the JSON input to create an atomic node matrix and initiates the compression process.
   - **Methods** (excluding static methods and private methods):
     - **parse(json)**: Parses a JSON string into an atomic node matrix.
-    - **updateTextInCurrnetLevel(level)**: Updates the text in the current level of nodes.
     - **getNodeInformationById(id)**: Retrieves node information by its ID.
-    - **rebuildMatrix()**: Rebuilds the atomic node matrix.
-    - **mergeAttribute(sourceNode, targetNode)**: Merges attributes from a source node to a target node.
-    - **getInvisibleNodeInLevel(atomicNodeLevel)**: Identifies nodes that qualify for removal based on visibility.
-    - **getSingleChildNodeInLevel(atomicNodeLevel)**: Identifies nodes with only one child that qualify for removal.
-    - **deleteScripts(atomicNodeLevel)**: Deletes script nodes and their children from the current level.
-    - **deleteRowsNoNode(atomicNodeMatrix)**: Deletes rows with no nodes.
-    - **deleteRowsNoAttNoRect(atomicNodeMatrix)**: Deletes rows with nodes having no attributes and invisible rectangles.
-    - **mergeAttributes(atomicNodeMatrix)**: Merges attributes in the atomic node matrix.
-    - **deleteNodesMergedNoChildren(atomicNodeMatrix)**: Deletes merged nodes with no children.
   - **Export**:
     - The class `HtmlSnapshotCompresed` and the `AtomicNode` class are exported as a module.
-
-This summary captures the essential elements of the `HtmlSnapshotCompresed` class from the JavaScript code, detailing its purpose, constructor, methods, and the export statement, following the markdown format outlined in the [Example Output].
-
----

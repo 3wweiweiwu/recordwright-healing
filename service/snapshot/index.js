@@ -203,13 +203,13 @@ class HtmlSnapshotCompresed {
      * Update text in the node. If the text contains \n, remove it and following shite space
      * @param {AtomicNode[]} level 
      */
-    updateTextInCurrnetLevel(level) { 
+    updateTextInCurrnetLevel(level) {
         level.forEach(node => {
             if (node.text != null) {
                 node.text = node.text.replace(/\n\s+/g, '')
             }
         })
-        return level 
+        return level
     }
     /**
      * get the node information by id, return node, level index and parent node
@@ -234,6 +234,55 @@ class HtmlSnapshotCompresed {
             }
         })
         return result
+    }
+    /**
+     * Based on the id inforamtion, get the html snapshot of the node
+    * This function retrieves the HTML snapshot of a specific node in the DOM tree.
+    * It takes an ID as an argument, which is used to locate the node in the DOM.
+    * Once the node is found, the function captures its current state in HTML format.
+    * This snapshot includes the node's opening and closing tags, attributes, and inner HTML.    * 
+     * @param {number} id 
+     * @returns {HtmlSnapshotCompresed}
+     */
+    getNodeHtmlSnapshotById(id) {
+        // Get the node information by its ID
+        let nodeResult = this.getNodeInformationById(id)
+
+        // Get the children of the node
+        let nodeChildren = nodeResult.node.children
+
+        // Initialize an empty array to store the result
+        let result = []
+
+        // Loop through the atomicNodeMatrix starting from the level index of the node plus one
+        for (let i = nodeResult.levelIndex + 1; i < this.atomicNodeMatrix.length; i++) {
+            // Get the current level
+            let level = this.atomicNodeMatrix[i]
+
+            // Initialize an empty array for the new row and updated node children
+            let newRow = []
+            let updatedNodeChildren = []
+
+            // Loop through the nodes in the current level
+            for (let j = 0; j < level.length; j++) {
+                // Get the current node
+                let node = level[j]
+
+                // If the node is a child of the original node, add it to the new row and update the node children
+                if (nodeChildren.includes(node.id)) {
+                    newRow.push(node)
+                    node.children.forEach(childId => { updatedNodeChildren.push(childId) })
+                }
+            }
+
+            // Add the new row to the result and update the node children
+            result.push(newRow)
+            nodeChildren = updatedNodeChildren
+        }
+
+        // Create a new HtmlSnapshotCompresed object from the result and return it
+        let resultSnapshot = new HtmlSnapshotCompresed(JSON.stringify(result))
+        return resultSnapshot
     }
 
     rebuildMatrix() {
@@ -267,8 +316,8 @@ class HtmlSnapshotCompresed {
 
                     //add node to next level
                     nextNodeLevel.push(nodeResult.node)
-                } else { 
-                    let index = node.children.indexOf(nodeId) 
+                } else {
+                    let index = node.children.indexOf(nodeId)
                     node.children.splice(index, 1)
                 }
             }
@@ -291,9 +340,9 @@ class HtmlSnapshotCompresed {
 
         //remove the node from its parent's children
         let parentNode = nodeInfo.parentNode
-        
-        if(parentNode){
-            let index = parentNode.children.indexOf(id) 
+
+        if (parentNode) {
+            let index = parentNode.children.indexOf(id)
             parentNode.children.splice(index, 1)
         }
 
@@ -302,7 +351,7 @@ class HtmlSnapshotCompresed {
         let index = level.indexOf(nodeInfo.node)
         level.splice(index, 1)
 
-        if(parentNode){ 
+        if (parentNode) {
             parentNode.children = [...parentNode.children, ...nodeInfo.node.children]
         }
 
@@ -382,13 +431,13 @@ class HtmlSnapshotCompresed {
      * Delete all nodes that are contained by SCRIPT node
      * @param {AtomicNode[]} atomicNodeLevel
      * */
-    deleteScripts(atomicNodeLevel) { 
+    deleteScripts(atomicNodeLevel) {
         var scriptNodeList = atomicNodeLevel.filter(node => {
             if (node.nodeName == 'SCRIPT') {
                 return node
             }
         })
-        let scriptList = scriptNodeList.map(node =>{
+        let scriptList = scriptNodeList.map(node => {
             return node.id
         })
 
@@ -424,8 +473,7 @@ class HtmlSnapshotCompresed {
      * @param {number} id
      * @returns {AtomicNode}
      * */
-    getNodeFromMatrix(atomicNodeMatrix, id) 
-    {
+    getNodeFromMatrix(atomicNodeMatrix, id) {
         let result = atomicNodeMatrix.find(row => {
             var newNode = row.find(node => node.id == id)
             return newNode
@@ -481,7 +529,7 @@ class HtmlSnapshotCompresed {
     * @param {DOMRect} rect1
     * @param {DOMRect} rect2
     * */
-    _rectEqual(rect1, rect2) {  
+    _rectEqual(rect1, rect2) {
         if (rect1.bottom == rect2.bottom &&
             rect1.height == rect2.height &&
             rect1.left == rect2.left &&
@@ -580,4 +628,4 @@ class HtmlSnapshotCompresed {
     }
 }
 
-module.exports = { HtmlSnapshotCompresed,  AtomicNode}
+module.exports = { HtmlSnapshotCompresed, AtomicNode }
