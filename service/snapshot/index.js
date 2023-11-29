@@ -242,11 +242,16 @@ class HtmlSnapshotCompresed {
     * Once the node is found, the function captures its current state in HTML format.
     * This snapshot includes the node's opening and closing tags, attributes, and inner HTML.    * 
      * @param {number} id 
-     * @returns {HtmlSnapshotCompresed}
+     * @returns {AtomicNode[][]}
      */
-    getNodeHtmlSnapshotById(id) {
+    getChildrenAtomicSnapshotById(id) {
         // Get the node information by its ID
         let nodeResult = this.getNodeInformationById(id)
+
+        //if not result found, throw error
+        if (nodeResult == null) {
+            console.error('Unable to find node with id: ' + id)
+        }
 
         // Get the children of the node
         let nodeChildren = nodeResult.node.children
@@ -280,9 +285,7 @@ class HtmlSnapshotCompresed {
             nodeChildren = updatedNodeChildren
         }
 
-        // Create a new HtmlSnapshotCompresed object from the result and return it
-        let resultSnapshot = new HtmlSnapshotCompresed(JSON.stringify(result))
-        return resultSnapshot
+        return result
     }
 
     rebuildMatrix() {

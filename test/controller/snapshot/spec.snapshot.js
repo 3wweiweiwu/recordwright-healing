@@ -327,5 +327,28 @@ describe('compressed snapshot', () => {
                     JSON.stringify([10]), 'Children taht doent exists must be deleted from the parent list')
             })
         })
+        describe('test getChildrenAtomicSnapshotById', async () => {
+            it('should return emtpy array if the node doesnt have children', async () => {
+                let result = compressionNode.getChildrenAtomicSnapshotById(snapshotJson[1][0].id)
+                assert.equal(result.length, 0, 'The result should be an empty array')
+            })
+            it('should return correct array if the node have 1 level children', async () => {
+                let result = compressionComplete.getChildrenAtomicSnapshotById(26)
+                assert.equal(result.length, 1, 'The result should have 1 level')
+                assert.equal(result[0].length, 2, 'Within the level, there should be multiple elements')
+                assert.equal(result[0][0].id, 27, 'The first element should be the node with id 27')
+                assert.equal(result[0][1].id, 29, 'The first element should be the node with id 27')
+
+            })
+            it('should return correct array if the node have multiple level children', async () => {
+                let result = compressionComplete.getChildrenAtomicSnapshotById(5)
+                assert.equal(result.length, 2, 'The result should have 1 level')
+                assert.equal(result[0].length, 4, 'Within the level, there should be multiple elements')
+                assert.equal(result[0][0].id, 9, 'The first element should be the node with id 27')
+                assert.equal(result[0][3].id, 26, 'The first element should be the node with id 27')
+                assert.equal(result[1].length, 4, 'Within the level, there should be multiple elements')
+
+            })
+        })
     })
 })
