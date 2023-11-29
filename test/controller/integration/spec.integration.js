@@ -1,27 +1,29 @@
 const assert = require('assert');
-const { HtmlSnapshotCompresed } = require('../../../controller/snapshot')
-const { PugGenerator } = require('../../../controller/pugGenerator/pugGenerator.js')
+const { HtmlSnapshotCompresed } = require('../../../service/snapshot')
+const { PugGenerator } = require('../../../service/pugGenerator/pugGenerator')
 
 describe('Integration test for html compressor and pug generator', () => {
     let singleNode = null;
     let invisibleRect = null;
-    let att1 = {class : 'test class'}
+    let att1 = { class: 'test class' }
     let att1pug = '(class="test class")'
-    let att2 = {style : 'test style'}
-    let attid = {id:"testid"}
+    let att2 = { style: 'test style' }
+    let attid = { id: "testid" }
     let attidPug = '(automationid="testid")'
-    let att12 = {style : 'test style',class : 'test class'}
+    let att12 = { style: 'test style', class: 'test class' }
     let text2Test = '\n\t\"Test update text\"\n\t'
     let textResult = '\"Test update text\"'
     let newCompresedSnapshot = null;
 
     beforeEach('Prepare single node', () => {
         let snapshotJsonNode = require('./files/singlenode.json')
-        let invisibleRect = {"x": 0, "y": 0,
+        let invisibleRect = {
+            "x": 0, "y": 0,
             "width": 0, "height": 0,
             "top": 0, "right": 0, "bottom": 0, "left": 0
         }
-        let visibleRect = { "x": 1, "y": 1,
+        let visibleRect = {
+            "x": 1, "y": 1,
             "width": 1, "height": 1,
             "top": 1, "right": 1, "bottom": 1, "left": 1
         }
@@ -33,10 +35,10 @@ describe('Integration test for html compressor and pug generator', () => {
         newCompresedSnapshot = new HtmlSnapshotCompresed(JSON.stringify(snapshotJsonNode))
     })
     it('should compress the snapshot and generate a pugfile with the same content', async () => {
-        let newMatrix = [[singleNode,singleNode,singleNode],[singleNode,singleNode,singleNode],[singleNode]]
+        let newMatrix = [[singleNode, singleNode, singleNode], [singleNode, singleNode, singleNode], [singleNode]]
         let newMatrixCloned = newCompresedSnapshot.parse(JSON.stringify(newMatrix))
         newMatrixCloned[0][0].id = 1
-        newMatrixCloned[0][0].children = [4,7]
+        newMatrixCloned[0][0].children = [4, 7]
         newMatrixCloned[0][0].attributes = attid
         newMatrixCloned[0][0].nodeName = 'p'
 
@@ -72,7 +74,7 @@ describe('Integration test for html compressor and pug generator', () => {
 
         let node = htmlCompressed.atomicNodeMatrix[0].find(node => node.id === 1)
         assert.equal(node.nodeName, 'p', 'The node name should be a p')
-        assert.equal(JSON.stringify(node.children), JSON.stringify([4,7]), 'The node should have 2 children')
+        assert.equal(JSON.stringify(node.children), JSON.stringify([4, 7]), 'The node should have 2 children')
         assert.equal(JSON.stringify(node.attributes), JSON.stringify(attid), 'The node should have the same attributes')
 
         node = htmlCompressed.atomicNodeMatrix[0].find(node => node.id === 3)
@@ -93,7 +95,7 @@ describe('Integration test for html compressor and pug generator', () => {
         let expectedResult1 = htmlCompressed.atomicNodeMatrix[0][0].nodeName + '#' + htmlCompressed.atomicNodeMatrix[0][0].id + attidPug
         let expectedResult2 = ' text' + '#' + htmlCompressed.atomicNodeMatrix[1][0].id + ' ' + textResult
         let expectedResult3 = ' ' + htmlCompressed.atomicNodeMatrix[1][1].nodeName + '#' + htmlCompressed.atomicNodeMatrix[1][1].id
-        let expectedResult4 = htmlCompressed.atomicNodeMatrix[0][1].nodeName + '#' + htmlCompressed.atomicNodeMatrix[0][1].id + att1pug 
+        let expectedResult4 = htmlCompressed.atomicNodeMatrix[0][1].nodeName + '#' + htmlCompressed.atomicNodeMatrix[0][1].id + att1pug
         //This attribute is wrong but right now the parent is not hierated the attribute
 
         assert.equal(pugGenerator.pugfile.length, 4, 'The pug file should have 4 lines')
@@ -102,6 +104,6 @@ describe('Integration test for html compressor and pug generator', () => {
         assert.equal(pugGenerator.pugfile[2], expectedResult3, 'The third line should be the node name and the id')
         assert.equal(pugGenerator.pugfile[3], expectedResult4, 'The fourth line should be the node name and the id and the attributes')
 
-        
+
     })
 })

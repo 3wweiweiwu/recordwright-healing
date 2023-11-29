@@ -189,3 +189,16 @@
     - **Functionality**: Initializes the instance with details about row headers, their uniqueness, target element, and whether the target element is a row header.
   - **Export**:
     - The class `TableRowStudyResult` is exported using `module.exports`.
+
+- **Class Definition - `HtmlSnapshotCompresed`**:
+  - Path: service\snapshot\index.js
+  - **Constructor**:
+    - **Purpose**: To create a new instance of `HtmlSnapshotCompresed`.
+    - **Parameters**:
+      - `json` (string): A JSON string that will be parsed into an atomic node matrix.
+    - **Functionality**: Parses the JSON input to create an atomic node matrix and initiates the compression process.
+  - **Methods** (excluding static methods and private methods):
+    - **parse(json)**: Parses a JSON string into an atomic node matrix.
+    - **getNodeInformationById(id)**: Retrieves node information by its ID.
+  - **Export**:
+    - The class `HtmlSnapshotCompresed` and the `AtomicNode` class are exported as a module.
