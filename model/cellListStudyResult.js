@@ -1,7 +1,7 @@
 /**
  * Represents a study of matrix columns.
  */
-class matrixColumnStudyResult {
+class CellListStudyResult {
     /**
      * Creates a new instance of matrixColumnStudyResult.
      * @param {string[][]} outerTableCell - An array of rows, where each row is an array of data cell containers in "tag#id" format.
@@ -13,13 +13,13 @@ class matrixColumnStudyResult {
     /**
      * Parses the JSON object and creates a new instance of matrixColumnStudyResult.
      * @param {object} jsonObject - The JSON object to parse.
-     * @returns {matrixColumnStudyResult} - The parsed matrixColumnStudyResult instance.
+     * @returns {CellListStudyResult} - The parsed matrixColumnStudyResult instance.
      */
     static parseFromJSON(jsonObject) {
         const { OuterTableCell } = jsonObject;
 
-        return new matrixColumnStudyResult(OuterTableCell);
+        return new CellListStudyResult(OuterTableCell);
     }
 }
 
-module.exports = matrixColumnStudyResult;
+module.exports = CellListStudyResult;
