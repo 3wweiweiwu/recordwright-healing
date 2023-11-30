@@ -43,12 +43,17 @@ class ElementIdentificationManager {
      * @returns {string} pug text of the element children
      */
     _getPugTextById(htmlSnapshot, elementId) {
-        let targetId = this._getElementId(elementId)
-        let targetNodeChildrenMatrix = htmlSnapshot.getChildrenAtomicMatrixById(targetId)
-        let pugGen = new PugGenerator(JSON.stringify(targetNodeChildrenMatrix))
-        pugGen.createPugFile()
-        let pugStr = pugGen.pugStr
-        return pugStr
+        try {
+            let targetId = this._getElementId(elementId)
+            let targetNodeChildrenMatrix = htmlSnapshot.getChildrenAtomicMatrixById(targetId)
+            let pugGen = new PugGenerator(JSON.stringify(targetNodeChildrenMatrix))
+            pugGen.createPugFile()
+            let pugStr = pugGen.pugStr
+            return pugStr
+        } catch (error) {
+            console.error('error in _getPugTextById')
+        }
+
     }
 
     async identifyElement() {
@@ -63,7 +68,8 @@ class ElementIdentificationManager {
 
             // Step 2: Step Evolution
             // Step 2-1: Step Evolution
-            this.updatedStep = await stepEvolutionSingleton.identifyElement(this.currentdStep, this.currentWebpage, generalResult.outMostContainer);
+            let stepEvolutionResult = await stepEvolutionSingleton.identifyElement(this.currentdStep, this.currentWebpage, generalResult.outMostContainer);
+            this.updatedStep = stepEvolutionResult.updatedStep
 
             // Step 2-2: Prepare webpage for Table Processing
             this.currentWebpage = this._getPugTextById(this.htmlSnapshot, generalResult.outMostContainer)
@@ -114,7 +120,8 @@ class ElementIdentificationManager {
 
 
             // evolve step based on next level container
-            this.updatedStep = await stepEvolutionSingleton.identifyElement(this.updatedStep, this.currentWebpage, container);
+            this.stepEvolutionResult = await stepEvolutionSingleton.identifyElement(this.updatedStep, this.currentWebpage, container);
+            this.updatedStep = this.stepEvolutionResult.updatedStep
 
             // get the updated web page for future iteration
             this.currentWebpage = this._getPugTextById(this.htmlSnapshot, container)

@@ -40,6 +40,13 @@ describe('Element Identification E2E Manager', () => {
             const manager = new ElementIdentificationManager(testStep, webPage)
             const result = manager._getPugTextById(manager.htmlSnapshot, "text#144")
             assert.deepStrictEqual(result, '')
+        })
+        it('should return pug text in case there is children', async () => {
+            const testStep = fs.readFileSync(path.join(__dirname, '../llm/files/family-1-step.md'), 'utf8')
+            const webPage = fs.readFileSync(path.join(__dirname, '../manager/files/family.json'), 'utf8')
+            const manager = new ElementIdentificationManager(testStep, webPage)
+            const result = manager._getPugTextById(manager.htmlSnapshot, "DIV#16")
+            assert.ok(result.includes("DIV#17"))
 
         })
     })
