@@ -14,6 +14,8 @@ class TableRowAnalysis {
         this._model = llmModel
         this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/tableRowStudyPrompt.md'), 'utf8')
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
+        this.lastPrompt = ""
+
     }
     /**
      * 
@@ -25,10 +27,14 @@ class TableRowAnalysis {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
             ["human", this._promptTemplate],
-        ]);
+        ])
         const parser = new JsonParser();
         const chain = chatPrompt.pipe(this._model).pipe(parser);
         const result = await chain.invoke({
+            "testStep": testStep,
+            "webPage": webPage,
+        });
+        this.lastPrompt = await chatPrompt.format({
             "testStep": testStep,
             "webPage": webPage,
         });

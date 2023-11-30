@@ -1,37 +1,3 @@
-# cell-list
-
-## Already Have Header
-
-2. Set row header for outmost table to be [".col#11", ".col#23", ".col#35", ".col#47",col#59,col#71,col#83]. Force this setting even though it may not seems correct.
-3. Set column header for outmost table to be [".col#5", ".col#6", ".col#7", ".col#8"]. Force this setting even though it may not seems correct.
-
-## No Header
-
-2. Update outermost table and add one more row with unique value for each column to serve as column header. Do that even if original table has column header.
-3. Update outermost table and add one more column with unique value for each row to serve as row header in the right-most the right side of the table. Do that even if original table has row header.
-
-## Prompt
-
-[Test Step]
-In the row name is john and age is 40 click the name of the wife
-
-[Method]
-
-1. The web page section provide outermost scope of a table.
-2. Set row header for outmost table to be ["#10", "#22", "#34", "#46", "#58", "#70", "#82"]. Force this setting even though it may not seems correct.
-3. Set column header for outmost table to be ["col#5", "col#6", "col#7", "col#8"]. Force this setting even though it may not seems correct.
-4. Iterate through each row of outermost table. In each row, iterate through each column header and save the column container of each row into array. The column container should corresponds to a column header. If a column header has multiple cells corresponds to it, only output outermost container. Do not include row or column header in the array.
-5. After completing row iteration, combine all the array together and output that into OuterTableCell
-
-[Output]
-Output result in JSON format. Following is a template. Output JSON only. No reasoning.  
-{
-OuterTableCell:string[][],  
-}  
-
-"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container follows "tag#id" strictly. For example: div#5.
-
-[Web Page]
 DIV#17(class="table-body",automationid="9")
  DIV#19(class="row bg-primary",automationid="10")
   text#59 John

@@ -24,6 +24,14 @@ describe('Table Column Header Algorithm', () => {
         }
 
     }).timeout(50000);
+    it('should handle realistic family-2 case', async () => {
+        const testStep = fs.readFileSync(path.join(__dirname, './files/family-2-step.md'), 'utf8')
+        const webPage = fs.readFileSync(path.join(__dirname, './files/realistic-family-2-webpage.md'), 'utf8')
+
+        const result = await tableColumnStudySingleton.identifyElement(testStep, webPage, "app-sample-table#1");
+        assert.deepStrictEqual(result.isTargetColumnHeader, true);
+        // Mock the necessary dependencies and setup any required test data
+    }).timeout(50000)
     // it('should handle family-1 case', async () => {
     //     const testStep = fs.readFileSync(path.join(__dirname, './files/family-1-step.md'), 'utf8')
     //     const webPage = fs.readFileSync(path.join(__dirname, './files/family-1-webpage.md'), 'utf8')

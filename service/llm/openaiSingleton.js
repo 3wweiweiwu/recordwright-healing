@@ -8,6 +8,8 @@ const model = new ChatOpenAI({
     azureOpenAIApiVersion: "2023-07-01-preview",
     azureOpenAIApiInstanceName: "recordwright",
     azureOpenAIApiDeploymentName: "heal-basic",
+    frequencyPenalty: 0,
+    presencePenalty: 0,
 });
 
 module.exports = model;

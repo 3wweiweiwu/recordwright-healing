@@ -14,6 +14,7 @@ class TableColumnAnalysis {
         this._model = llmModel
         this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/tableColumnStudyPrompt.md'), 'utf8')
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
+        this.lastPrompt = ""
     }
     /**
      * 
@@ -21,7 +22,7 @@ class TableColumnAnalysis {
      * @param {string} webPage 
      * @returns {TableColumnStudyResult}
      */
-    async identifyElement(testStep, webPage, container) {
+    async identifyElement(testStep, webPage) {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
             ["human", this._promptTemplate],
@@ -33,6 +34,10 @@ class TableColumnAnalysis {
             "webPage": webPage,
         });
         let classificationResult = TableColumnStudyResult.parseFromJSON(result)
+        this.lastPrompt = await chatPrompt.format({
+            "testStep": testStep,
+            "webPage": webPage,
+        });
         return classificationResult
     }
 

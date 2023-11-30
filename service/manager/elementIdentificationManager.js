@@ -96,8 +96,18 @@ class ElementIdentificationManager {
             let container
             // if both target element is neither in column header nor in row header
             if (!columnResult.isTargetColumnHeader && !rowResult.isTargetRowHeader) {
+                //based on the result of row and column study, identify row and column header list
+                let rowHeaderList = null
+                if (!rowResult.isUniqueRowHeaders) {
+                    rowHeaderList = rowResult.rowHeaderList
+                }
+                let columnHeaderList = null
+                if (!columnResult.isUniqueColumnHeaders) {
+                    columnHeaderList = columnResult.columnHeaderList
+                }
+
                 // identify the next-level container                
-                let cellListResult = await cellListStudySingleton.identifyElement(this.updatedStep, this.currentWebpage);
+                let cellListResult = await cellListStudySingleton.identifyElement(this.updatedStep, this.currentWebpage, rowHeaderList, columnHeaderList);
                 container = cellListResult.cellList[columnIndex][rowIndex]
             }
             else if (columnResult.isTargetColumnHeader) {
