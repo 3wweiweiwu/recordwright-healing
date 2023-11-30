@@ -244,7 +244,7 @@ class HtmlSnapshotCompresed {
      * @param {number} id 
      * @returns {AtomicNode[][]}
      */
-    getChildrenAtomicSnapshotById(id) {
+    getChildrenAtomicMatrixById(id) {
         // Get the node information by its ID
         let nodeResult = this.getNodeInformationById(id)
 

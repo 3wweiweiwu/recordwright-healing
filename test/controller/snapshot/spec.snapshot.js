@@ -329,7 +329,7 @@ describe('compressed snapshot', () => {
         })
         describe('test getChildrenAtomicSnapshotById', async () => {
             it('should return emtpy array if the node doesnt have children', async () => {
-                let result = compressionNode.getChildrenAtomicSnapshotById(snapshotJson[1][0].id)
+                let result = compressionNode.getChildrenAtomicMatrixById(snapshotJson[1][0].id)
                 assert.equal(result.length, 0, 'The result should be an empty array')
             })
             it('should return correct array if the node have 1 level children', async () => {

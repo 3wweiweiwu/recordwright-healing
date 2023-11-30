@@ -19,7 +19,7 @@ class TableColumnAnalysis {
      * 
      * @param {string} testStep 
      * @param {string} webPage 
-     * @returns {StepEvolutionResult}
+     * @returns {TableColumnStudyResult}
      */
     async identifyElement(testStep, webPage, container) {
         const chatPrompt = ChatPromptTemplate.fromMessages([

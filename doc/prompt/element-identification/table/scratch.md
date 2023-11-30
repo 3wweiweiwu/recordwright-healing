@@ -1,286 +1,88 @@
-You are javascript developer. Expand existing javascript class to achieve the algorithm requirement with existing function.
-
-Code section contains a javascript code.Algorithm section includes algorithm you need to develop with javascript.
-
-Class section provides existing class and key functions.
-
-Each section header is wrapped around square brackets[].
-
-[Code]
-class ElementIdentificationManager {
-    constructor() { }
-    /**
-     *@param {string} testStep
-     * @param {HtmlSnapshot} htmlSnap
-     * @returns {string} the id of target element
-     **/
-    async identifyElement(testStep, htmlSnap) {
-
-    }
-}
-[Algorithm]
-# Web Element Identification Algorithm
-
-## Process Workflow
-
-### 1. General Evaluation
-- **Objective**: Determine if the target element is within a matrix or table.
-- **Inputs**:
-  - `testStep`: Description of the test step.
-  - `webPage`: The current web page in PUG format.
-- **Decision**:
-  - If **not** within matrix/table: Return target element ID.
-  - If within matrix/table:
-    - Update step with **Step Evolution**.
-    - Retrieve table context from the outermost container.
-    - Further process with **Table or Matrix Evaluation**.
-
-### 2. Step Evolution
-- **Objective**: Refine the test step based on the web page and outermost container.
-- **Inputs**:
-  - `testStep`: Test step description.
-  - `webPage`: Web page in PUG format.
-  - `OutMostContainer`: Container of the target element.
-- **Output**:
-  - `UpdatedStep`: Refined test step.
-
-### 3. Table or Matrix Evaluation
-- **Objective**: Identify the target element's location within a table or matrix.
-- **Inputs**:
-  - `testStep`, `webPage`, `OutermostContainerType`.
-- **Process**:
-  - Run algorithm based on container type (table or matrix).
-  - For **table**:
-    - Perform "table evaluation" for column/row headers.
-  - For **matrix**:
-    - Perform "matrix evaluation" for column/row headers.
-  - Run "cell list" algorithm.
-  - Determine final container of the target element.
-- **Further Actions**:
-  - If final container differs from target element:
-    - Update step with **Step Evolution**.
-    - Retrieve children of updated container.
-    - Re-run **General Evaluation** with updated parameters.
-
-#### Table Evaluation
-- **Processes**:
-  - Get Column Header.
-  - Get Row Header.
-- **Output**: Column and row header information.
-
-#### Matrix Evaluation
-- **Processes**:
-  - Similar to Table Evaluation but tailored for matrices.
-
-#### Cell List
-- **Objective**: List all data cells in the table/matrix.
-- **Inputs**:
-  - `testStep`, `webPage`, `columnHeaderList`, `rowHeaderList`.
-- **Output**: `OuterTableCell`: Array of data cell containers.
-
-
-[Class]
-
-- **Class Definition - `CellListStudy`**:
-  - Path: service\llm\cellListStudySingleton.js
-  - **Method - `identifyElement`**:
-    - **Purpose**: Identifies all datagrids from a given table.
-    - **Parameters**: `testStep` (string), `webPage` (string), `rowHeaderListStr` (string or null), `columnHeaderListStr` (string or null).
-    - **Functionality**:
-      - Creates a chat prompt sequence.
-      - Parses the response using `JsonParser`.
-      - Determines the state of row and column headers.
-      - Invokes the chain and parses the result into a `CellListStudyResult`.
-    - **Returns**: A `CellListStudyResult` instance with the classification result.
-  - **Export**: Exports an instance of `CellListStudy` initialized with `model`.
-
-- **Class Definition - `GeneralClassification`**:
-  - Path: service\llm\generalClassificationSingleton.js
-  - **Constructor**:
-    - **Parameters**: `llmModel` (used for initializing `_model`).
-    - **Functionality**: Initializes `_promptTemplate` and `_systemMessageTemplate` by reading markdown files.
-  - **Method - `identifyElement`**:
-    - **Purpose**: Identifies elements based on a given test step and webpage.
-    - **Parameters**: `testStep` (string), `webPage` (string).
-    - **Functionality**:
-      - Constructs a chat prompt sequence.
-      - Pipes the prompt through the model and parser.
-      - Invokes the chain with provided arguments and parses the result.
-    - **Returns**: An instance of `GeneralClassificationResult`.
-  - **Export**: Exports an instance of `GeneralClassification` as `GeneralClassificationSingleton`.
-
-- **Class Definition:** -`MatrixColumnAnalysis`
-- Path: service\llm\matrixColumnStudySingleton.js
-- **Public Method:**
-  - **Purpose:** Identify elements based on test steps and web page content.
-  - **Parameters:** `testStep` (string), `webPage` (string)
-  - **Functionality:** Utilizes chat prompts, a large language model, and JSON parsing to analyze data.
-  - **Returns:** Instance of `MatrixRowStudyResult`.
-- **Export:**
-  - An instance of `MatrixColumnAnalysis` with the `model` passed in its constructor.
-
-- **Class Definition - `MatrixRowAnalysis`**:
-  - Path: service\llm\matrixRowStudySingleton.js
-  - **Method - `identifyElement`**:
-    - **Purpose**: Identifies elements on a web page for a Matrix Row Study.
-    - **Parameters**: `testStep`(string), `webPage`(string).
-    - **Functionality**:
-      - Constructs a chat prompt sequence using system and human templates.
-      - Parses the response using `JsonParser`.
-      - Invokes the chat prompt sequence with provided parameters.
-      - Converts the response into a `MatrixRowStudyResult`.
-    - **Returns**: An instance of `MatrixRowStudyResult` with the classification result.
-  - **Export**: Exports an instance of `MatrixRowAnalysis` initialized with `model`.
-
-- **Class Definition - `StepEvolution`**:
-  - Path: service\llm\stepEvolutionSingleton.js
-  - This class is responsible for identifying elements within a webpage. It is initialized with a language model (`llmModel`).
-  - **Method - `identifyElement`**:
-    - **Purpose**: Identifies elements on a webpage based on specified parameters.
-    - **Parameters**: `testStep` (string), `webPage` (string), `container` (string - represents the container of the target element in div#id format).
-    - **Functionality**:
-      - Creates a chat prompt sequence using `ChatPromptTemplate`.
-      - Uses `JsonParser` to parse responses.
-      - Invokes a processing chain with the provided parameters and obtains results.
-      - Parses the result into a `StepEvolutionResult`.
-    - **Returns**: An instance of `StepEvolutionResult` with the classification result.
-  - **Export**:
-    - **Type**: Singleton Export.
-    - **Description**: Exports an instance of `StepEvolution` initialized with `model`, named `GeneralClassificationSingleton`.
-
-- **Class Definition - `TableColumnAnalysis`**:
-  - Path: service\llm\tableColumnStudySingleton.js
-  - **Method - `identifyElement`**:
-    - **Purpose**: This method is designed to identify elements in a given web page based on a test step.
-    - **Parameters**:
-      - `testStep` (string): Represents the specific test step to be analyzed.
-      - `webPage` (string): The web page to be analyzed.
-      - `container`: This parameter is not clearly defined in the method signature, but presumably, it's used in the analysis process.
-    - **Functionality**:
-      - Initializes a chat prompt sequence using system and human templates.
-      - Utilizes `JsonParser` to parse the responses.
-      - Creates a processing chain that includes the model and parser.
-      - Invokes the processing chain with the test step and web page data.
-      - Parses the result into a `TableColumnStudyResult` object.
-    - **Returns**: Returns an instance of `TableColumnStudyResult` with the classification result.
-  - **Export**: Exports an instance of `TableColumnAnalysis` initialized with `model` as `tableColumnAnalysisSingleton`.
-
-- **Class Definition - `TableRowAnalysis`**:
-  - Path: service\llm\talbeRowStudySingleton.js
-  - This class is designed for analyzing table rows within a web page context.
-  - **Constructor**:
-    - Initializes the class with a language model (`llmModel`), and reads system and human prompt templates from specified file paths.
-  - **Public Method - `identifyElement`**:
-    - **Purpose**: To identify specific elements within a web page based on a test step.
-    - **Parameters**:
-      - `testStep` (string): Represents the test step to be analyzed.
-      - `webPage` (string): The web page content to be analyzed.
-    - **Functionality**:
-      - The method generates a chat prompt using system and human templates.
-      - Utilizes `JsonParser` for parsing chat prompt results.
-      - Forms a processing chain combining the model and parser to process the given test step and web page.
-      - Invokes this chain and captures the result.
-    - **Returns**: Returns a `TableRowStudyResult` instance, which is derived from parsing the result of the processing chain.
-  - **Export**:
-    - Exports an instance of `TableRowAnalysis` as `tableColumnAnalysisSingleton`, initialized with `model`.
-
-- **Class Definition - `CellListStudyResult`**:
-  - Path: model\cellListStudyResult.js
-  - **Constructor**:
-    - **Purpose**: To create a new instance of `CellListStudyResult`.
-    - **Parameters**:
-      - `outerTableCell` (string[][]): This parameter represents an array of rows, where each row is an array of data cell containers in "tag#id" format.
-    - **Functionality**: The constructor initializes the instance with the provided `outerTableCell` data, storing the array of rows.
-  - **Export**:
-    - The class `CellListStudyResult` is exported.
-
-- **Class Definition - `GeneralClassificationModel`**:
-  - Path: model\generalClassificationResult.js
-  - **Constructor**:
-    - **Purpose**: Creates an instance of `GeneralClassificationModel`.
-    - **Parameters**:
-      - `targetElementId` (string): The ID of the target element in "tag#id" format.
-      - `outMostContainer` (string|null): The outermost container of the target element in "tag#id" format, or null if it does not exist.
-      - `outermostContainerType` ("matrix"|"table"|null): The type of the outermost container, can be "matrix", "table", or null.
-    - **Functionality**: Initializes the instance with the target element ID, its outermost container, and the type of the outermost container.
-  - **Export**:
-    - The class `GeneralClassificationModel` is exported.
-
-- **Class Definition - `matrixColumnStudyResult`**:
-  - Path: model\matrixColumnStudyResult.js
-  - **Constructor**:
-    - **Purpose**: To create a new instance of `matrixColumnStudyResult`.
-    - **Parameters**:
-      - `isUniqueColumnHeaders` (boolean): Indicates if the table has unique column headers.
-      - `columnHeaderList` (string[]): Array of column header containers for the outermost table.
-      - `columnHeaderCell` (string): The column header that uniquely identifies the column containing the target element.
-      - `isTargetColumnHeader` (boolean): Indicates if the target element is within a column header container.
-      - `targetElement` (string): The ID of the target element in "tag#id" format.
-    - **Functionality**: The constructor initializes the instance with properties related to column headers, their uniqueness, target element, and whether the target element is a column header.
-  - **Export**:
-    - The class `matrixColumnStudyResult` is exported as a module.
-
-- **Class Definition - `MatrixRowStudyResult`**:
-  - Path: model\matrixRowStudyResult.js
-  - **Constructor**:
-    - **Purpose**: To create a new instance of `MatrixRowStudyResult`.
-    - **Parameters**:
-      - `isUniqueRowHeaders` (boolean): Indicates if the table has unique row headers.
-      - `rowHeaderList` (string[]): Array of row header containers for the outermost table.
-      - `rowHeaderCell` (string): The row header that uniquely identifies the row containing the target element.
-      - `isTargetRowHeader` (boolean): Indicates if the target element is within a row header container.
-      - `targetElement` (string): The ID of the target element in "tag#id" format.
-    - **Functionality**: Initializes the instance with data about row headers, their uniqueness, and the target element within the headers.
-  - **Export**:
-    - The class `MatrixRowStudyResult` is exported using `module.exports`.
-
-- **Class Definition - `StepEvolutionResult`**:
-  - Path: model\stepEvolutionResult.js
-  - **Constructor**:
-    - **Purpose**: To create a new instance of `StepEvolutionResult`.
-    - **Parameters**:
-      - `updatedStep` (string): This parameter represents the updated step for target element identification.
-    - **Functionality**: The constructor initializes the instance with the `updatedStep` parameter, setting up the updated step for identification.
-  - **Export**:
-    - The class `StepEvolutionResult` is exported using `module.exports`.
-
-- **Class Definition - `TableColumnStudy`**:
-  - Path: model\tableColumnStudyResult.js
-  - **Constructor**:
-    - **Purpose**: To create a new instance of `TableColumnStudy`.
-    - **Parameters**:
-      - `isUniqueColumnHeaders` (boolean): Indicates if the table has unique column headers.
-      - `columnHeaderList` (string[]): Array of column header containers for the outermost table.
-      - `columnHeaderCell` (string): The column header that uniquely identifies the column containing the target element.
-      - `isTargetColumnHeader` (boolean): Indicates if the target element is within a column header container.
-      - `targetElement` (string): The ID of the target element in "tag#id" format.
-    - **Functionality**: Initializes the instance with details about column headers, their uniqueness, target element, and whether the target element is a column header.
-  - **Export**:
-    - The class `TableColumnStudy` is exported using `module.exports`.
-
-- **Class Definition - `TableRowStudyResult`**:
-  - Path: model\tableRowStudyResult.js
-  - **Constructor**:
-    - **Purpose**: To create a new instance of `TableRowStudyResult`.
-    - **Parameters**:
-      - `isUniqueRowHeaders` (boolean): Indicates if the table has unique row headers.
-      - `rowHeaderList` (string[]): Array of row header containers for the outermost table.
-      - `rowHeaderCell` (string): The row header that uniquely identifies the row containing the target element.
-      - `isTargetRowHeader` (boolean): Indicates if the target element is within a row header container.
-      - `targetElement` (string): The ID of the target element in "tag#id" format.
-    - **Functionality**: Initializes the instance with details about row headers, their uniqueness, target element, and whether the target element is a row header.
-  - **Export**:
-    - The class `TableRowStudyResult` is exported using `module.exports`.
-
-- **Class Definition - `HtmlSnapshotCompresed`**:
-  - Path: service\snapshot\index.js
-  - **Constructor**:
-    - **Purpose**: To create a new instance of `HtmlSnapshotCompresed`.
-    - **Parameters**:
-      - `json` (string): A JSON string that will be parsed into an atomic node matrix.
-    - **Functionality**: Parses the JSON input to create an atomic node matrix and initiates the compression process.
-  - **Methods** (excluding static methods and private methods):
-    - **parse(json)**: Parses a JSON string into an atomic node matrix.
-    - **getNodeInformationById(id)**: Retrieves node information by its ID.
-  - **Export**:
-    - The class `HtmlSnapshotCompresed` and the `AtomicNode` class are exported as a module.
+```PUG
+BODY#4
+ text#15 Family Information
+ DIV#16(class="table",automationid="2")
+  DIV#17(class="table-body",automationid="9")
+   DIV#19(class="row bg-primary",automationid="10")
+    text#59 John
+    text#60 25
+    text#61 <john@example.com>
+    DIV#62(class="sub-table",automationid="15")
+     DIV#91(class="row",automationid="16")
+      text#133 Daughter
+      text#134 Emily
+     DIV#92(class="row",automationid="19")
+      text#135 Wife
+      text#136 Lindsy
+   DIV#20(class="row bg-secondary",automationid="22")
+    text#63 Jane
+    text#64 30
+    text#65 <jane@example.com>
+    DIV#66(class="sub-table",automationid="27")
+     DIV#93(class="row",automationid="28")
+      text#137 Son
+      text#138 Jack
+     DIV#94(class="row",automationid="31")
+      text#139 Husband
+      text#140 Sam
+   DIV#21(class="row bg-primary",automationid="34")
+    text#67 John
+    text#68 40
+    text#69 <samuel@example.com>
+    DIV#70(class="sub-table",automationid="39")
+     DIV#95(class="row",automationid="40")
+      text#141 Brother
+      text#142 Michael
+     DIV#96(class="row",automationid="43")
+      text#143 Wife
+      text#144 Anna
+   DIV#22(class="row bg-secondary",automationid="46")
+    text#71 Lisa
+    text#72 28
+    text#73 <lisa@example.com>
+    DIV#74(class="sub-table",automationid="51")
+     DIV#97(class="row",automationid="52")
+      text#145 Sister
+      text#146 Sarah
+     DIV#98(class="row",automationid="55")
+      text#147 Mother
+      text#148 Maggie
+   DIV#23(class="row bg-primary",automationid="58")
+    text#75 Daniel
+    text#76 35
+    text#77 <daniel@example.com>
+    DIV#78(class="sub-table",automationid="63")
+     DIV#99(class="row",automationid="64")
+      text#149 Father
+      text#150 John Sr.
+     DIV#100(class="row",automationid="67")
+      text#151 Daughter
+      text#152 Danielle
+   DIV#24(class="row bg-secondary",automationid="70")
+    text#79 Maggie
+    text#80 60
+    text#81 <maggie@example.com>
+    DIV#82(class="sub-table",automationid="75")
+     DIV#101(class="row",automationid="76")
+      text#153 Daughter
+      text#154 Lisa
+     DIV#102(class="row",automationid="79")
+      text#155 Son
+      text#156 Chris
+   DIV#25(class="row bg-primary",automationid="82")
+    text#83 Chris
+    text#84 32
+    text#85 <chris@example.com>
+    DIV#86(class="sub-table",automationid="87")
+     DIV#103(class="row",automationid="88")
+      text#157 Mother
+      text#158 Maggie
+     DIV#104(class="row",automationid="91")
+      text#159 Brother
+      text#160 Luke
+  DIV#26(class="row",automationid="4")
+   text#87 Name
+   text#88 Age
+   text#89 Email
+   text#90 Family Member
+```
