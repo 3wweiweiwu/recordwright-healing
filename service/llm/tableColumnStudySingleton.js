@@ -3,16 +3,18 @@ const JsonParser = require('./util/jsonParser')
 const fs = require('fs')
 const path = require('path')
 const TableColumnStudyResult = require('../../model/tableColumnStudyResult')
-
+const LlmAlgorithmBase = require('./algorithmBase')
 
 
 const ChatPromptTemplate = require("langchain/prompts").ChatPromptTemplate
 
 
-class TableColumnAnalysis {
+class TableColumnAnalysis extends LlmAlgorithmBase {
     constructor(llmModel) {
+        super()
         this._model = llmModel
         this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/tableColumnStudyPrompt.md'), 'utf8')
+        this._promptTemplate = this._promptTemplate.replace(/\r\n/g, "\n")
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
         this.lastPrompt = ""
     }
@@ -22,7 +24,9 @@ class TableColumnAnalysis {
      * @param {string} webPage 
      * @returns {TableColumnStudyResult}
      */
-    async identifyElement(testStep, webPage) {
+    async _identifyElementWithLLM(testStep, webPage) {
+        testStep = testStep.replace(/\r\n/g, "\n")
+        webPage = webPage.replace(/\r\n/g, "\n")
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
             ["human", this._promptTemplate],

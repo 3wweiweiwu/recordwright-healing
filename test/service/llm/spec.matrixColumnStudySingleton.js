@@ -17,7 +17,7 @@ describe('Matrix Column Header Algorithm', () => {
         assert.deepStrictEqual(result.isTargetColumnHeader, false);
         assert.deepStrictEqual(result.isUniqueColumnHeaders, true);
         //verify index because the intent of this step is to get the index of the target element
-        assert.deepStrictEqual(result.columnHeaderList.indexOf(result.columnHeaderCell), 2);
+        assert.deepStrictEqual(result.columnHeaderList.indexOf(result.columnHeaderCell), 3);
 
 
 

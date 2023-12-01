@@ -1,11 +1,11 @@
 const assert = require('assert');
-const tableRowSTudySingleton = require('../../../service/llm/talbeRowStudySingleton');
+const tableRowSTudySingleton = require('../../../service/llm/tableRowStudySingleton');
 const TableRowStudyResult = require('../../../model/tableRowStudyResult');
 const fs = require('fs')
 const path = require('path')
 
 describe('Table Row Header Algorithm', () => {
-    it('should handle family-1 case', async () => {
+    it('should handle family-2 case', async () => {
         const testStep = fs.readFileSync(path.join(__dirname, './files/family-2-step.md'), 'utf8')
         const webPage = fs.readFileSync(path.join(__dirname, './files/family-2-webpage.md'), 'utf8')
 
@@ -22,6 +22,31 @@ describe('Table Row Header Algorithm', () => {
 
 
     }).timeout(50000);
+    it('should handle real-family-2 case', async () => {
+        const testStep = fs.readFileSync(path.join(__dirname, './files/family-2-step.md'), 'utf8')
+        const webPage = fs.readFileSync(path.join(__dirname, './files/real-family-2-webpage.md'), 'utf8')
+
+        // Mock the necessary dependencies and setup any required test data
+
+
+        const result = await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        // await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        // await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        // await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        // await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        // await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        // await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        // await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        // await tableRowSTudySingleton.identifyElement(testStep, webPage);
+        assert.deepStrictEqual(result.isTargetRowHeader, false);
+        assert.deepStrictEqual(result.isUniqueRowHeaders, false);
+        //verify index because the intent of this step is to get the index of the target element
+        assert.deepStrictEqual(result.rowHeaderList.indexOf(result.rowHeaderCell), 2);
+
+
+
+    }).timeout(500000);
     // it('should handle family-1 case', async () => {
     //     const testStep = fs.readFileSync(path.join(__dirname, './files/family-1-step.md'), 'utf8')
     //     const webPage = fs.readFileSync(path.join(__dirname, './files/family-1-webpage.md'), 'utf8')

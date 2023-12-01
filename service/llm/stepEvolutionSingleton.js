@@ -3,14 +3,15 @@ const JsonParser = require('./util/jsonParser')
 const fs = require('fs')
 const path = require('path')
 const StepEvolutionResult = require('../../model/stepEvolutionResult')
-
+const LlmAlgorithmBase = require('./algorithmBase')
 
 
 const ChatPromptTemplate = require("langchain/prompts").ChatPromptTemplate
 
 
-class StepEvolution {
+class StepEvolution extends LlmAlgorithmBase {
     constructor(llmModel) {
+        super()
         this._model = llmModel
         this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/stepEvolutionPrompt.md'), 'utf8')
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
@@ -22,7 +23,7 @@ class StepEvolution {
      * @param {string} container The container of the target element in div#id format
      * @returns {StepEvolutionResult}
      */
-    async identifyElement(testStep, webPage, container) {
+    async _identifyElementWithLLM(testStep, webPage, container) {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
             ["human", this._promptTemplate],

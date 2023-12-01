@@ -3,14 +3,15 @@ const JsonParser = require('./util/jsonParser')
 const fs = require('fs')
 const path = require('path')
 const MatrixRowStudyResult = require('../../model/matrixColumnStudyResult')
-
+const LlmAlgorithmBase = require('./algorithmBase')
 
 
 const ChatPromptTemplate = require("langchain/prompts").ChatPromptTemplate
 
 
-class MatrixColumnAnalysis {
+class MatrixColumnAnalysis extends LlmAlgorithmBase {
     constructor(llmModel) {
+        super()
         this._model = llmModel
         this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/matrixColumnStudyPrompt.md'), 'utf8')
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
@@ -21,7 +22,7 @@ class MatrixColumnAnalysis {
      * @param {string} webPage 
      * @returns {MatrixRowStudyResult}
      */
-    async identifyElement(testStep, webPage) {
+    async _identifyElementWithLLM(testStep, webPage) {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
             ["human", this._promptTemplate],
@@ -33,6 +34,10 @@ class MatrixColumnAnalysis {
             "webPage": webPage,
         });
         let classificationResult = MatrixRowStudyResult.parseFromJSON(result)
+        this.lastPrompt = await chatPrompt.format({
+            "testStep": testStep,
+            "webPage": webPage,
+        });
         return classificationResult
     }
 

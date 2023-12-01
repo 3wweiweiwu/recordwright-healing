@@ -3,17 +3,19 @@ const JsonParser = require('./util/jsonParser')
 const fs = require('fs')
 const path = require('path')
 const CellListStudyResult = require('../../model/cellListStudyResult')
-
+const LlmAlgorithmBase = require('./algorithmBase')
 
 
 const ChatPromptTemplate = require("langchain/prompts").ChatPromptTemplate
 
 
-class CellListStudy {
+class CellListStudy extends LlmAlgorithmBase {
     constructor(llmModel) {
+        super()
         this._model = llmModel
         this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/cellListStudyPrompt.md'), 'utf8')
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
+        this.lastPrompt = ''
     }
     /**
      * 
@@ -23,7 +25,7 @@ class CellListStudy {
      * @param {string|null} columnHeaderListStr the column header list in string format. If null means there is no unique column header
      * @returns {CellListStudyResult}
      */
-    async identifyElement(testStep, webPage, rowHeaderListStr, columnHeaderListStr) {
+    async _identifyElementWithLLM(testStep, webPage, rowHeaderListStr, columnHeaderListStr) {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
             ["human", this._promptTemplate],
@@ -39,6 +41,12 @@ class CellListStudy {
             columnHeaderState
         });
         let classificationResult = CellListStudyResult.parseFromJSON(result)
+        this.lastPrompt = await (chatPrompt.format({
+            "testStep": testStep,
+            "webPage": webPage,
+            rowHeaderState,
+            columnHeaderState
+        }))
         return classificationResult
     }
     /**
@@ -48,9 +56,9 @@ class CellListStudy {
      */
     _getRowHeaderState(rowHeaderListStr) {
         if (rowHeaderListStr === null)
-            return "2. Update outermost table and add one more row with unique value for each column to serve as column header. Do that even if original table has column header."
+            return "Update outermost table and add one more row with unique value for each column to serve as column header. Do that even if original table has column header."
         else
-            return `2. Set row header for outmost table to be ${rowHeaderListStr}. Force this setting even though it may not seems correct.`
+            return `Set row header for outmost table to be [${rowHeaderListStr}]. Force this setting even though it may not seems correct.`
 
     }
     /**
@@ -60,9 +68,9 @@ class CellListStudy {
      */
     _getColumnHeaderState(columnHeaderListStr) {
         if (columnHeaderListStr === null)
-            return "3. Update outermost table and add one more column with unique value for each row to serve as row header in the right-most the right side of the table. Do that even if original table has row header."
+            return "Update outermost table and add one more column with unique value for each row to serve as row header in the right-most the right side of the table. Do that even if original table has row header."
         else
-            return `3. Set column header for outmost table to be ${columnHeaderListStr}. Force this setting even though it may not seems correct.`
+            return `Set column header for outmost table to be [${columnHeaderListStr}]. Force this setting even though it may not seems correct.`
 
     }
 

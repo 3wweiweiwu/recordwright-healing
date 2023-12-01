@@ -29,7 +29,7 @@ describe('Table Column Header Algorithm', () => {
         const webPage = fs.readFileSync(path.join(__dirname, './files/realistic-family-2-webpage.md'), 'utf8')
 
         const result = await tableColumnStudySingleton.identifyElement(testStep, webPage, "app-sample-table#1");
-        assert.deepStrictEqual(result.isTargetColumnHeader, true);
+        assert.deepStrictEqual(result.isUniqueColumnHeaders, true);
         // Mock the necessary dependencies and setup any required test data
     }).timeout(50000)
     // it('should handle family-1 case', async () => {

@@ -4,7 +4,8 @@
 [Method]
 
 * The table within web page section provide outermost scope of a table
-* Based on the outermost table, identify it has approriate column headers that summarize its context based on general visualization. Output identification result to "isUniquecolumnHeaders"
+* Based on the outermost table, identify it has approriate column headers that summarize its context based on general visualization. In case there is sub-table or sub-matrix in the column, treat the whole sub-table and sub-matrix as one column.
+* Output identification result to "isUniquecolumnHeaders"
 * If there is no appropriate column header, add column header to original table with unique number such as 1,2,3.
 * Output the column headers of outermost table to "columnHeaderList"
 * Based on the test step and web page, identify the target element. Return result to targetElement.

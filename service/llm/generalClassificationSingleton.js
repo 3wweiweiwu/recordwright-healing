@@ -3,14 +3,15 @@ const JsonParser = require('./util/jsonParser')
 const fs = require('fs')
 const path = require('path')
 const GeneralClassificationResult = require('../../model/generalClassificationResult')
-
+const LlmAlgorithmBase = require('./algorithmBase')
 
 
 const ChatPromptTemplate = require("langchain/prompts").ChatPromptTemplate
 
 
-class GeneralClassification {
+class GeneralClassification extends LlmAlgorithmBase {
     constructor(llmModel) {
+        super()
         this._model = llmModel
         this._promptTemplate = fs.readFileSync(path.join(__dirname, './template/generalClassificationPrompt.md'), 'utf8')
         this._systemMessageTemplate = fs.readFileSync(path.join(__dirname, './template/systemPrompt.md'), 'utf8')
@@ -21,7 +22,7 @@ class GeneralClassification {
      * @param {string} webPage 
      * @returns {GeneralClassificationResult}
      */
-    async identifyElement(testStep, webPage) {
+    async _identifyElementWithLLM(testStep, webPage) {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
             ["human", this._promptTemplate],

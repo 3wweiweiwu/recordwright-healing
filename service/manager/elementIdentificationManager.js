@@ -4,7 +4,7 @@ const matrixColumnStudySingleton = require('../llm/matrixColumnStudySingleton');
 const matrixRowStudySingleton = require('../llm/matrixRowStudySingleton');
 const stepEvolutionSingleton = require('../llm/stepEvolutionSingleton');
 const tableColumnStudySingleton = require('../llm/tableColumnStudySingleton');
-const talbeRowStudySingleton = require('../llm/talbeRowStudySingleton');
+const talbeRowStudySingleton = require('../llm/tableRowStudySingleton');
 const { HtmlSnapshotCompresed } = require('../snapshot')
 const { PugGenerator } = require('../pugGenerator/pugGenerator')
 
@@ -80,6 +80,8 @@ class ElementIdentificationManager {
             let rowResult;
             if (generalResult.outermostContainerType === 'table') {
                 // Table Evaluation
+
+                //await new Promise(resolve => setTimeout(resolve, 1000));
                 columnResult = await tableColumnStudySingleton.identifyElement(this.updatedStep, this.currentWebpage);
                 rowResult = await talbeRowStudySingleton.identifyElement(this.updatedStep, this.currentWebpage);
             } else if (generalResult.outermostContainerType === 'matrix') {
@@ -108,7 +110,7 @@ class ElementIdentificationManager {
 
                 // identify the next-level container                
                 let cellListResult = await cellListStudySingleton.identifyElement(this.updatedStep, this.currentWebpage, rowHeaderList, columnHeaderList);
-                container = cellListResult.cellList[columnIndex][rowIndex]
+                container = cellListResult.outerTableCell[rowIndex][columnIndex]
             }
             else if (columnResult.isTargetColumnHeader) {
                 // if target element is in column header,
