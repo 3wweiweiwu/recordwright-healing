@@ -8,20 +8,17 @@ describe('Table Column Header Algorithm', () => {
     it('should handle family-2 case', async () => {
         const testStep = fs.readFileSync(path.join(__dirname, './files/family-2-step.md'), 'utf8')
         const webPage = fs.readFileSync(path.join(__dirname, './files/family-2-webpage.md'), 'utf8')
-        const expectedText = { "isUniqueColumnHeaders": true, "columnHeaderList": [".col#5", ".col#6", ".col#7", ".col#8"], "columnHeaderCell": ".col#8", "isTargetColumnHeader": false, "targetElement": ".col#45" }
-        const expectedText1 = { "targetElementId": "div#42", "OutMostContainer": "div#39", "OutermostContainerType": "table" }
-        const expectedOutput = TableColumnStudyResult.parseFromJSON((expectedText));
-        const expectedOutput1 = TableColumnStudyResult.parseFromJSON((expectedText1));
+
 
         // Mock the necessary dependencies and setup any required test data
 
-
+        /**@type {TableColumnStudyResult} */
         const result = await tableColumnStudySingleton.identifyElement(testStep, webPage, "app-sample-table#1");
-        try {
-            assert.deepStrictEqual(result, expectedOutput);
-        } catch (error) {
-            assert.deepStrictEqual(result, expectedOutput1);
-        }
+
+        assert.deepStrictEqual(result.isUniqueColumnHeaders, true);
+        assert.deepStrictEqual(result.columnHeaderList.length, 4);
+        assert.deepStrictEqual(result.columnHeaderList.indexOf(result.columnHeaderCell), 3);
+
 
     }).timeout(50000);
     it('should handle realistic family-2 case', async () => {

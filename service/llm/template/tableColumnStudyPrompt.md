@@ -4,9 +4,10 @@
 [Method]
 
 * The table within web page section provide outermost scope of a table
-* Based on the outermost table, identify it has approriate column headers that summarize its context based on general visualization. In case there is sub-table or sub-matrix in the column, treat the whole sub-table and sub-matrix as one column.
+* Based on the outermost table, identify it has approriate column headers that summarize its context based on general visualization. In case there is sub-table or sub-matrix in the column, treat the whole sub-table and sub-matrix as one data cell in column.
 * Output identification result to "isUniquecolumnHeaders"
-* If there is no appropriate column header, add column header to original table with unique number such as 1,2,3.
+* If there is no appropriate column header, assign a unique number to each column include in the outermost table as column header, such as 1 for first column, 2 for second column, and so on. The assignment of these number should correspond to the order of the column of outermost table
+* If isUniquecolumnHeaders is false, identify the column of row header. Remove that column from the table.
 * Output the column headers of outermost table to "columnHeaderList"
 * Based on the test step and web page, identify the target element. Return result to targetElement.
 * Iterate column header that are identified by column headers until it find target element. If target element are found within the column, The output the column header will become the output of columnHeaderCell

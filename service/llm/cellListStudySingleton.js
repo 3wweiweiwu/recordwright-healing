@@ -41,8 +41,10 @@ class CellListStudy extends LlmAlgorithmBase {
      * 
      * @param {string} testStep 
      * @param {string} webPage 
-     * @param {string|null} rowHeaderListStr the row header list in string format. If null means there is no unique row header
-     * @param {string|null} columnHeaderListStr the column header list in string format. If null means there is no unique column header
+     * @param {string} rowHeaderListStr the row header list in string format. If null means there is no unique row header
+     * @param {string} columnHeaderListStr the column header list in string format. If null means there is no unique column header
+     * @param {boolean} isUniqueRowHeaders Does the table has unique row headers
+     * @param {boolean} isUniqueColumnHeaders Does the table has unique column headers
      * @returns {CellListStudyResult}
      */
     async _identifyElementWithLLM(testStep, webPage, rowHeaderListStr, columnHeaderListStr) {

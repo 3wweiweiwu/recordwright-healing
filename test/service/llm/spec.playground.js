@@ -6,23 +6,36 @@ describe('This is a playground', () => {
     it("should work", async () => {
         let systemPrompt = fs.readFileSync(path.join(__dirname, '../../../service/llm/template/systemPrompt.md'), 'utf8')
         let human1 = `
-        [Test Step]  
-In the row name is john and age is 40 click the name of the wife  
+[Test Step]
+In the row name is john and age is 40 click the name of the wife
 
-[Method]  
+[Method]
 
-1. The web page section provide outermost scope of a table.  
-2. Update outermost table and add one more row with unique value for each column to serve as column header. Do that even if original table has column header.    
-3. Set column header for outmost table to be [text#87,text#88,text#89,text#90]. Force this setting even though it may not seems correct.    
-4. Now, we need to iterate through each row of the outermost table. For each row, we will create an array to store the identifiers of the individual data cells or the outermost container of sub-components (like a sub-table) within the row. Do not include the identifier of the entire row itself. These identifiers should correspond to the specific outermost row and column header. If a column has a sub-component (like a sub-table), only include the identifier of the outermost container of the sub-component in the array. If a column has a sub-component (like a sub-table), do not include data cells within the sub-component in the array. We repeat this process for all rows in the table, excluding the header row. By the end of this step, we should have an array for each row in the table. Each of these arrays should contain the identifiers of the data cells or outermost container, in the order of the column headers.  
+* The table within web page section provide outermost scope of a table
+* Based on the outermost table, identify it has approriate row headers that summarize its context based on general visualization. In case there is sub-table or sub-matrix in the row, treat the whole sub-table and sub-matrix as one datacell in row.
+* Output identification result to "isUniquerowHeaders"
+* If there is no appropriate row header, assign a unique number to each row include in the outermost table as a row header, such as 1 for the first row, 2 for the second row, and so on. The assignment of these numbers should correspond to the order of the rows of outermost table. 
+* if isUniquerowHeaders is false, identify the row of column header. Remove that row from table. 
+* Output the row headers of outermost table to "rowHeaderList"
+* Based on the test step and web page, identify the target element. Return result to targetElement
+* Iterate row header that are identified by row headers until it find target element. If target element are found within the row, The output the row header will become the output of rowHeaderCell
+* Test if the target element is a row header after table header update, return result to isTargetrowHeader.
 
 [Output]  
-Output result in JSON format. Following is a template. Output JSON only. No reasoning.    
-{{  
-OuterTableCell:string[][],    
-}}    
-  
-"OuterTableCell" represents outer-most table in array of array format. The outer array represents array of rows. The inner array represents array data cell container in the row. The data cell container follows "tag#id" strictly. For example: div#5.  
+Output result in JSON format.
+Following is a template.
+{{
+isUniqueRowHeaders: boolean,  
+rowHeaderList:string[],  
+rowHeaderCell:string,
+isTargetRowHeader:boolean,
+targetElement:string
+}}
+"isUniqueRowHeaders" represents if the table has row headers that are different from each other and provide general summary to the content of its row.
+"rowHeaderList" represents array of row header container for the out-most table. The container is in "tag#id" format. In case there is no appripriate row header, the container is in the format of number such as 1,2,3  
+"rowHeaderCell" is coming from prior value of row header list. It represents the row headers that identifies the row in the out-most table containing the target element. It is within rowHeaderList. The cell container is in "tag#id" format . In case there is no row header that generally summarize the row context, the container is in the format of number such as 1,2,3. Note that the rowHeaderCell should be the only row that contains the target element, not the target element itself.  
+"isTargetRowHeader" returns if target element is within a row header container
+targetElement returns id of target element in tag#id format such as "div#100".
 
 [Web Page]  
 DIV#17(class="table-body",automationid="9")
@@ -108,26 +121,47 @@ DIV#26(class="row",automationid="4")
  text#88 Age
  text#89 Email
  text#90 Family Member
+
+
+        
         `
         let ai1 = `
-        Based on the provided information, the following steps are taken:
-
-        1. The outermost scope of the table is identified as DIV#17.
-        2. The table is updated to include a new row with unique values for each column to serve as the column header. The column headers are set to be [text#87,text#88,text#89,text#90].
-        3. The table is iterated through each row. For each row, an array is created to store the identifiers of the individual data cells or the outermost container of sub-components within the row. These identifiers correspond to the specific outermost row and column header. If a column has a sub-component, only the identifier of the outermost container of the sub-component is included in the array. This process is repeated for all rows in the table, excluding the header row.
+        [Method Step 1]
+        The outermost table is identified by the DIV#17 tag. 
         
-        The output JSON is as follows:
+        [Method Step 2]
+        The table does not have unique row headers that summarize its context based on general visualization. The row headers are not unique as they are repeating for each row (Name, Age, Email, Family Member). 
         
+        [Method Step 3]
+        Since there are no appropriate row headers, we assign a unique number to each row in the outermost table as a row header. The assignment is as follows: 
+        1 for the first row (DIV#19), 
+        2 for the second row (DIV#20), 
+        3 for the third row (DIV#21), 
+        4 for the fourth row (DIV#22), 
+        5 for the fifth row (DIV#23), 
+        6 for the sixth row (DIV#24), 
+        7 for the seventh row (DIV#25), 
+        8 for the eighth row (DIV#26).
+        
+        [Method Step 4]
+        The row headers of the outermost table are: ["1", "2", "3", "4", "5", "6", "7", "8"]
+        
+        [Method Step 5]
+        Based on the test step and web page, the target element is the name of the wife in the row where the name is John and age is 40. This corresponds to text#144 Anna.
+        
+        [Method Step 6]
+        Iterating through the row headers, we find the target element in the row header "3".
+        
+        [Method Step 7]
+        The target element is not a row header after table header update.
+        
+        [Output]
         {{
-        "OuterTableCell": [
-        ["div#19", "text#59", "text#60", "text#61", "div#62"],
-        ["div#20", "text#63", "text#64", "text#65", "div#66"],
-        ["div#21", "text#67", "text#68", "text#69", "div#70"],
-        ["div#22", "text#71", "text#72", "text#73", "div#74"],
-        ["div#23", "text#75", "text#76", "text#77", "div#78"],
-        ["div#24", "text#79", "text#80", "text#81", "div#82"],
-        ["div#25", "text#83", "text#84", "text#85", "div#86"]
-        ]
+        "isUniqueRowHeaders": false,  
+        "rowHeaderList": ["1", "2", "3", "4", "5", "6", "7", "8"],  
+        "rowHeaderCell": "3",
+        "isTargetRowHeader": false,
+        "targetElement": "text#144"
         }}
 
         `
@@ -136,15 +170,40 @@ DIV#26(class="row",automationid="4")
             ["system", systemPrompt],
             ["human", human1],
             ['ai', ai1],
-            ["human", `Explain the reason why you think think the first element of OUterTable includes div#19 based on the method`],
-            // ['ai', `I apologize for the confusion. You're correct. Based on the method, the first element of OuterTableCell should be ["text#59","text#60","text#61","DIV#62"]. 
+            ["human", `Check method again and see if rowHeaderList" is ["1", "2", "3", "4", "5", "6", "7", "8"] is correct`],
 
-            // The reason is that the method instructs us to create an array for each row that contains the identifiers of the individual data cells or the outermost container of sub-components within the row. These identifiers should correspond to the specific outermost row and column header. 
+            // ['ai', `You're correct, my apologies for the oversight. The DIV#26 is indeed a column header, not a row header. It should not be included in the row header list. 
 
-            // In the case of the first row, the identifiers for the data cells are "text#59", "text#60", and "text#61". The identifier for the outermost container of the sub-component (the sub-table) is "DIV#62". 
+            // Let's correct the output:
 
-            // The identifier "div#19" represents the entire row, not the individual data cells or the outermost container of the sub-components within the row. Therefore, it should not be included in the array for the first row.`],
-            // ['human', "which instruction cause your previous mistake? Improve the instruction so that you won't make similar mistake again"]
+            // [Method Step 3 - Correction]
+            // Assign a unique number to each row in the outermost table as a row header. The assignment is as follows: 
+            // 1 for the first row (DIV#19), 
+            // 2 for the second row (DIV#20), 
+            // 3 for the third row (DIV#21), 
+            // 4 for the fourth row (DIV#22), 
+            // 5 for the fifth row (DIV#23), 
+            // 6 for the sixth row (DIV#24), 
+            // 7 for the seventh row (DIV#25).
+
+            // [Method Step 4 - Correction]
+            // The row headers of the outermost table are: ["1", "2", "3", "4", "5", "6", "7"]
+
+            // [Output - Correction]
+            // {{
+            // "isUniqueRowHeaders": false,  
+            // "rowHeaderList": ["1", "2", "3", "4", "5", "6", "7"],  
+            // "rowHeaderCell": "3",
+            // "isTargetRowHeader": false,
+            // "targetElement": "text#144"
+            // }}`],
+
+            // ['human', "Identify the instruction that cause the confusion. Improve or add additional the instruction so that you won't make similar mistake again"],
+
+            // ['ai', `The confusion arose from the instruction in the Method section: "If there is no appropriate row header, add row header to original table with unique number such as 1,2,3." This could be interpreted as adding a unique number for each element in the row, rather than for each row itself.
+
+            // Improved instruction: "If there is no appropriate row header, assign a unique number to each row in the table as a row header, such as 1 for the first row, 2 for the second row, and so on. These numbers should correspond to the order of the rows in the table." This makes it clear that the unique numbers are assigned to rows, not individual elements within the rows.`],
+            // ['human', "but why adding a unique number for each element in the row will cause a n extra two rows?"],
         ]);
         const chain = chatPrompt.pipe(model);
         const result = await chain.invoke()
