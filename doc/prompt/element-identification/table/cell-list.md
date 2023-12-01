@@ -18,10 +18,10 @@ In the row name is john and age is 40 click the name of the wife
 [Method]
 
 1. The web page section provide outermost scope of a table.
-2. Set row header for outmost table to be ["#10", "#22", "#34", "#46", "#58", "#70", "#82"]. Force this setting even though it may not seems correct.
-3. Set column header for outmost table to be ["col#5", "col#6", "col#7", "col#8"]. Force this setting even though it may not seems correct.
-4. Iterate through each row of outermost table. In each row, iterate through each column header and save the column container of each row into array. The column container should corresponds to a column header. If a column header has multiple cells corresponds to it, only output outermost container. Do not include row or column header in the array.
-5. After completing row iteration, combine all the array together and output that into OuterTableCell
+2. Update outermost table and add one more row with unique value for each column to serve as column header. Do that even if original table has column header.  
+3. Set column header for outmost table to be [text#87,text#88,text#89,text#90]. Force this setting even though it may not seems correct.  
+4. Iterate through each row of outermost table. In each row, iterate through column header of outermost table and save the column container of each row into array. The column container should corresponds to a column header. If a column header has multiple cells corresponds to it, only output outermost container of multiple cells. Do not include row or column header in the array.
+5. After completing row iteration, combine all the array together and output that into OuterTableCell. The output should be a array of array that match the size of the column header and road header.
 
 [Output]
 Output result in JSON format. Following is a template. Output JSON only. No reasoning.  
@@ -36,7 +36,7 @@ DIV#17(class="table-body",automationid="9")
  DIV#19(class="row bg-primary",automationid="10")
   text#59 John
   text#60 25
-  text#61 john@example.com
+  text#61 <john@example.com>
   DIV#62(class="sub-table",automationid="15")
    DIV#91(class="row",automationid="16")
     text#133 Daughter
@@ -47,7 +47,7 @@ DIV#17(class="table-body",automationid="9")
  DIV#20(class="row bg-secondary",automationid="22")
   text#63 Jane
   text#64 30
-  text#65 jane@example.com
+  text#65 <jane@example.com>
   DIV#66(class="sub-table",automationid="27")
    DIV#93(class="row",automationid="28")
     text#137 Son
@@ -58,7 +58,7 @@ DIV#17(class="table-body",automationid="9")
  DIV#21(class="row bg-primary",automationid="34")
   text#67 John
   text#68 40
-  text#69 samuel@example.com
+  text#69 <samuel@example.com>
   DIV#70(class="sub-table",automationid="39")
    DIV#95(class="row",automationid="40")
     text#141 Brother
@@ -69,7 +69,7 @@ DIV#17(class="table-body",automationid="9")
  DIV#22(class="row bg-secondary",automationid="46")
   text#71 Lisa
   text#72 28
-  text#73 lisa@example.com
+  text#73 <lisa@example.com>
   DIV#74(class="sub-table",automationid="51")
    DIV#97(class="row",automationid="52")
     text#145 Sister
@@ -80,7 +80,7 @@ DIV#17(class="table-body",automationid="9")
  DIV#23(class="row bg-primary",automationid="58")
   text#75 Daniel
   text#76 35
-  text#77 daniel@example.com
+  text#77 <daniel@example.com>
   DIV#78(class="sub-table",automationid="63")
    DIV#99(class="row",automationid="64")
     text#149 Father
@@ -91,7 +91,7 @@ DIV#17(class="table-body",automationid="9")
  DIV#24(class="row bg-secondary",automationid="70")
   text#79 Maggie
   text#80 60
-  text#81 maggie@example.com
+  text#81 <maggie@example.com>
   DIV#82(class="sub-table",automationid="75")
    DIV#101(class="row",automationid="76")
     text#153 Daughter
@@ -102,7 +102,7 @@ DIV#17(class="table-body",automationid="9")
  DIV#25(class="row bg-primary",automationid="82")
   text#83 Chris
   text#84 32
-  text#85 chris@example.com
+  text#85 <chris@example.com>
   DIV#86(class="sub-table",automationid="87")
    DIV#103(class="row",automationid="88")
     text#157 Mother
