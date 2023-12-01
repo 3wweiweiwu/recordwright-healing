@@ -20,8 +20,15 @@ In the row name is john and age is 40 click the name of the wife
 1. The web page section provide outermost scope of a table.
 2. Update outermost table and add one more row with unique value for each column to serve as column header. Do that even if original table has column header.  
 3. Set column header for outmost table to be [text#87,text#88,text#89,text#90]. Force this setting even though it may not seems correct.  
-4. Iterate through each row of outermost table. In each row, iterate through column header of outermost table and save the column container of each row into array. The column container should corresponds to a column header. If a column header has multiple cells corresponds to it, only output outermost container of multiple cells. Do not include row or column header in the array.
-5. After completing row iteration, combine all the array together and output that into OuterTableCell. The output should be a array of array that match the size of the column header and road header.
+4. Now, we need to iterate through each row of the outermost table. For each row, we will create an array to store the identifiers of the data cells.
+
+We start by looking at the first row (after the header row). For each column in this row, we find the corresponding data cell. The identifier of this data cell should match one of the column headers we set in step 3. We add the identifier of this data cell to our array.
+
+If a column has multiple data cells, we only add the identifier of the outermost container of these cells to our array.
+
+We repeat this process for all rows in the table, excluding the header row.
+
+By the end of this step, we should have an array for each row in the table. Each of these arrays should contain the identifiers of the data cells in that row, in the order of the column headers.
 
 [Output]
 Output result in JSON format. Following is a template. Output JSON only. No reasoning.  

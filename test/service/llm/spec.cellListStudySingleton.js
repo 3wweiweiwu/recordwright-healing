@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 
 describe('Cell List Study Algorithm', () => {
-    it('should handle family-1 case', async () => {
+    it('should handle family-2 case', async () => {
         const testStep = fs.readFileSync(path.join(__dirname, './files/family-2-step.md'), 'utf8')
         const webPage = fs.readFileSync(path.join(__dirname, './files/family-2-webpage.md'), 'utf8')
 
@@ -17,6 +17,21 @@ describe('Cell List Study Algorithm', () => {
         assert.deepStrictEqual(result.outerTableCell.length, 7, 'The matrix should be 7x4');
         assert.deepStrictEqual(result.outerTableCell.find(row => row.length != 4), undefined)// 'The matrix should be 7x4'
 
+
+
+    }).timeout(50000);
+    it('should handle real-family-2 case', async () => {
+        const testStep = fs.readFileSync(path.join(__dirname, './files/family-2-step.md'), 'utf8')
+        const webPage = fs.readFileSync(path.join(__dirname, './files/real-family-2-webpage.md'), 'utf8')
+
+        // Mock the necessary dependencies and setup any required test data
+
+        for (let i = 0; i < 3; i++) {
+            const result = await cellListStudySingleton.identifyElement(testStep, webPage, null, ["text#87", "text#88", "text#89", "text#90"]);
+
+            assert.deepStrictEqual(result.outerTableCell.length, 7, 'The matrix should be 7x4');
+            assert.deepStrictEqual(result.outerTableCell.find(row => row.length != 4), undefined)// 'The matrix should be 7x4'
+        }
 
 
     }).timeout(50000);

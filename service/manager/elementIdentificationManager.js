@@ -20,7 +20,7 @@ class ElementIdentificationManager {
         this.originalStep = testStep
 
         /**@type {string} current test step */
-        this.currentdStep = this.originalStep
+        this.updatedStep = this.originalStep
 
         let pugGen = new PugGenerator(JSON.stringify(this.htmlSnapshot.atomicNodeMatrix))
         pugGen.createPugFile()
@@ -61,14 +61,14 @@ class ElementIdentificationManager {
         //keep max iteration to 10 to avoid infinite loop
         for (let i = 0; i < 10; i++) {
             // Step 1: General Evaluation
-            let generalResult = await generalClassificationSingleton.identifyElement(this.currentdStep, this.currentWebpage);
+            let generalResult = await generalClassificationSingleton.identifyElement(this.updatedStep, this.currentWebpage);
             if (!generalResult.outMostContainer) {
                 return generalResult.targetElementId; // Return if not in a matrix/table
             }
 
             // Step 2: Step Evolution
             // Step 2-1: Step Evolution
-            let stepEvolutionResult = await stepEvolutionSingleton.identifyElement(this.currentdStep, this.currentWebpage, generalResult.outMostContainer);
+            let stepEvolutionResult = await stepEvolutionSingleton.identifyElement(this.updatedStep, this.currentWebpage, generalResult.outMostContainer);
             this.updatedStep = stepEvolutionResult.updatedStep
 
             // Step 2-2: Prepare webpage for Table Processing
@@ -100,11 +100,11 @@ class ElementIdentificationManager {
             if (!columnResult.isTargetColumnHeader && !rowResult.isTargetRowHeader) {
                 //based on the result of row and column study, identify row and column header list
                 let rowHeaderList = null
-                if (!rowResult.isUniqueRowHeaders) {
+                if (rowResult.isUniqueRowHeaders) {
                     rowHeaderList = rowResult.rowHeaderList
                 }
                 let columnHeaderList = null
-                if (!columnResult.isUniqueColumnHeaders) {
+                if (columnResult.isUniqueColumnHeaders) {
                     columnHeaderList = columnResult.columnHeaderList
                 }
 

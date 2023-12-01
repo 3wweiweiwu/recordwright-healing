@@ -18,6 +18,26 @@ class CellListStudy extends LlmAlgorithmBase {
         this.lastPrompt = ''
     }
     /**
+    * 
+    * @param {string} testStep 
+    * @param {string} webPage 
+    * @param {string|null} rowHeaderListStr the row header list in string format. If null means there is no unique row header
+    * @param {string|null} columnHeaderListStr the column header list in string format. If null means there is no unique column header
+    * @returns {CellListStudyResult}
+    */
+    async identifyElement(testStep, webPage, rowHeaderListStr, columnHeaderListStr) {
+        for (let i = 0; i < 10; i++) {
+            try {
+                return (await this._identifyElementWithLLM(testStep, webPage, rowHeaderListStr, columnHeaderListStr))
+            } catch (error) {
+                console.log(error)
+                console.log("retrying")
+            }
+
+
+        }
+    }
+    /**
      * 
      * @param {string} testStep 
      * @param {string} webPage 
