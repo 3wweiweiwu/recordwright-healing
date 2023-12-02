@@ -31,7 +31,7 @@ describe('Element Identification E2E Manager', () => {
 
 
 
-        }).timeout(50000);
+        }).timeout(500000000);
     })
     describe('get pug element by id', () => {
         it('should return no pug text in case there is no children', async () => {

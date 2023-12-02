@@ -62,7 +62,7 @@ class ElementIdentificationManager {
         for (let i = 0; i < 10; i++) {
             // Step 1: General Evaluation
             let generalResult = await generalClassificationSingleton.identifyElement(this.updatedStep, this.currentWebpage);
-            if (!generalResult.outMostContainer) {
+            if (generalResult.outermostContainerType == null) {
                 return generalResult.targetElementId; // Return if not in a matrix/table
             }
 
