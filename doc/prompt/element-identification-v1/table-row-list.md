@@ -1,17 +1,21 @@
 [Test Step]
+N/A
+
+[Test Step]
 Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.
 
 [Method]
 
-1. The PUG in web page section provide scope of a matrix
+1. The PUG in web page section provide scope of a matrix. Identify the outermost matrix in the web page.
 2. List the first cell of each columns for outermost matrix including the column of row header if exists. Consider sub-matrixs or sub-matrices within column as single data cells for the column.
+3. Output result from step 2 to firstCellList
 
 [Output]
 Output result in JSON format
 {
-  firstcolumnCellList:string[]
+  firstCellList:string[]
 }
-"firstcolumnCellList" represents array of first cell in column header container for the out-most matrix. The container is in "tag#id" format.
+"firstCellList" represents array of first cells in column header container for the outermost matrix. The container is in "tag#id" format.
 
 [Web Page]  
 
