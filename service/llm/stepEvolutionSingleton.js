@@ -23,6 +23,18 @@ class StepEvolution extends LlmAlgorithmBase {
      * @param {string} container The container of the target element in div#id format
      * @returns {StepEvolutionResult}
      */
+    async identifyElement(testStep, webPage, container) {
+        let identifyPromise = this._identifyElementWithLLM(testStep, webPage, container)
+        let result = await this._runPromiseWithRetry(identifyPromise)
+        return result
+    }
+    /**
+     * 
+     * @param {string} testStep 
+     * @param {string} webPage 
+     * @param {string} container The container of the target element in div#id format
+     * @returns {StepEvolutionResult}
+     */
     async _identifyElementWithLLM(testStep, webPage, container) {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],

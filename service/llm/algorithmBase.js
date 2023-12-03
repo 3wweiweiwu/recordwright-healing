@@ -23,5 +23,22 @@ class LlmAlgorithmBase {
 
         }
     }
+    /**
+     * 
+     * @param {object} func 
+     * @returns 
+     */
+    async _runPromiseWithRetry(func) {
+        for (let i = 0; i < 10; i++) {
+            try {
+                return (await func)
+            } catch (error) {
+                console.log(error)
+                console.log("retrying")
+            }
+
+
+        }
+    }
 }
 module.exports = LlmAlgorithmBase

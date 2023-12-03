@@ -49,9 +49,7 @@ describe('GeneralClassification', () => {
         const testStep = fs.readFileSync(path.join(__dirname, './files/severity-1-step.md'), 'utf8')
         const webPage = fs.readFileSync(path.join(__dirname, './files/severity-1-webpage.md'), 'utf8')
         const expectedText = { "targetElementId": "div#116", "OutMostContainer": "div#500", "OutermostContainerType": "matrix" }
-        const expectedText1 = { "targetElementId": "col#45", "OutMostContainer": "table#2", "OutermostContainerType": "table" }
         const expectedOutput = GeneralClassificationResult.parseFromJSON((expectedText));
-        const expectedOutput1 = GeneralClassificationResult.parseFromJSON((expectedText1));
 
         // Mock the necessary dependencies and setup any required test data
 
@@ -59,13 +57,9 @@ describe('GeneralClassification', () => {
         let result = await GeneralClassification.identifyElement(testStep, webPage);
         result.targetElementId = result.targetElementId.replace("\.", "")
         result.outMostContainer = result.outMostContainer.replace("\.", "")
-        try {
-            //set result's target element id equal to exepcted result because this target element id is wrong anyway
-            result.targetElementId = expectedOutput.targetElementId
-            assert.deepStrictEqual(result, expectedOutput);
-        } catch (error) {
-            assert.deepStrictEqual(result, expectedOutput1);
-        }
+
+        assert.deepStrictEqual(result, expectedOutput);
+
 
     }).timeout(50000);
     it('should handle severity-3 case', async () => {
