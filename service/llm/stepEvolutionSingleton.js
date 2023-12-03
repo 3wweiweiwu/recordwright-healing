@@ -30,11 +30,13 @@ class StepEvolution extends LlmAlgorithmBase {
         ]);
         const parser = new JsonParser();
         const chain = chatPrompt.pipe(this._model).pipe(parser);
-        const result = await chain.invoke({
+        let input = {
             "testStep": testStep,
             "webPage": webPage,
             "container": container
-        });
+        }
+        const result = await chain.invoke(input);
+        this.lastPrompt = await chatPrompt.format(input)
         let classificationResult = StepEvolutionResult.parseFromJSON(result)
         return classificationResult
     }
