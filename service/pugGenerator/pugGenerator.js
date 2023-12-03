@@ -1,7 +1,6 @@
 const { AtomicNode } = require('../snapshot')
 
-class PugGenerator 
-{
+class PugGenerator {
     pugfile = []
     pugStr = ''
 
@@ -9,8 +8,7 @@ class PugGenerator
      * PuG Generator
      * @param {string} json
      * */
-    constructor(json)
-    {
+    constructor(json) {
         this.matrix = this.parse(json)
     }
 
@@ -27,88 +25,69 @@ class PugGenerator
         return atomicNodeMatrix
     }
 
-    tabs(number)
-    {
+    tabs(number) {
         let tabString = ''
-        for(let tab = 0; tab< number; tab++)
-        {
-            tabString += ' '
+        for (let tab = 0; tab < number; tab++) {
+            tabString += '\t'
         }
         return tabString
     }
 
-    printInformation(row, node = null, id = null)
-    {
+    printInformation(row, node = null, id = null) {
         let pugRow = ''
-        if(id)
-        {
-            if(!this.matrix[row]) 
-            {
+        if (id) {
+            if (!this.matrix[row]) {
                 return
             }
-            for(let nodeSearch = 0; nodeSearch<this.matrix[row].length; nodeSearch++)
-            {
-                if(this.matrix[row][nodeSearch].id === id)
-                {
+            for (let nodeSearch = 0; nodeSearch < this.matrix[row].length; nodeSearch++) {
+                if (this.matrix[row][nodeSearch].id === id) {
                     node = nodeSearch
                     break
                 }
             }
         }
-        if(this.matrix[row][node].writted)
-        {
+        if (this.matrix[row][node].writted) {
             return
         }
-        pugRow += this.tabs(row) + this.matrix[row][node].nodeName.replace('#','')
+        pugRow += this.tabs(row) + this.matrix[row][node].nodeName.replace('#', '')
         pugRow += ('#') + this.matrix[row][node].id
         pugRow += this.getAttributes(node, row)
-        if(this.matrix[row][node].text)
-        {
+        if (this.matrix[row][node].text) {
             pugRow += ` ${this.matrix[row][node].text}`
         }
         this.pugfile.push(pugRow)
         this.matrix[row][node].writted = true
-        for(let child of this.matrix[row][node].children)
-        {
-            if(node !== null) 
-            {
-                this.printInformation(row+1, null, id = child)
+        for (let child of this.matrix[row][node].children) {
+            if (node !== null) {
+                this.printInformation(row + 1, null, id = child)
             }
         }
     }
 
-    getAttributes(node, row)
-    {
+    getAttributes(node, row) {
         let attributes = ''
         let add = false
-        for(const [key, value] of Object.entries(this.matrix[row][node].attributes))
-        {
-            if(add)
-            {
+        for (const [key, value] of Object.entries(this.matrix[row][node].attributes)) {
+            if (add) {
                 attributes += ','
             }
-            if(key === 'id')
-            {
+            if (key === 'id') {
                 attributes += `automationid="${value}"`
             } else {
                 attributes += `${key}="${value}"`
             }
             add = true
         }
-        if(attributes !== '')
-        {
+        if (attributes !== '') {
             attributes = `(${attributes})`
         }
         return attributes
     }
 
-    createPugFile()
-    {
+    createPugFile() {
         this.pugfile = []
-        for(let row = 0; row < this.matrix.length; row++)
-        {
-            for(let node = 0; node < this.matrix[row].length; node++)
-            {
+        for (let row = 0; row < this.matrix.length; row++) {
+            for (let node = 0; node < this.matrix[row].length; node++) {
                 this.printInformation(row, node)
             }
         }

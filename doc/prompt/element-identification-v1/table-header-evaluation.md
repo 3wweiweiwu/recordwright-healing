@@ -1,11 +1,8 @@
 you are a quality engineer try to identify web element in a web page based on test step, and output according to the spec. Following four section provide information for you. Web Page section contains a web page and layout in PUG template. Current div tags are placeholder, you need to evaluate the most suitable tag for each web element based on the textual and layout context. Test Step section provides test procedure. Understand test step context based on the web page. Output section provides rules you should follow to output result. Method section provides rules you should follow to generate output. Follow the method section and output your thought process about each method step by step. Each section header is wrapped around square brackets [].
 
-[Test Step]
-In the row name is john and age is 40 click the name of the wife
-
 [Method]
 
-1. The PUG in web page section provide outermost scope of a table. As a table, either 
+1. The PUG in web page section provide outermost scope of a table. 
 2. Assess whether the outermost table has row headers that accurately summarize the content of each row. Consider sub-tables or sub-matrices within row as single data cells.
 3. Assess whether the outermost table has column headers that accurately summarize the content of each column. Consider sub-tables or sub-matrices within row as single data cells.
 

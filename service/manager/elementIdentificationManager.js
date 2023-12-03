@@ -99,7 +99,7 @@ class ElementIdentificationManager {
             // if both target element is neither in column header nor in row header
             if (!columnResult.isTargetColumnHeader && !rowResult.isTargetRowHeader) {
                 //based on the result of row and column study, identify row and column header list
-                let rowHeaderList = null
+            let rowHeaderList = null
                 if (rowResult.isUniqueRowHeaders) {
                     rowHeaderList = rowResult.rowHeaderList
                 }

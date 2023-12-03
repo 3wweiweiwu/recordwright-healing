@@ -7,8 +7,8 @@
 * Based on the outermost table, identify it has approriate row headers that summarize its context based on general visualization. In case there is sub-table or sub-matrix in the row, treat the whole sub-table and sub-matrix as one datacell in row.
 * Output identification result to "isUniquerowHeaders"
 * If there is no appropriate row header, assign a unique number to each row include in the outermost table as a row header, such as 1 for the first row, 2 for the second row, and so on. The assignment of these numbers should correspond to the order of the rows of outermost table.
-* if isUniquerowHeaders is false, identify the row of column header. Remove that row from table.
 * Output the row headers of outermost table to "rowHeaderList"
+* Identify the row of column header. If it exists, remove that from rowHeaderList.
 * Based on the test step and web page, identify the target element. Return result to targetElement
 * Iterate row header that are identified by row headers until it find target element. If target element are found within the row, The output the row header will become the output of rowHeaderCell
 * Test if the target element is a row header after table header update, return result to isTargetrowHeader.
