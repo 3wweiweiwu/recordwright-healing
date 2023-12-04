@@ -43,15 +43,21 @@ class TableIdentifierStudy extends LlmAlgorithmBase {
 
         //if identifier is column, then it's coresponds to row header, vice versa
         let otherIdentifierType = 'column'
+        let tableTypeDefinition = 'A table is normally consist of table body, table footer and table caption. A table body normally contains data cells and at least one row header or column header. '
         if (identifierType === 'column') {
             otherIdentifierType = 'row'
+        }
+
+        if (tableType === 'matrix') {
+            tableTypeDefinition = "A matrix is normally consist of matrix body, matrix footer and matrix label. A matrix body refers to the main content area of a matrix or table-like structure"
         }
         //populate input for the prompt
         let input = {
             "webPage": webPage,
             "tableType": tableType,
             "identifierType": identifierType,
-            "otherIdentifierType": otherIdentifierType
+            "otherIdentifierType": otherIdentifierType,
+            "tableTypeDefinition": tableTypeDefinition
         }
 
         const chatPrompt = ChatPromptTemplate.fromMessages([

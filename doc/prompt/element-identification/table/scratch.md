@@ -1,26 +1,24 @@
-[Test Step]  
+[Test Step]
 N/A
 
 [Method]
 
-1. The PUG in web page section provide scope of a tale
-2. Set array "elementList" to be empty array.
-3. Iterate through all cells of outermost table in the same row of div#501, and add identifier to elementList. If a cell contains sub-component such as sub-tables or sub-matrices, only include the identifier of outermost cell container.
-4. Output elementList
+1. The PUG in web page section provide scope of a matrix. A matrix is normally consist of matrix body, matrix footer and matrix label. A matrix body refers to the main content area of a matrix or table-like structure. Identify the outermost matrix body and header in the web page.
+2. From visual perspective, list the first cell of each columns for outermost matrix body. The columns includes row header column and all data columns. Consider sub-tables or sub-matrices within column as single data cells for the column.
+3. Output result from step 2 to "firstCellList".
 
 [Output]
 Output result in JSON format
 {
-  elementList:string[]
+  firstCellList:string[]
 }
-
-elementList returns array of string. Each element in the array is inthe format of tag#id format such as "div#100".
+"firstCellList" represents array of first cells in column header container for the outermost matrix. All container in the array should be in "tag#id" format such as div#1.
 
 [Web Page]  
 div.row
     div.heatmap-body-heading Criticality
     div.heatmap-body-grid
-        div
+           div
             div.row
                 div#505.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
                 div#200.ng-star-inserted.heatmap-card-heatmap-card--p3
