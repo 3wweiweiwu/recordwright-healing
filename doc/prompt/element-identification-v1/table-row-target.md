@@ -1,244 +1,105 @@
 [Test Step]  
-Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.
+In the row name is john and age is 40 click the name of the wife
 
 [Method]
 
 1. The PUG in web page section provide scope of a matrix
-2. Iterate through column character element  ["div#600", "div#601", "div#602", "div#603", "div#604"], and identify the column character element that in the same column as target element described in test step. Output result to targetcolumncharacterElement.
-3. Identify the target element based on information from step 2
+2. Iterate through row character element  ["text#87", "text#59", "text#63", "text#67", "text#71", "text#75", "text#79", "text#83"], and identify the row character element that in the same row as target element described in test step. Output result to "characterItem".
+3. Identify the target element based on information from step 2 and output to "targetElement"
 
 [Output]
 Output result in JSON format
 {
-  columnCharacterItem:string
+  characterItem:string
   targetElement:string
 }
 targetElement returns id of target element in tag#id format such as "div#100".
-columnCharacterItem returns id of column character item in tag#id format such as "div#100".
+characterItem returns id of row character item in tag#id format such as "div#100".
 
 [Web Page]  
 
 ```PUG
-div.row
-    div.heatmap-body-heading Criticality
-    div.heatmap-body-grid
-        div 
-            div.row
-                div#505.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
-                div#200.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#104 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#105 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#106 --
-                div#201.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#107 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#108 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#109 --
-                div#202.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#110 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#111 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#112 --
-                div#203.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#113 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#114 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#115 --
-            div.row
-                div#501.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High
-                div#204.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#116 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#117 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#118 --
-                div#205.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#119 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#120 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#121 --
-                div#206.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#122 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#123 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#124 --
-                div#207.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#125 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#126 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#127 --
-            div.row
-                div#502.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Medium
-                div#208.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#128 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#129 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#130 --
-                div#209.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#128 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#129 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#130 --
-                div#210.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#131 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#132 6
-                    div.row.heatmap-card-item
-                        svg
-                        div#133 --
-                div#211.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#134 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#135 1
-                    div.row.heatmap-card-item
-                        svg
-                        div#136 --
-            div.row
-                div#503.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Low
-                div#212.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#137 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#138 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#139 --
-                div#213.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#140 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#141 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#142 --
-                div#214.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#143 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#144 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#145 --
-                div#215.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#146 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#147 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#148 --
-            div.row
-                div#504.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very Low
-                div#216.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#149 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#150 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#151 --
-                div#217.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#152 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#153 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#154 --
-                div#218.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#155 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#156 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#157 --
-                div#219.ng-star-inserted.heatmap-card-heatmap-card--p3
-                    div.row.heatmap-card-item
-                        svg
-                        div#158 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#159 --
-                    div.row.heatmap-card-item
-                        svg
-                        div#160 --                        
-            div.row
-                div#600 white space
-                div#601.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
-                div#602.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
-                div#603.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
-                div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High                
-
-div.heatmap-footer Severity
+DIV#17(class="table-body",automationid="9")
+ DIV#19(class="row bg-primary",automationid="10")
+  text#59 John
+  text#60 25
+  text#61 john@example.com
+  DIV#62(class="sub-table",automationid="15")
+   DIV#91(class="row",automationid="16")
+    text#133 Daughter
+    text#134 Emily
+   DIV#92(class="row",automationid="19")
+    text#135 Wife
+    text#136 Lindsy
+ DIV#20(class="row bg-secondary",automationid="22")
+  text#63 Jane
+  text#64 30
+  text#65 jane@example.com
+  DIV#66(class="sub-table",automationid="27")
+   DIV#93(class="row",automationid="28")
+    text#137 Son
+    text#138 Jack
+   DIV#94(class="row",automationid="31")
+    text#139 Husband
+    text#140 Sam
+ DIV#21(class="row bg-primary",automationid="34")
+  text#67 John
+  text#68 40
+  text#69 samuel@example.com
+  DIV#70(class="sub-table",automationid="39")
+   DIV#95(class="row",automationid="40")
+    text#141 Brother
+    text#142 Michael
+   DIV#96(class="row",automationid="43")
+    text#143 Wife
+    text#144 Anna
+ DIV#22(class="row bg-secondary",automationid="46")
+  text#71 Lisa
+  text#72 28
+  text#73 lisa@example.com
+  DIV#74(class="sub-table",automationid="51")
+   DIV#97(class="row",automationid="52")
+    text#145 Sister
+    text#146 Sarah
+   DIV#98(class="row",automationid="55")
+    text#147 Mother
+    text#148 Maggie
+ DIV#23(class="row bg-primary",automationid="58")
+  text#75 Daniel
+  text#76 35
+  text#77 daniel@example.com
+  DIV#78(class="sub-table",automationid="63")
+   DIV#99(class="row",automationid="64")
+    text#149 Father
+    text#150 John Sr.
+   DIV#100(class="row",automationid="67")
+    text#151 Daughter
+    text#152 Danielle
+ DIV#24(class="row bg-secondary",automationid="70")
+  text#79 Maggie
+  text#80 60
+  text#81 maggie@example.com
+  DIV#82(class="sub-table",automationid="75")
+   DIV#101(class="row",automationid="76")
+    text#153 Daughter
+    text#154 Lisa
+   DIV#102(class="row",automationid="79")
+    text#155 Son
+    text#156 Chris
+ DIV#25(class="row bg-primary",automationid="82")
+  text#83 Chris
+  text#84 32
+  text#85 chris@example.com
+  DIV#86(class="sub-table",automationid="87")
+   DIV#103(class="row",automationid="88")
+    text#157 Mother
+    text#158 Maggie
+   DIV#104(class="row",automationid="91")
+    text#159 Brother
+    text#160 Luke
+DIV#26(class="row",automationid="4")
+ text#87 Name
+ text#88 Age
+ text#89 Email
+ text#90 Family Member
 ```
