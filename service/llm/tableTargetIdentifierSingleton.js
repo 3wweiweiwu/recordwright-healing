@@ -58,8 +58,8 @@ class TableTargetIdentifierStudy extends LlmAlgorithmBase {
         ])
         const parser = new JsonParser();
         const chain = chatPrompt.pipe(this._model).pipe(parser);
-        const result = await chain.invoke(input);
         this.lastPrompt = await chatPrompt.format(input);
+        const result = await chain.invoke(input);
         let classificationResult = new TableTargetIdentifierResult(result.characterItem, result.targetElement)
         return classificationResult
     }

@@ -49,8 +49,8 @@ describe('Table Target Identifier Study', () => {
 
 
         /**@type {TableIdentifierResult} */
-        const result = await tableTargetIdentifierSingleton.identifyElement(step, webPage, 'table', 'column', ["text#59", "text#60", "text#61", "DIV#62"]);
-        assert.ok(result.characterItem.includes('62'))
+        const result = await tableTargetIdentifierSingleton.identifyElement(step, webPage, 'table', 'column', ["text#87", "text#88", "text#89", "DIV#90"]);
+        assert.ok(result.characterItem.includes('90'))
         assert.ok(result.targetElement.includes('144'))
     }).timeout(50000)
     it('should generate right row header list for severity-2 case', async () => {
@@ -68,8 +68,8 @@ describe('Table Target Identifier Study', () => {
 
         const step = fs.readFileSync(path.join(__dirname, './files/severity-2-step.md'), 'utf8')
 
-        const result = await tableTargetIdentifierSingleton.identifyElement(step, webPage, 'matrix', 'column', ["div.heatmap-body-heading Criticality", "div#505", "div#200", "div#201", "div#202", "div#203"]);
+        const result = await tableTargetIdentifierSingleton.identifyElement(step, webPage, 'matrix', 'column', ["div#601", "div#602", "div#603", "div#604"]);
 
-        assert.deepEqual(result.firstCellList.length, 6)
+        assert.ok(result.characterItem.includes('604'))
     }).timeout(50000)
 });

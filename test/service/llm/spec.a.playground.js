@@ -6,136 +6,280 @@ describe('A - This is a playground', () => {
     it("should work", async () => {
         let systemPrompt = `you are a quality engineer. You need to analyze web page and make output based on information from method and test step. Following four section provide information for you. Web Page section contains a web page and layout in PUG template. Test Step section provides test procedure. Understand test step context based on the web page. Output section provides rules you should follow to output result. Method section provides rules you should follow to generate output. Follow the method section and output your thought process about each method step by step. Each section header is wrapped around square brackets [].`
         let human1 = `
-        [Test Step]
-        N/A
+        [Test Step]  
+        Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.
         
         [Method]
         
-        1. The PUG in web page section provide scope of a table. A table is normally consist of table body, table footer and table caption. A table body normally contains data cells and at least one row header or column header. . Identify the outermost table body in the web page. 
-        2. List the first cell of each rows for outermost table body. The rows includes the row of column header and all data rows. Consider sub-tables or sub-matrices within row as single data cells for the row.
-        3. Output result from step 2 to "firstCellList".
-        
+        1. The PUG in web page section provide scope of a matrix. identify the horizontal axis and label for the outermost matrix.
+        2. Set column identifier for outermost matrix be [div.heatmap-body-heading Criticality,div#505,div#200,div#201,div#202,div#203]. 
+        3. Identify corresponds horizontal category of outermost matrix with each element in column identifier.
+        4. Iterate through column identifier until find the elment that is in the same column as target element is found. The target element is found based on information from test step and web page.Output the element from column identifier to "characterItem"
         
         [Output]
         Output result in JSON format
         {
-          firstCellList:string[]
+          characterItem:string
+          targetElement:string
         }
-        "firstCellList" represents array of first cells in row header container for the outermost table. All container in the array should be in "tag#id" format such as div#1.
+        targetElement returns id of target element in tag#id format such as "div#100".
+        characterItem returns id of column character item in tag#id format such as "div#100".
         
         [Web Page]  
-        .table#2
         
-            .table-body#9
-                .row.bg-primary#10
-                    .col#11 John
-                    .col#12 25
-                    .col#13 john@example.com
-                    .col#14
-                        .sub-table#15
-                            .row#16
-                                .col#17 Daughter
-                                .col#18 Emily
-                            .row#19
-                                .col#20 Wife
-                                .col#21 Lindsy
-                .row.bg-secondary#22
-                    .col#23 Jane
-                    .col#24 30
-                    .col#25 jane@example.com
-                    .col#26
-                        .sub-table#27
-                            .row#28
-                                .col#29 Son
-                                .col#30 Jack
-                            .row#31
-                                .col#32 Husband
-                                .col#33 Sam
-                .row.bg-primary#34
-                    .col#35 John
-                    .col#36 40
-                    .col#37 samuel@example.com
-                    .col#38
-                        .sub-table#39
-                            .row#40
-                                .col#41 Brother
-                                .col#42 Michael
-                            .row#43
-                                .col#44 Wife
-                                .col#45 Anna
-                .row.bg-secondary#46
-                    .col#47 Lisa
-                    .col#48 28
-                    .col#49 lisa@example.com
-                    .col#50
-                        .sub-table#51
-                            .row#52
-                                .col#53 Sister
-                                .col#54 Sarah
-                            .row#55
-                                .col#56 Mother
-                                .col#57 Maggie
-                .row.bg-primary#58
-                    .col#59 Daniel
-                    .col#60 35
-                    .col#61 daniel@example.com
-                    .col#62
-                        .sub-table#63
-                            .row#64
-                                .col#65 Father
-                                .col#66 John Sr.
-                            .row#67
-                                .col#68 Daughter
-                                .col#69 Danielle
-                .row.bg-secondary#70
-                    .col#71 Maggie
-                    .col#72 60
-                    .col#73 maggie@example.com
-                    .col#74
-                        .sub-table#75
-                            .row#76
-                                .col#77 Daughter
-                                .col#78 Lisa
-                            .row#79
-                                .col#80 Son
-                                .col#81 Chris
-                .row.bg-primary#82
-                    .col#83 Chris
-                    .col#84 32
-                    .col#85 chris@example.com
-                    .col#86
-                        .sub-table#87
-                            .row#88
-                                .col#89 Mother
-                                .col#90 Maggie
-                            .row#91
-                                .col#92 Brother
-                                .col#93 Luke
-            .table-header#3
-                .row#4
-                    .col#5 Name
-                    .col#6 Age
-                    .col#7 Email
-                    .col#8 Family Member
+        PUG
+        div.row
+            div.heatmap-body-heading Criticality
+            div.heatmap-body-grid
+                div
+                    div.row
+                        div#505.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very High
+                        div#200.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#104 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#105 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#106 --
+                        div#201.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#107 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#108 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#109 --
+                        div#202.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#110 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#111 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#112 --
+                        div#203.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#113 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#114 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#115 --
+                    div.row
+                        div#501.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted High
+                        div#204.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#116 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#117 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#118 --
+                        div#205.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#119 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#120 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#121 --
+                        div#206.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#122 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#123 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#124 --
+                        div#207.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#125 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#126 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#127 --
+                    div.row
+                        div#502.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Medium
+                        div#208.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#128 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#129 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#130 --
+                        div#209.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#128 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#129 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#130 --
+                        div#210.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#131 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#132 6
+                            div.row.heatmap-card-item
+                                svg
+                                div#133 --
+                        div#211.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#134 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#135 1
+                            div.row.heatmap-card-item
+                                svg
+                                div#136 --
+                    div.row
+                        div#503.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Low
+                        div#212.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#137 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#138 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#139 --
+                        div#213.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#140 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#141 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#142 --
+                        div#214.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#143 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#144 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#145 --
+                        div#215.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#146 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#147 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#148 --
+                    div.row
+                        div#504.heatmap-body-subheading.heatmap-body-subheading--vertical.ng-star-inserted Very Low
+                        div#216.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#149 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#150 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#151 --
+                        div#217.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#152 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#153 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#154 --
+                        div#218.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#155 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#156 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#157 --
+                        div#219.ng-star-inserted.heatmap-card-heatmap-card--p3
+                            div.row.heatmap-card-item
+                                svg
+                                div#158 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#159 --
+                            div.row.heatmap-card-item
+                                svg
+                                div#160 --
+                    div.row
+                        div#600 white space
+                        div#601.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Low
+                        div#602.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Medium
+                        div#603.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted High
+                        div#604.heatmap-body-subheading.heatmap-body.subheading-horizontal.ng-star-inserted Very High
+        
+        div.heatmap-footer Severity
         `
         let ai1 = `
-        Based on the provided information, let's follow the method step by step:
+        Based on the provided information, let's start with the method section.
 
-        1. The outermost table body in the web page is identified by the div tag ".table-body#9". This is the main container for the table data.
+        1. The PUG in web page section provide scope of a matrix. identify the horizontal axis and label for the outermost matrix.
         
-        2. The first cell of each row in the outermost table body is identified by the following div tags: ".col#11", ".col#23", ".col#35", ".col#47", ".col#59", ".col#71", and ".col#83". These tags represent the first cell in each row of the table body, including the row of column header and all data rows. Sub-tables or sub-matrices within a row are considered as single data cells for the row.
+        The horizontal axis of the matrix is represented by the div elements with the class 'heatmap-body-subheading' and 'heatmap-body.subheading-horizontal.ng-star-inserted'. The labels for the outermost matrix are 'Low', 'Medium', 'High', and 'Very High'.
         
-        3. The output result from step 2 is "firstCellList" which includes: "col#11", "col#23", "col#35", "col#47", "col#59", "col#71", and "col#83".
+        2. Set column identifier for outermost matrix be [div.heatmap-body-heading Criticality,div#505,div#200,div#201,div#202,div#203].
         
-        Following the output rules, the result in JSON format would be:
+        The column identifiers for the outermost matrix are set as per the given identifiers.
         
-
+        3. Identify corresponds horizontal category of outermost matrix with each element in column identifier.
+        
+        The corresponding horizontal categories for the column identifiers are as follows:
+        - div.heatmap-body-heading Criticality: This is the heading of the matrix.
+        - div#505: This corresponds to the 'Very High' category.
+        - div#200, div#201, div#202, div#203: These correspond to the different severity levels under the 'Very High' category.
+        
+        4. Iterate through column identifier until find the element that is in the same column as target element is found. The target element is found based on information from test step and web page. Output the element from column identifier to "characterItem".
+        
+        The test step mentions that we need to click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'. From the web page, we can see that the target element is div#104 under div#200 which is under div#505. So, the characterItem would be div#200.
+        
+        The output based on the above analysis would be:
+        
         {
-          "firstCellList": ["col#11", "col#23", "col#35", "col#47", "col#59", "col#71", "col#83"]
+          "characterItem": "div#200",
+          "targetElement": "div#104"
         }
-
         
-        This represents the array of first cells in the row header container for the outermost table. All containers in the array are in "tag#id" format.
         `
 
         const chatPrompt = ChatPromptTemplate.fromMessages([
@@ -144,7 +288,7 @@ describe('A - This is a playground', () => {
 
             ['ai', ai1.replace(/{/g, "{{").replace(/}/g, "}}")],
 
-            ["human", `From context perspective, .table-header#3 served as column header, why it is not included in table body?`],
+            ["human", `Why div#200 corresponds to "Very High" severity category? `],
 
             // ['ai', `The ".col#5" is the first element in the "firstCellList" because it represents the first cell of the header row in the outermost table. According to the PUG template provided, ".col#5" is the first ".col" div tag within the ".row" div tag of the table header (".table-header#3"), which makes it the first cell of the header row. The method specified to include the first cell of each row for the outermost table, including the row of column header if it exists. Therefore, ".col#5" is included as the first element in the "firstCellList".
             // `],

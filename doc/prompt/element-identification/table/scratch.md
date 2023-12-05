@@ -1,18 +1,20 @@
-[Test Step]
-N/A
+[Test Step]  
+Click on the first text element located in the table cell where criticality level is categorized as "High" and severity levels is categorized as 'Very High'.
 
 [Method]
 
-1. The PUG in web page section provide scope of a matrix. A matrix is normally consist of matrix body, matrix footer and matrix label. A matrix body refers to the main content area of a matrix or table-like structure. Identify the outermost matrix body and header in the web page.
-2. From visual perspective, list the first cell of each columns for outermost matrix body. The columns includes row header column and all data columns. Consider sub-tables or sub-matrices within column as single data cells for the column.
-3. Output result from step 2 to "firstCellList".
+1. The Web Page provide a scope a matrix
+2. Based on the test step and web page, identify horizontal matrix category that contain target element.
+3. Output result to characterItem
 
 [Output]
 Output result in JSON format
 {
-  firstCellList:string[]
+    characterItem:string
 }
-"firstCellList" represents array of first cells in column header container for the outermost matrix. All container in the array should be in "tag#id" format such as div#1.
+characterItem returns id of column character item in tag#id format such as "div#100".
+        
+
 
 [Web Page]  
 div.row
