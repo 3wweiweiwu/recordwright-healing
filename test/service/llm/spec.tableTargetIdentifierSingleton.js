@@ -17,6 +17,18 @@ describe('Table Target Identifier Study', () => {
         assert.ok(result.targetElement.includes('45'))
 
     }).timeout(50000);
+    it('should get right target when it is in header for family-2 case', async () => {
+
+        const webPage = fs.readFileSync(path.join(__dirname, './files/family-2-webpage.md'), 'utf8')
+        const step = fs.readFileSync(path.join(__dirname, './files/family-2-step.md'), 'utf8')
+
+
+
+        const result = await tableTargetIdentifierSingleton.identifyElement('Click "name" in the header', webPage, 'table', 'row', ["col#5", "col#11", "col#23", "col#35", "col#47", "col#59", "col#71", "col#83"]);
+        assert.ok(result.characterItem.includes('35'))
+        assert.ok(result.targetElement.includes('45'))
+
+    }).timeout(50000);
     it('should generate right column header list for family-2 case', async () => {
 
         const webPage = fs.readFileSync(path.join(__dirname, './files/family-2-webpage.md'), 'utf8')

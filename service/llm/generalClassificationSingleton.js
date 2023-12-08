@@ -22,6 +22,16 @@ class GeneralClassification extends LlmAlgorithmBase {
      * @param {string} webPage 
      * @returns {GeneralClassificationResult}
      */
+    async identifyElement(testStep, webPage) {
+        let result = super.identifyElement(testStep, webPage)
+        return result
+    }
+    /**
+     * 
+     * @param {string} testStep 
+     * @param {string} webPage 
+     * @returns {GeneralClassificationResult}
+     */
     async _identifyElementWithLLM(testStep, webPage) {
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", this._systemMessageTemplate],
@@ -29,10 +39,12 @@ class GeneralClassification extends LlmAlgorithmBase {
         ]);
         const parser = new JsonParser();
         const chain = chatPrompt.pipe(this._model).pipe(parser);
-        const result = await chain.invoke({
+        const input = {
             "testStep": testStep,
             "webPage": webPage
-        });
+        }
+        this.lastPrompt = await chatPrompt.format(input);
+        const result = await chain.invoke(input);
         let classificationResult = GeneralClassificationResult.parseFromJSON(result)
         return classificationResult
     }

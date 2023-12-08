@@ -1,12 +1,12 @@
 const cellListStudySingleton = require('../llm/cellListStudySingleton');
 const generalClassificationSingleton = require('../llm/generalClassificationSingleton');
-const matrixColumnStudySingleton = require('../llm/matrixColumnStudySingleton');
-const matrixRowStudySingleton = require('../llm/matrixRowStudySingleton');
 const stepEvolutionSingleton = require('../llm/stepEvolutionSingleton');
-const tableColumnStudySingleton = require('../llm/tableColumnStudySingleton');
-const talbeRowStudySingleton = require('../llm/tableRowStudySingleton');
+const tableIdentifierSingleton = require('../llm/tableIdentifierSingleton');
+const tableTargetIdentifierSingleton = require('../llm/tableTargetIdentifierSingleton');
 const { HtmlSnapshotCompresed } = require('../snapshot')
 const { PugGenerator } = require('../pugGenerator/pugGenerator')
+const ElementIdentificationStepResult = require('../../model/elementIdentificationStepResult')
+const LlmOperationConstant = require('../../model/constant/LlmOperationConstant')
 
 class ElementIdentificationManager {
     /**
@@ -62,44 +62,46 @@ class ElementIdentificationManager {
         for (let i = 0; i < 10; i++) {
             // Step 1: General Evaluation
             let generalResult = await generalClassificationSingleton.identifyElement(this.updatedStep, this.currentWebpage);
-            if (generalResult.outermostContainerType == null) {
-                return generalResult.targetElementId; // Return if not in a matrix/table
+            if (generalResult.outermostContainerType == null || generalResult.outermostContainerType == 'table') {
+                return generalResult.targetElementId; // Return if not in a matrix
             }
 
-            // Step 2: Step Evolution
-            // Step 2-1: Step Evolution
-            let stepEvolutionResult = await stepEvolutionSingleton.identifyElement(this.updatedStep, this.currentWebpage, generalResult.outMostContainer);
-            this.updatedStep = stepEvolutionResult.updatedStep
 
-            // Step 2-2: Prepare webpage for Table Processing
-            this.currentWebpage = this._getPugTextById(this.htmlSnapshot, generalResult.outMostContainer)
 
             // Step 3: Table or Matrix Evaluation
             // Step 3-1: Row and Column Evaluation
-            let columnResult;
+            let columnResult, columnList, rowList;
             let rowResult;
             if (generalResult.outermostContainerType === 'table') {
                 // Table Evaluation
 
                 //await new Promise(resolve => setTimeout(resolve, 1000));
-                columnResult = await tableColumnStudySingleton.identifyElement(this.updatedStep, this.currentWebpage);
-                rowResult = await talbeRowStudySingleton.identifyElement(this.updatedStep, this.currentWebpage);
+                columnList = await tableIdentifierSingleton.identifyElement(this.currentWebpage, 'table', 'column')
+                rowList = await tableIdentifierSingleton.identifyElement(this.currentWebpage, 'table', 'row')
+                columnResult = await tableTargetIdentifierSingleton.identifyElement(this.updatedStep, this.currentWebpage, 'table', 'column', columnList)
+                rowResult = await tableTargetIdentifierSingleton.identifyElement(this.updatedStep, this.currentWebpage, 'table', 'row', rowList)
             } else if (generalResult.outermostContainerType === 'matrix') {
                 // Matrix Evaluation
-                columnResult = await matrixColumnStudySingleton.identifyElement(this.updatedStep, this.currentWebpage);
-                rowResult = await matrixRowStudySingleton.identifyElement(this.updatedStep, this.currentWebpage);
+                columnList = await tableIdentifierSingleton.identifyElement(this.currentWebpage, 'matrix', 'column')
+                rowList = await tableIdentifierSingleton.identifyElement(this.currentWebpage, 'matrix', 'row')
+                columnResult = await tableTargetIdentifierSingleton.identifyElement(this.updatedStep, this.currentWebpage, 'matrix', 'column', columnList)
+                rowResult = await tableTargetIdentifierSingleton.identifyElement(this.updatedStep, this.currentWebpage, 'matrix', 'row', rowList)
             }
+            if (columnResult.characterItem == null) return columnResult.targetElement
 
             // Step 3-2: Table Analysis 
-            let columnIndex = columnResult.columnHeaderList.indexOf(columnResult.columnHeaderCell)
-            let rowIndex = rowResult.rowHeaderList.indexOf(rowResult.rowHeaderCell)
+            //handle situation where 
+            if (columnResult.characterItem == null) columnResult.characterItem = columnResult.targetElement
+            if (rowResult.characterItem == null) rowResult.characterItem = rowResult.targetElement
+            let columnIndex = columnList.firstCellList.indexOf(columnResult.characterItem)
+            let rowIndex = rowList.firstCellList.indexOf(rowResult.characterItem)
 
             /**@type {string} */
             let container
             // if both target element is neither in column header nor in row header
-            if (!columnResult.isTargetColumnHeader && !rowResult.isTargetRowHeader) {
+            if (columnResult.characterItem) {
                 //based on the result of row and column study, identify row and column header list
-            let rowHeaderList = null
+                let rowHeaderList = null
                 if (rowResult.isUniqueRowHeaders) {
                     rowHeaderList = rowResult.rowHeaderList
                 }
@@ -142,6 +144,21 @@ class ElementIdentificationManager {
         }
 
         return generalResult.targetElementId;
+    }
+    /**
+     * 
+     * @param {string} webpage 
+     * @param {string} testStep 
+     * @returns {ElementIdentificationStepResult}
+     */
+    async _handleGeneralClassifiation(webpage, testStep) {
+
+
+
+
+    }
+    async _handleMatrix(webpage, testStep) {
+
     }
 
 

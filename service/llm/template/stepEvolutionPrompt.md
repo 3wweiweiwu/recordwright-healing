@@ -12,7 +12,7 @@ Output result in JSON format.
 {{
 UpdatedStep:string
 }}
- "UpdatedStep" represents the updated step for target element identification and remove relevant information that is being used to identify the outermost table container. If you reference the outmost table cell container in the updated step, reference that as "specified wrapper table cell" only.
+ "UpdatedStep" represents the updated step for target element identification and remove relevant information that is being used to identify the outermost table container. If you reference the outmost table cell container in the updated step, reference that as "webpage" only.
 
 [Web Page]
 {webPage}
