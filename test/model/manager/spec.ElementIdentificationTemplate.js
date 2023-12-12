@@ -1,6 +1,6 @@
 const assert = require('assert');
-const ElementIdentificationTemplate = require('../../../model/manager/ElementIdentificationTemplate.js');
-const { HtmlSnapshotCompresed } = require('../../../service/snapshot/index.js')
+const ElementIdentificationTemplate = require('../../../model/manager/ElementIdentificationTemplate');
+const { HtmlSnapshotCompresed } = require('../../../service/snapshot/index')
 const fs = require('fs')
 const path = require('path')
 describe('Element Identification Template', () => {

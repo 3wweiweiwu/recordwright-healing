@@ -1,9 +1,9 @@
 div.row.heatmap-card-item
     svg
-    div#125 --
+    text#125 --
 div.row.heatmap-card-item
     svg
-    div#126 --
+    text#126 --
 div.row.heatmap-card-item
     svg
-    div#127 --
+    text#127 --

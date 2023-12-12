@@ -10,7 +10,6 @@ class ElementIdentificationStepResult {
      * @param {string} updatedWebPage 
      */
     constructor(targetElementId, currentOperation, nextOperation, updatedStep, updatedWebPage) {
-        this.isFinalResultFound = isFinalResultFound;
         this.targetElementId = targetElementId;
         this.currentOperation = currentOperation;
         this.updatedStep = updatedStep;

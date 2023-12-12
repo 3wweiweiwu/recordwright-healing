@@ -4,93 +4,80 @@ const fs = require('fs')
 const path = require('path')
 describe('A - This is a playground', () => {
     it("should work", async () => {
-        let systemPrompt = `you are a quality engineer. You need to analyze web page and make output based on information from method and test step. Following four section provide information for you. Web Page section contains a web page and layout in PUG template. Test Step section provides test procedure. Understand test step context based on the web page. Output section provides rules you should follow to output result. Method section provides rules you should follow to generate output. Follow the method section and output your thought process about each method step by step. Each section header is wrapped around square brackets [].`
+        let systemPrompt = `you are a quality engineer. You need to analyze web page and make output based on information from method and test step. Following four section provide information for you. Web Page section contains a web page and layout in PUG template. Html tags are placeholder, you need to evaluate the most suitable tag for each web element based on the textual and layout context.Test Step section provides test procedure. Understand test step context based on the web page. Output section provides rules you should follow to output result. Method section provides rules you should follow to generate output. Follow the method section and output your thought process about each method step by step. Each section header is wrapped around square brackets [].`
         let human1 = `
-        [Test Step]
-        N/A
+        [Test Step]  
+        Click on the first text element within
         
         [Method]
         
-        1. The PUG in web page section provide scope of a table. A table is normally consist of table body, table footer and table caption. A table body normally contains data cells and at least one row header or column header. . Identify the outermost table body in the web page.
-        2. Check if there is row header in main outermost table. Please note, we re checking outermost table not table body.
-        3. If step 2 is true, list the cell from row header. Consider sub-tables or sub-matrices within row as single data cells for the row.
-        4. If step 2 is false, List the first cell of each rows for outermost table body. The rows includes the row of column header and all data rows. Consider sub-tables or sub-matrices within row as single data cells for the row.
-        5. Output result from to "firstCellList".
+        1. Based on the test step and web page, identify the target element. Return result to targetElement
+        2. Traverse through all parent container of target element all the way to the top level container, get the outermost table or matrix container for the target element. If outermost table or matrix exists, output the result of outermost table or matrix identification result to OutMostContainer.
+        3. If outermost table or matrix exists according to prior step, identify the type of OutermostContainerType based on following description
+           * Definition of table: A table typically contains structured, tabular data where each row represents a different record and each column represents a different field or attribute. It should have at least 2 rows and 2 columns.
+           * Definition of matrix: A matrix, other than the critiera of table, it has additional row and column dimension that categorizes the data across rows and column header. 
         
         [Output]
-        Output result in JSON format
+        Output result in JSON format.
         {
-          firstCellList:string[]
+        "targetElementId":string,
+        "OutMostContainer"string,
+        "OutermostContainerType":string
         }
-        "firstCellList" represents array of first cells in row header container for the outermost table. All container in the array should be in "tag#id" format such as div#1.
+        targetElementId returns id of target element in tag#id format such as "div#100".
+        OutMostContainer is the outermost container for the target element. If it exists, it's in "tag#id" foramt such as "div#100". If it does not exists, it is null.
+        OutermostContainerType returns type of Outer most container. It's will return one of following: "matrix", "table" or null.
+        
         [Web Page]
-        BODY#5(data-new-gr-c-s-check-loaded="14.1048.0",data-gr-ext-installed="")
-        TABLE#19
-            THEAD#25
-                TR#29
-                    text#87 Month
-                    text#88 Region
-                TR#31
-                    text#89 North America
-                    text#90 Europe
-                    text#91 Asia
-                TR#33
-                    text#92 Product A
-                    text#93 Product B
-                    text#94 Product A
-                    text#95 Product B
-                    text#96 Product A
-                    text#97 Product B
-            TBODY#27
-                TR#36
-                    text#98 January
-                    text#99 $12,000
-                    text#100 $15,000
-                    text#101 €8,000
-                    text#102 €11,000
-                    text#103 ¥5,000
-                    text#104 ¥7,000
-                TR#38
-                    text#105 February
-                    text#106 $14,000
-                    text#107 $16,000
-                    TD#86
-                        text#108 €9,000
-                        comment#109                    
-        text#23 Monthly Sales Report
+        div.row.heatmap-card-item
+            svg
+            div#125 --
+        div.row.heatmap-card-item
+            svg
+            div#126 --
+        div.row.heatmap-card-item
+            svg
+            div#127 --
         `
         let ai1 = `
-        Based on the provided information, let's follow the method step by step:
+        Based on the provided information, let's go through the method step by step.
 
-        1. The PUG in the web page section provides the scope of a table. The outermost table body in the web page is TBODY#27.
+        1. The test step mentions "Click on the first text element within". However, the web page layout does not provide any text elements. The elements provided are 'div' and 'svg'. Since the test step is not clear about which element to click, we cannot identify the target element. 
         
-        2. We need to check if there is a row header in the main outermost table. Looking at the web page section, we can see that the outermost table (TABLE#19) does have a row header, which is THEAD#25.
+        2. Since we cannot identify the target element, we cannot traverse through all parent containers of the target element to the top level container. Therefore, we cannot get the outermost table or matrix container for the target element.
         
-        3. Since step 2 is true, we need to list the cells from the row header. The cells in the row header are text#87 (Month), text#88 (Region), text#89 (North America), text#90 (Europe), text#91 (Asia), text#92 (Product A), text#93 (Product B), text#94 (Product A), text#95 (Product B), text#96 (Product A), and text#97 (Product B).
+        3. As we could not identify the outermost table or matrix in the previous step, we cannot identify the type of OutermostContainerType.
         
-        4. Since step 2 is true, we don't need to perform step 4.
-        
-        5. The output result from "firstCellList" would be ["text#87", "text#88", "text#89", "text#90", "text#91", "text#92", "text#93", "text#94", "text#95", "text#96", "text#97"].
-        
-        Following the output rules, the final output in JSON format would be:
+        Based on the above analysis, the output would be:
         
         {
-          "firstCellList": ["text#87", "text#88", "text#89", "text#90", "text#91", "text#92", "text#93", "text#94", "text#95", "text#96", "text#97"]
+        "targetElementId": null,
+        "OutMostContainer": null,
+        "OutermostContainerType": null
         }
+        
+        Please note that the test step needs to be more specific about which element to click. The web page layout should also provide text elements if the test step mentions clicking on a text element.
+        
         `
-
         const chatPrompt = ChatPromptTemplate.fromMessages([
             ["system", systemPrompt],
             ["human", human1.replace(/{/g, "{{").replace(/}/g, "}}")],
 
             ['ai', ai1.replace(/{/g, "{{").replace(/}/g, "}}")],
 
-            ["human", `Why THEAD#25 is a row header? Please explain this confusion in detail`],
+            ["human", `Why div#125 is not a text element? It contains text`],
 
-            // ['ai', `The ".col#5" is the first element in the "firstCellList" because it represents the first cell of the header row in the outermost table. According to the PUG template provided, ".col#5" is the first ".col" div tag within the ".row" div tag of the table header (".table-header#3"), which makes it the first cell of the header row. The method specified to include the first cell of each row for the outermost table, including the row of column header if it exists. Therefore, ".col#5" is included as the first element in the "firstCellList".
-            // `],
+            ['ai', `I apologize for the confusion. You're correct. The 'div#125' could indeed be considered as a text element as it might contain text. I misunderstood the context. Let's revise the steps:
 
-            // ['human', `But according to the PUG file, the right sequence should be [".col#11", ".col#23", ".col#35", ".col#47", ".col#59", ".col#71", ".col#83",".col#5"]. Explain where the confusion is coming from and provide suggestion about way to improve the instruciton to avoid future confusion.`],
+            1. The test step mentions "Click on the first text element within". In the web page layout, the first 'div' element with an id, which could contain text, is 'div#125'. So, 'div#125' is our target element.
+            
+            2. The parent container of the target element 'div#125' is 'div.row.heatmap-card-item'. However, this parent container does not seem to be a table or matrix as it does not contain structured, tabular data with at least 2 rows and 2 columns. Therefore, there is no outermost table or matrix container for the target element.
+            
+            3. Since there is no outermost table or matrix container, the OutermostContainerType is null.
+        
+            `],
+
+            ['human', `Identify the root cause of your prior confusion. Based on that, update the a universal instruction to enhance your ability to identify element in similar case like this"`],
 
             // ['ai', `The DIV#25 is not considered as a row container in the rowHeaderList because the rowHeaderList was created based on the test step which asked to click the name of the wife in the row where the name is John and age is 40. 
 

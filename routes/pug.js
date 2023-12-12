@@ -11,5 +11,8 @@ router.get('/2', function (req, res, next) {
 router.get('/3', function (req, res, next) {
   res.render('table with complex header', { title: 'Express' });
 });
+router.get('/4', function (req, res, next) {
+  res.render('regional-sale', { title: 'Express' });
+});
 
 module.exports = router;
