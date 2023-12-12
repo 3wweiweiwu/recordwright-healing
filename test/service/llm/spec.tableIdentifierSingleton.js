@@ -59,4 +59,24 @@ describe('Table Identifier Study', () => {
 
         assert.ok(result.firstCellList.length <= 5)
     }).timeout(50000)
+    it('should generate right row header list for regional-sale case', async () => {
+
+        const webPage = fs.readFileSync(path.join(__dirname, './files/regional-sale-web.md'), 'utf8')
+
+
+        /**@type {TableIdentifierResult} */
+        const result = await tableIdentifierSingleton.identifyElement(webPage, 'matrix', 'row');
+        assert.ok(result.firstCellList.length == 2)
+
+    }).timeout(50000);
+    it('should generate right column header list for regional-sale case', async () => {
+
+        const webPage = fs.readFileSync(path.join(__dirname, './files/regional-sale-web.md'), 'utf8')
+
+
+        /**@type {TableIdentifierResult} */
+        const result = await tableIdentifierSingleton.identifyElement(webPage, 'matrix', 'column');
+        assert.deepEqual(result.firstCellList, ['text#87', 'text#88'])
+
+    }).timeout(50000);
 });
