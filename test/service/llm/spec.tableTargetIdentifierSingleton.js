@@ -84,4 +84,22 @@ describe('Table Target Identifier Study', () => {
 
         assert.ok(result.characterItem.includes('604'))
     }).timeout(50000)
+    it('should generate right row header list for severity-2 case when target is in the header', async () => {
+
+        const webPage = fs.readFileSync(path.join(__dirname, './files/severity-2-webpage.md'), 'utf8')
+        const step = fs.readFileSync(path.join(__dirname, './files/severity-2-step.md'), 'utf8')
+
+        const result = await tableTargetIdentifierSingleton.identifyElement('Click the "High" in the Criticality axis', webPage, 'matrix', 'row', ["div.heatmap-body-heading", "div#505", "div#501", "div#502", "div#503", "div#504", "div#600"]);
+        assert.ok(result.characterItem.includes('501'))
+
+    }).timeout(50000)
+    it('should generate right column header list for severity-2 case when target is in the header', async () => {
+
+        const webPage = fs.readFileSync(path.join(__dirname, './files/severity-2-webpage.md'), 'utf8')
+        const step = fs.readFileSync(path.join(__dirname, './files/severity-2-step.md'), 'utf8')
+
+        const result = await tableTargetIdentifierSingleton.identifyElement('Click the "Medium" in the severity axis', webPage, 'matrix', 'column', ["div#601", "div#602", "div#603", "div#604"]);
+        assert.ok(result.characterItem.includes('602'))
+
+    }).timeout(50000)
 });

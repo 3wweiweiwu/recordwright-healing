@@ -34,8 +34,7 @@ describe('General Identification', () => {
             const manager = new GeneralClassification(htmlSnapshot, testStep)
             const result = await manager.identifyElement()
             assert.deepStrictEqual(result.currentOperation, LlmOperationConstant.GENERAL_CLASSIFICATION)
-            assert.ok(result.targetElementId.includes('144'))
-            assert.deepStrictEqual(result.nextOperation, null)
+            assert.deepStrictEqual(result.nextOperation, LlmOperationConstant.MATRIX_IDENTIFICATION)
 
         }).timeout(60000)
     })
